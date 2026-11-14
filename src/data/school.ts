@@ -102,7 +102,7 @@ export type Place = {
 };
 
 export const places: Place[] = [
-  { id: "portaria", node: "portaria", name: "Portaria Principal", category: "Acesso", photo: portaria.url, gallery: [arco.url, portariaEntrada.url],
+  { id: "portaria", node: "portaria", name: "Portaria Principal", category: "Acesso", photo: portaria.url, gallery: [portariaEntrada.url, arco.url],
     description: "Entrada oficial da ETEC Parque Belém, marcada pelo arco amarelo e pela guarita vermelha. É o ponto de partida de todas as rotas do app.",
     services: ["Identificação de visitantes", "Informações gerais", "Entrada e saída de alunos"], block: "Área Externa · entrada da rua", keywords: ["entrada", "portão", "guarita", "arco"] },
   { id: "rampa", node: "rampa", name: "Rampa de Acesso", category: "Acesso", photo: rampa.url,
