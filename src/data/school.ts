@@ -20,7 +20,7 @@ import principal from "@/assets/photos/principal.jpg.asset.json";
 import areaAberta from "@/assets/photos/area-aberta.jpg.asset.json";
 
 export const aerialPhoto = principal.url;
-export const heroPhoto = arco.url;
+export const heroPhoto = portariaEntrada.url;
 
 export type Level = "externa" | "terreo" | "andar1";
 export const levelLabel: Record<Level, string> = {

@@ -31,10 +31,10 @@ function Index() {
 
   return (
     <AppShell>
-      <section className="relative h-64 overflow-hidden">
+      <section className="relative h-72 overflow-hidden">
         <img src={heroPhoto} alt="Arco amarelo da portaria da ETEC Parque Belém" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[image:var(--gradient-hero)]" />
-        <div className="relative flex h-full flex-col justify-end p-5 text-primary-foreground">
+        <div className="relative flex h-full flex-col justify-end p-5 pb-10 text-primary-foreground">
           <span className="w-fit rounded-full bg-brand-yellow px-2.5 py-0.5 text-[11px] font-bold text-foreground">ETEC PARQUE BELÉM</span>
           <h1 className="mt-2 font-display text-4xl font-extrabold leading-none">Tour ETEC<br />Belém</h1>
         </div>
