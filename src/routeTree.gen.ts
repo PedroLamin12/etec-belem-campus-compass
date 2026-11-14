@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CreditosRouteImport } from './routes/creditos'
+import { Route as MapaRouteImport } from './routes/mapa'
+import { Route as MissoesRouteImport } from './routes/missoes'
+import { Route as RotaRouteImport } from './routes/rota'
+import { Route as AmbientesIndexRouteImport } from './routes/ambientes/index'
+import { Route as AmbientesIdRouteImport } from './routes/ambientes/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreditosRoute = CreditosRouteImport.update({
+  id: '/creditos',
+  path: '/creditos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapaRoute = MapaRouteImport.update({
+  id: '/mapa',
+  path: '/mapa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MissoesRoute = MissoesRouteImport.update({
+  id: '/missoes',
+  path: '/missoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RotaRoute = RotaRouteImport.update({
+  id: '/rota',
+  path: '/rota',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmbientesIndexRoute = AmbientesIndexRouteImport.update({
+  id: '/ambientes/',
+  path: '/ambientes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmbientesIdRoute = AmbientesIdRouteImport.update({
+  id: '/ambientes/$id',
+  path: '/ambientes/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/creditos': typeof CreditosRoute
+  '/mapa': typeof MapaRoute
+  '/missoes': typeof MissoesRoute
+  '/rota': typeof RotaRoute
+  '/ambientes/$id': typeof AmbientesIdRoute
+  '/ambientes/': typeof AmbientesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/creditos': typeof CreditosRoute
+  '/mapa': typeof MapaRoute
+  '/missoes': typeof MissoesRoute
+  '/rota': typeof RotaRoute
+  '/ambientes/$id': typeof AmbientesIdRoute
+  '/ambientes': typeof AmbientesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/creditos': typeof CreditosRoute
+  '/mapa': typeof MapaRoute
+  '/missoes': typeof MissoesRoute
+  '/rota': typeof RotaRoute
+  '/ambientes/$id': typeof AmbientesIdRoute
+  '/ambientes/': typeof AmbientesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/creditos'
+    | '/mapa'
+    | '/missoes'
+    | '/rota'
+    | '/ambientes/$id'
+    | '/ambientes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/creditos'
+    | '/mapa'
+    | '/missoes'
+    | '/rota'
+    | '/ambientes/$id'
+    | '/ambientes'
+  id:
+    | '__root__'
+    | '/'
+    | '/creditos'
+    | '/mapa'
+    | '/missoes'
+    | '/rota'
+    | '/ambientes/$id'
+    | '/ambientes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CreditosRoute: typeof CreditosRoute
+  MapaRoute: typeof MapaRoute
+  MissoesRoute: typeof MissoesRoute
+  RotaRoute: typeof RotaRoute
+  AmbientesIdRoute: typeof AmbientesIdRoute
+  AmbientesIndexRoute: typeof AmbientesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creditos': {
+      id: '/creditos'
+      path: '/creditos'
+      fullPath: '/creditos'
+      preLoaderRoute: typeof CreditosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mapa': {
+      id: '/mapa'
+      path: '/mapa'
+      fullPath: '/mapa'
+      preLoaderRoute: typeof MapaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/missoes': {
+      id: '/missoes'
+      path: '/missoes'
+      fullPath: '/missoes'
+      preLoaderRoute: typeof MissoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rota': {
+      id: '/rota'
+      path: '/rota'
+      fullPath: '/rota'
+      preLoaderRoute: typeof RotaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ambientes/': {
+      id: '/ambientes/'
+      path: '/ambientes'
+      fullPath: '/ambientes/'
+      preLoaderRoute: typeof AmbientesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ambientes/$id': {
+      id: '/ambientes/$id'
+      path: '/ambientes/$id'
+      fullPath: '/ambientes/$id'
+      preLoaderRoute: typeof AmbientesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CreditosRoute: CreditosRoute,
+  MapaRoute: MapaRoute,
+  MissoesRoute: MissoesRoute,
+  RotaRoute: RotaRoute,
+  AmbientesIdRoute: AmbientesIdRoute,
+  AmbientesIndexRoute: AmbientesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
