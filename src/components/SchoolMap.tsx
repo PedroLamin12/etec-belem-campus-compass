@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   level: Level | "all";
   route?: NodeId[];
-  selected?: NodeId;
+  selected?: NodeId | undefined;
   onSelect?: (n: NodeId) => void;
   className?: string;
 };

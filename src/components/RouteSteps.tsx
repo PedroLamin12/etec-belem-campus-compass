@@ -7,7 +7,8 @@ export function RouteSteps({ route }: { route: NodeId[] }) {
     <ol className="relative space-y-4 border-l-2 border-dashed border-primary/40 pl-6">
       {route.map((id, i) => {
         const n = nodes[id];
-        const prev = i > 0 ? nodes[route[i - 1]] : null;
+        const prevId = i > 0 ? route[i - 1] : undefined;
+        const prev = prevId ? nodes[prevId] : null;
         const levelChange = prev && prev.level !== n.level;
         const p = placeByNode(id);
         const last = i === route.length - 1;

@@ -4,7 +4,7 @@ import { SchoolMap } from "@/components/SchoolMap";
 import { RouteSteps } from "@/components/RouteSteps";
 import { places, placeById, routeBetween } from "@/data/school";
 
-type S = { de?: string; para?: string };
+type S = { de?: string | undefined; para?: string | undefined };
 
 export const Route = createFileRoute("/rota")({
   validateSearch: (s: Record<string, unknown>): S => ({
