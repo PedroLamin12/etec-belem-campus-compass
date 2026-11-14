@@ -8,8 +8,8 @@ type S = { de?: string; para?: string };
 
 export const Route = createFileRoute("/rota")({
   validateSearch: (s: Record<string, unknown>): S => ({
-    de: typeof s.de === "string" ? s.de : undefined,
-    para: typeof s.para === "string" ? s.para : undefined,
+    de: typeof s["de"] === "string" ? s["de"] : undefined,
+    para: typeof s["para"] === "string" ? s["para"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/rota")({
 function RotaPage() {
   const { de = "portaria", para = "secretaria" } = Route.useSearch();
   const nav = useNavigate({ from: "/rota" });
-  const from = placeById(de) ?? places[0];
+  const from = placeById(de) ?? places[0]!;
   const to = placeById(para) ?? placeById("secretaria")!;
   const route = routeBetween(from.node, to.node);
   const set = (k: keyof S, v: string) => nav({ search: (s: S) => ({ ...s, [k]: v }), replace: true });
