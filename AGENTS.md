@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- School content (places, map nodes, paths from Portaria, missions, team) lives in `src/data/school.ts`; routes between any two places are derived from each node's path from the Portaria, so add new places by extending that path table.
+- Mission progress is device-local (localStorage via `src/data/progress.ts`); no backend is used.
+- Android APK uses Capacitor (`capacitor.config.ts`) pointing at the published URL, because the app is SSR and has no static export.
