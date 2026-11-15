@@ -3,7 +3,8 @@ import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
 import { Button } from "@/components/ui/button";
-import { annexPhoto, mainBuildingPhoto, levelLabel, nodeLocation, nodes, placeByNode, type Level, type NodeId } from "@/data/school";
+import { ArrowUpRight, MapPin, Navigation, Layers } from "lucide-react";
+import { aerialPhoto, levelLabel, nodeLocation, nodes, placeByNode, type Level, type NodeId } from "@/data/school";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/mapa")({
@@ -28,31 +29,39 @@ function MapaPage() {
   const place = sel ? placeByNode(sel) : undefined;
   return (
     <AppShell>
-      <PageHeader title="Mapa da escola" subtitle="Prédio Principal · Bloco Anexo · Área Externa" />
-      <div className="flex flex-wrap gap-2 px-5 pb-3">
+      <PageHeader title="Território ETEC" subtitle="Prédio Principal · Bloco Anexo · Área Externa" />
+      <div className="mb-4 flex flex-wrap gap-2 px-5 md:px-8">
         {levels.map((l) => (
-          <Button key={l} variant="secondary" aria-pressed={level === l} onClick={() => { setLevel(l); setSel(undefined); }} className={cn("h-8 rounded-full px-3 text-xs font-semibold", level === l && "bg-foreground text-background hover:bg-foreground/90")}>
+          <Button key={l} variant="secondary" aria-pressed={level === l} onClick={() => { setLevel(l); setSel(undefined); }} className={cn("h-8 rounded-md border border-border bg-card px-3 text-xs font-semibold", level === l && "border-primary bg-primary text-primary-foreground hover:bg-primary/90")}>
             {l === "all" ? "Tudo" : levelLabel[l]}
           </Button>
         ))}
       </div>
-      <div className="px-5">
+      <div className="grid gap-8 px-5 md:grid-cols-[minmax(0,1fr)_360px] md:px-8">
         <SchoolMap level={level} selected={sel} onSelect={setSel} />
-        {sel && (
-          <div className="mt-3 flex items-center gap-3 rounded-2xl border bg-card p-3">
-            {place && <img src={place.photo} alt="" className="h-14 w-14 rounded-xl object-cover" />}
-            <div className="flex-1">
-              <p className="font-bold">{place?.name ?? nodes[sel].label}</p>
-              <p className="text-xs text-muted-foreground">{nodeLocation(sel)} · {nodes[sel].landmark}</p>
+        <aside className="min-w-0">
+          {sel ? <section className="mb-7 border-b pb-6">
+            {place && <img src={place.photo} alt={place.photoCaption ?? place.name} className="mb-3 aspect-video w-full rounded-lg object-cover" />}
+            <p className="mb-1 flex items-center gap-1.5 text-[10px] font-extrabold text-primary"><MapPin className="h-3 w-3" />LOCAL SELECIONADO</p>
+            <h2 className="font-display text-3xl font-bold">{place?.name ?? nodes[sel].label}</h2>
+            <p className="mt-2 text-xs font-bold text-brand-yellow">{nodeLocation(sel)}</p>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{nodes[sel].landmark}</p>
+            {place?.photoCaption && <p className="mt-2 text-[10px] text-muted-foreground">{place.photoCaption}</p>}
+            {place && <div className="mt-4 flex gap-2"><Button asChild size="sm"><Link to="/rota" search={{ de: "portaria", para: place.id }}><Navigation />Traçar rota</Link></Button><Button asChild size="sm" variant="secondary"><Link to="/ambientes/$id" params={{ id: place.id }}>Ver ambiente<ArrowUpRight /></Link></Button></div>}
+          </section> : null}
+          <section>
+            <p className="mb-1 flex items-center gap-2 text-[10px] font-extrabold text-primary"><Layers className="h-3 w-3" />UM CAMPUS, DOIS BLOCOS</p>
+            <h2 className="mb-4 font-display text-3xl font-bold uppercase">Os dois prédios</h2>
+            <figure>
+              <img src={aerialPhoto} alt="Vista aérea dos dois blocos paralelos: Bloco Anexo menor à esquerda e Prédio Principal mais longo à direita" className="aspect-[767/732] w-full rounded-lg object-contain" />
+              <figcaption className="mt-2 text-[10px] text-muted-foreground">Foto aérea fornecida · Google Earth.</figcaption>
+            </figure>
+            <div className="mt-4 grid grid-cols-2 gap-4 border-y py-4">
+              <div><p className="text-[10px] font-extrabold text-brand-yellow">À ESQUERDA</p><p className="mt-1 font-display text-xl font-bold">Bloco Anexo</p><p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">Menor e independente. Secretaria no subsolo; acesso pelo pátio.</p></div>
+              <div><p className="text-[10px] font-extrabold text-primary">À DIREITA</p><p className="mt-1 font-display text-xl font-bold">Prédio Principal</p><p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">Mais longo. Pilotis, labs no 1º e salas no 2º andar.</p></div>
             </div>
-            {place && <Button asChild size="sm"><Link to="/ambientes/$id" params={{ id: place.id }}>Abrir</Link></Button>}
-          </div>
-        )}
-        <h2 className="mt-6 font-display text-lg font-bold">Os dois prédios</h2>
-        <div className="mt-2 grid grid-cols-2 gap-3">
-          <figure><img src={mainBuildingPhoto} alt="Prédio Principal elevado sobre pilotis" className="aspect-[4/3] w-full rounded-lg object-cover" /><figcaption className="mt-1 text-xs font-semibold">Prédio Principal</figcaption></figure>
-          <figure><img src={annexPhoto} alt="Bloco Anexo independente ao lado do Prédio Principal" className="aspect-[4/3] w-full rounded-lg object-cover" /><figcaption className="mt-1 text-xs font-semibold">Bloco Anexo · acesso pelo pátio</figcaption></figure>
-        </div>
+          </section>
+        </aside>
       </div>
     </AppShell>
   );
