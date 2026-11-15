@@ -9,6 +9,8 @@ export const Route = createFileRoute("/creditos")({
       { name: "description", content: "Conheça os alunos de Desenvolvimento de Sistemas que criaram o Tour ETEC Belém." },
       { property: "og:title", content: "Equipe do Tour ETEC Belém" },
       { property: "og:description", content: "Projeto de Programação Mobile da ETEC Parque Belém." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Creditos,

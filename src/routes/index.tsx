@@ -12,6 +12,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mapa, rotas passo a passo e missões para conhecer a ETEC Parque Belém. Descubra onde fica a Secretaria, os laboratórios e muito mais." },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "Guia interativo da ETEC Parque Belém para calouros e visitantes." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,

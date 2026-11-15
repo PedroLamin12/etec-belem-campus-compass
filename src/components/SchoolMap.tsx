@@ -1,4 +1,6 @@
-import { nodes, levelLabel, places, type Level, type NodeId } from "@/data/school";
+import { useId } from "react";
+import { nodes, levelLabel, nodeLocation, places, type Level, type NodeId } from "@/data/school";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -10,16 +12,18 @@ type Props = {
 };
 
 export function SchoolMap({ level, route = [], selected, onSelect, className }: Props) {
+  const patternId = useId();
   const on = (l: Level) => level === "all" || level === l;
   const pts = route.map((n) => `${nodes[n].x},${nodes[n].y}`).join(" ");
   return (
-    <svg viewBox="0 0 360 520" className={cn("w-full rounded-2xl bg-map", className)} role="img" aria-label="Planta da ETEC Parque Belém">
+    <div className={className}>
+    <svg viewBox="0 0 360 520" className="w-full rounded-2xl bg-map" role={onSelect ? "group" : "img"} aria-label="Planta da ETEC Parque Belém">
       <defs>
-        <pattern id="grass" width="8" height="8" patternUnits="userSpaceOnUse">
+        <pattern id={patternId} width="8" height="8" patternUnits="userSpaceOnUse">
           <circle cx="2" cy="2" r="1" className="fill-map-grass-dot" />
         </pattern>
       </defs>
-      <rect width="360" height="520" fill="url(#grass)" />
+      <rect width="360" height="520" fill={`url(#${patternId})`} />
       {/* street + portaria */}
       <rect x="0" y="0" width="360" height="22" className="fill-map-road" />
       <text x="10" y="15" className="fill-map-label text-[9px]">Rua · entrada</text>
@@ -27,7 +31,9 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
         <path d="M222 30 Q236 10 250 30" className="stroke-brand-yellow" strokeWidth="5" fill="none" />
         <rect x="254" y="24" width="12" height="12" className="fill-brand-red" />
         {/* alameda */}
-        <rect x="218" y="60" width="40" height="420" rx="4" className="fill-map-road" />
+        <rect x="222" y="60" width="28" height="420" rx="4" className="fill-map-road" />
+        <rect x="254" y="78" width="74" height="78" rx="4" className="fill-map-road stroke-map-line" />
+        {[88, 110, 132].map((y) => <path key={y} d={`M266 ${y} h20 v14 h-20`} fill="none" className="stroke-brand-yellow" strokeWidth="2" />)}
         {/* caixa d'agua */}
         <circle cx="288" cy="262" r="11" className="fill-map-tower stroke-map-line" />
         {/* quadras */}
@@ -40,17 +46,26 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
         ))}
       </g>
       {/* main building */}
-      <g opacity={on("terreo") || on("andar1") ? 1 : 0.35}>
-        <rect x="150" y="70" width="62" height="345" rx="4" className={cn(level === "andar1" ? "fill-map-floor1" : "fill-map-building", "stroke-map-line")} strokeWidth="1.5" />
-        {level !== "andar1" && <rect x="155" y="290" width="52" height="60" className="fill-map-pilotis" />}
-        {level !== "andar1" && <rect x="155" y="355" width="52" height="55" className="fill-map-admin" />}
-        {/* annex */}
-        <rect x="48" y="170" width="70" height="250" rx="4" className={cn(level === "andar1" ? "fill-map-floor1" : "fill-map-building", "stroke-map-line")} strokeWidth="1.5" />
-        <rect x="110" y="105" width="44" height="50" rx="4" className="fill-map-pilotis stroke-map-line" />
-        {level !== "terreo" && <rect x="118" y="244" width="32" height="12" className="fill-map-floor1 stroke-map-line" />}
+      <g opacity={on("terreo") || on("andar1") || on("andar2") ? 1 : 0.35}>
+        <path d="M150 78 H214 V340 H236 V476 H128 V340 H150 Z" className={cn(level === "andar1" ? "fill-map-floor1" : level === "andar2" ? "fill-map-admin" : "fill-map-building", "stroke-map-line")} strokeWidth="1.5" />
+        {on("terreo") && <>
+          <rect x="154" y="266" width="56" height="54" className="fill-map-pilotis" />
+          <path d="M132 396 H232 M182 396 V474" className="stroke-map-line" fill="none" />
+          <text x="150" y="411" textAnchor="middle" className="fill-map-label text-[8px]">Auditório</text>
+          <text x="211" y="411" textAnchor="middle" className="fill-map-label text-[8px]">Banheiros</text>
+        </>}
+        {level === "andar1" && <text x="160" y="162" className="fill-map-label text-[9px] font-bold">Informática</text>}
+        {level === "andar2" && <text x="182" y="431" textAnchor="middle" className="fill-map-label text-[9px] font-bold">Coordenação</text>}
       </g>
-      <text x="181" y="64" textAnchor="middle" className="fill-map-label text-[9px] font-semibold">PRÉDIO PRINCIPAL</text>
-      <text x="83" y="164" textAnchor="middle" className="fill-map-label text-[9px] font-semibold">BLOCO ANEXO</text>
+      <g opacity={on("terreo") || on("subsolo") ? 1 : 0.3}>
+        <rect x="32" y="182" width="78" height="286" rx="4" className={cn(level === "subsolo" ? "fill-map-admin" : "fill-map-building", "stroke-map-line")} strokeWidth="1.5" />
+        <path d="M110 276 H150 V296 H110" className="fill-map-road" />
+        <text x="123" y="307" textAnchor="middle" className="fill-map-label text-[8px]">pátio · térreo</text>
+        {on("subsolo") && <text x="70" y="352" textAnchor="middle" className="fill-map-label text-[8px]">Secretaria · subsolo</text>}
+      </g>
+      <text x="179" y="66" textAnchor="middle" className="fill-map-label text-[9px] font-semibold">PRÉDIO PRINCIPAL</text>
+      <text x="71" y="172" textAnchor="middle" className="fill-map-label text-[9px] font-semibold">BLOCO ANEXO</text>
+      <text x="291" y="70" textAnchor="middle" className="fill-map-label text-[8px]">Estacionamento</text>
       {route.length > 1 && (
         <polyline points={pts} fill="none" className="stroke-primary route-dash" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
       )}
@@ -59,12 +74,16 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
         const isPlace = places.some((p) => p.node === id) || id === "caixa";
         if (!isPlace && !route.includes(id)) return null;
         const visible = on(n.level);
+        if (!visible) return null;
+        const placeIndex = places.findIndex((p) => p.node === id);
         const active = selected === id || route[route.length - 1] === id;
         return (
-          <g key={id} opacity={visible ? 1 : 0.25} onClick={() => onSelect?.(id)} className={onSelect ? "cursor-pointer" : ""}>
+          <g key={id} onClick={() => onSelect?.(id)} role={onSelect ? "button" : undefined} tabIndex={onSelect ? 0 : undefined} aria-label={`${n.label} · ${nodeLocation(id)}`} aria-pressed={onSelect ? selected === id : undefined} onKeyDown={(e) => { if (onSelect && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onSelect(id); } }} className={onSelect ? "cursor-pointer outline-none focus:stroke-primary" : ""}>
+            {onSelect && <circle cx={n.x} cy={n.y} r="16" fill="transparent" />}
             {active && <circle cx={n.x} cy={n.y} r="13" className="fill-primary/25 animate-ping-slow" />}
-            <circle cx={n.x} cy={n.y} r={active ? 8 : 6} className={cn(active ? "fill-primary" : route[0] === id ? "fill-brand-yellow" : "fill-card", "stroke-foreground")} strokeWidth="1.5" />
-            <title>{n.label}</title>
+            <circle cx={n.x} cy={n.y} r={placeIndex >= 0 ? 9 : 5} className={cn(active ? "fill-primary" : route[0] === id ? "fill-brand-yellow" : "fill-card", "stroke-foreground")} strokeWidth="1.5" />
+            {placeIndex >= 0 && <text x={n.x} y={n.y + 3} textAnchor="middle" className={cn("text-[8px] font-bold", active ? "fill-primary-foreground" : "fill-foreground")}>{placeIndex + 1}</text>}
+            <title>{n.label} · {nodeLocation(id)}</title>
           </g>
         );
       })}
@@ -72,5 +91,13 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
         <text x="350" y="512" textAnchor="end" className="fill-map-label text-[10px] font-bold">{levelLabel[level]}</text>
       )}
     </svg>
+    {onSelect && <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1">
+      {places.map((p, i) => on(nodes[p.node].level) && <li key={p.id}>
+        <Button variant="ghost" onClick={() => onSelect(p.node)} aria-pressed={selected === p.node} className={cn("h-auto min-h-10 w-full justify-start whitespace-normal px-1 py-1.5 text-left text-xs", selected === p.node && "bg-secondary")}>
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border bg-card text-[10px] text-foreground">{i + 1}</span><span>{p.name}</span>
+        </Button>
+      </li>)}
+    </ul>}
+    </div>
   );
 }
