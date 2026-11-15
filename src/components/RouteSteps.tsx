@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { nodes, levelLabel, placeByNode, type NodeId } from "@/data/school";
+import { floorTransition, nodeLocation, nodes, placeByNode, type NodeId } from "@/data/school";
 
 export function RouteSteps({ route }: { route: NodeId[] }) {
   if (route.length < 2) return <p className="rounded-xl bg-muted p-4 text-sm">Você já está aqui! 🎉</p>;
@@ -8,8 +8,7 @@ export function RouteSteps({ route }: { route: NodeId[] }) {
       {route.map((id, i) => {
         const n = nodes[id];
         const prevId = i > 0 ? route[i - 1] : undefined;
-        const prev = prevId ? nodes[prevId] : null;
-        const levelChange = prev && prev.level !== n.level;
+        const transition = prevId ? floorTransition(prevId, id) : null;
         const p = placeByNode(id);
         const last = i === route.length - 1;
         return (
@@ -19,8 +18,8 @@ export function RouteSteps({ route }: { route: NodeId[] }) {
             </span>
             <div className="rounded-xl border bg-card p-3">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                {i === 0 ? "Partida" : last ? "Chegada" : `Passo ${i}`} · {levelLabel[n.level]}
-                {levelChange && (n.level === "andar1" ? " · suba a escada ↑" : prev.level === "andar1" ? " · desça a escada ↓" : "")}
+                {i === 0 ? "Partida" : last ? "Chegada" : `Passo ${i}`} · {nodeLocation(id)}
+                {transition === "up" ? " · suba a escada ↑" : transition === "down" ? " · desça a escada ↓" : ""}
               </p>
               <p className="font-semibold">{n.label}</p>
               <p className="text-sm text-muted-foreground">{n.landmark}</p>

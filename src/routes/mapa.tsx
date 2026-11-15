@@ -2,22 +2,25 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
-import { aerialPhoto, levelLabel, nodes, placeByNode, type Level, type NodeId } from "@/data/school";
+import { Button } from "@/components/ui/button";
+import { annexPhoto, mainBuildingPhoto, levelLabel, nodeLocation, nodes, placeByNode, type Level, type NodeId } from "@/data/school";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/mapa")({
   head: () => ({
     meta: [
       { title: "Mapa interativo — Tour ETEC Belém" },
-      { name: "description", content: "Planta interativa da ETEC Parque Belém por nível: área externa, térreo e 1º andar." },
+      { name: "description", content: "Mapa da ETEC Parque Belém: área externa, subsolo, térreo, 1º e 2º andar; Prédio Principal e Bloco Anexo independente." },
       { property: "og:title", content: "Mapa interativo da ETEC Parque Belém" },
       { property: "og:description", content: "Explore a escola por andar e toque nos ambientes." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MapaPage,
 });
 
-const levels: (Level | "all")[] = ["all", "externa", "terreo", "andar1"];
+const levels: (Level | "all")[] = ["all", "externa", "subsolo", "terreo", "andar1", "andar2"];
 
 function MapaPage() {
   const [level, setLevel] = useState<Level | "all">("all");
@@ -25,12 +28,12 @@ function MapaPage() {
   const place = sel ? placeByNode(sel) : undefined;
   return (
     <AppShell>
-      <PageHeader title="Mapa da escola" subtitle="Toque num ponto para ver o ambiente." />
-      <div className="flex gap-2 overflow-x-auto px-5 pb-3">
+      <PageHeader title="Mapa da escola" subtitle="Prédio Principal · Bloco Anexo · Área Externa" />
+      <div className="flex flex-wrap gap-2 px-5 pb-3">
         {levels.map((l) => (
-          <button key={l} onClick={() => setLevel(l)} className={cn("whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold", level === l ? "bg-foreground text-background" : "bg-secondary")}>
+          <Button key={l} variant="secondary" aria-pressed={level === l} onClick={() => { setLevel(l); setSel(undefined); }} className={cn("h-8 rounded-full px-3 text-xs font-semibold", level === l && "bg-foreground text-background hover:bg-foreground/90")}>
             {l === "all" ? "Tudo" : levelLabel[l]}
-          </button>
+          </Button>
         ))}
       </div>
       <div className="px-5">
@@ -40,13 +43,16 @@ function MapaPage() {
             {place && <img src={place.photo} alt="" className="h-14 w-14 rounded-xl object-cover" />}
             <div className="flex-1">
               <p className="font-bold">{place?.name ?? nodes[sel].label}</p>
-              <p className="text-xs text-muted-foreground">{levelLabel[nodes[sel].level]} · {nodes[sel].landmark}</p>
+              <p className="text-xs text-muted-foreground">{nodeLocation(sel)} · {nodes[sel].landmark}</p>
             </div>
-            {place && <Link to="/ambientes/$id" params={{ id: place.id }} className="rounded-xl bg-primary px-3 py-2 text-xs font-bold text-primary-foreground">Abrir</Link>}
+            {place && <Button asChild size="sm"><Link to="/ambientes/$id" params={{ id: place.id }}>Abrir</Link></Button>}
           </div>
         )}
-        <h2 className="mt-6 font-display text-lg font-bold">Vista aérea anotada</h2>
-        <img src={aerialPhoto} alt="Foto aérea da escola com anotações" className="mt-2 rounded-2xl" />
+        <h2 className="mt-6 font-display text-lg font-bold">Os dois prédios</h2>
+        <div className="mt-2 grid grid-cols-2 gap-3">
+          <figure><img src={mainBuildingPhoto} alt="Prédio Principal elevado sobre pilotis" className="aspect-[4/3] w-full rounded-lg object-cover" /><figcaption className="mt-1 text-xs font-semibold">Prédio Principal</figcaption></figure>
+          <figure><img src={annexPhoto} alt="Bloco Anexo independente ao lado do Prédio Principal" className="aspect-[4/3] w-full rounded-lg object-cover" /><figcaption className="mt-1 text-xs font-semibold">Bloco Anexo · acesso pelo pátio</figcaption></figure>
+        </div>
       </div>
     </AppShell>
   );

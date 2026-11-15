@@ -179,3 +179,6 @@
 .route-dash { stroke-dasharray: 8 6; animation: dash 1s linear infinite; }
 @keyframes dash { to { stroke-dashoffset: -14; } }
 .animate-ping-slow { animation: ping 1.6s cubic-bezier(0,0,0.2,1) infinite; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) {
+  .route-dash, .animate-ping-slow { animation: none; }
+}

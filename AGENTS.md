@@ -30,5 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - School content (places, map nodes, paths from Portaria, missions, team) lives in `src/data/school.ts`; routes between any two places are derived from each node's path from the Portaria, so add new places by extending that path table.
+- Store building identity and confirmed floors on map nodes; access-only nodes describe the ground-floor entry rather than inventing a destination floor. Shared location and signed floor-transition helpers keep maps, place cards, and both directions of routes consistent.
+- Use verified real photos; when only an exterior or corridor is available, retain a contextual photo caption so it is not presented as the destination's interior.
 - Mission progress is device-local (localStorage via `src/data/progress.ts`); no backend is used.
 - Android APK uses Capacitor (`capacitor.config.ts`) pointing at the published URL, because the app is SSR and has no static export.
