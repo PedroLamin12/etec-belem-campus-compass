@@ -71,7 +71,7 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
       )}
       {(Object.keys(nodes) as NodeId[]).map((id) => {
         const n = nodes[id];
-        const isPlace = places.some((p) => p.node === id) || id === "caixa";
+        const isPlace = places.some((p) => p.node === id) || id === "caixa" || id === "escada" || id === "escadaAnexo" || id === "escada2";
         if (!isPlace && !route.includes(id)) return null;
         const visible = on(n.level);
         if (!visible) return null;
@@ -81,7 +81,8 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
           <g key={id} onClick={() => onSelect?.(id)} role={onSelect ? "button" : undefined} tabIndex={onSelect ? 0 : undefined} aria-label={`${n.label} · ${nodeLocation(id)}`} aria-pressed={onSelect ? selected === id : undefined} onKeyDown={(e) => { if (onSelect && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onSelect(id); } }} className={onSelect ? "cursor-pointer outline-none focus:stroke-primary" : ""}>
             {onSelect && <circle cx={n.x} cy={n.y} r="16" fill="transparent" />}
             {active && <circle cx={n.x} cy={n.y} r="13" className="fill-primary/25 animate-ping-slow" />}
-            <circle cx={n.x} cy={n.y} r={placeIndex >= 0 ? 9 : 5} className={cn(active ? "fill-primary" : route[0] === id ? "fill-brand-yellow" : "fill-card", "stroke-foreground")} strokeWidth="1.5" />
+            <circle cx={n.x} cy={n.y} r={placeIndex >= 0 || id.startsWith("escada") ? 9 : 5} className={cn(active ? "fill-primary" : route[0] === id ? "fill-brand-yellow" : "fill-card", "stroke-foreground")} strokeWidth="1.5" />
+            {id.startsWith("escada") && <text x={n.x} y={n.y + 3} textAnchor="middle" className="fill-foreground text-[9px] font-bold">↕</text>}
             {placeIndex >= 0 && <text x={n.x} y={n.y + 3} textAnchor="middle" className={cn("text-[8px] font-bold", active ? "fill-primary-foreground" : "fill-foreground")}>{placeIndex + 1}</text>}
             <title>{`${n.label} · ${nodeLocation(id)}`}</title>
           </g>

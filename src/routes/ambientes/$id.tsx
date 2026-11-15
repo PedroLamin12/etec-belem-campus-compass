@@ -36,7 +36,7 @@ function Ficha() {
   return (
     <AppShell>
       <div className="relative">
-        <img src={p.photo} alt={p.photoCaption ?? p.name} className="aspect-[4/3] w-full object-cover" />
+        <img src={p.photo} alt={p.photoCaption ?? p.name} className={`aspect-[4/3] w-full object-cover ${p.id === "portaria" ? "object-top" : ""}`} />
         <Button asChild variant="secondary" size="icon" className="absolute left-4 top-4 rounded-full bg-card/90"><Link to="/ambientes" aria-label="Voltar aos ambientes"><ArrowLeft className="h-5 w-5" /></Link></Button>
       </div>
       {p.photoCaption && <p className="px-5 pt-2 text-xs text-muted-foreground">{p.photoCaption}</p>}
