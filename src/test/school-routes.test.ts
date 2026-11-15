@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { floorTransition, missions, nodes, pathFromPortaria, placeById, places, routeBetween, type NodeId } from "@/data/school";
+import { floorTransition, missions, nodes, pathFromPortaria, placeById, places, rearRooms, routeBetween, team, type NodeId } from "@/data/school";
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
 import labs from "@/assets/photos/informatica-primeiro-andar-real.jpg.asset.json";
 import refeitorio from "@/assets/photos/refeitorio-mesas-azuis-real.jpg.asset.json";
+import frontal from "@/assets/photos/portaria-entrada.jpg.asset.json";
 
 describe("confirmed school layout", () => {
   it.each(["lab1", "lab2"] as const)("%s is on the first floor of the main building", (id) => {
@@ -34,17 +35,17 @@ describe("confirmed school layout", () => {
       expect(nodes[id].level).toBe("terreo");
     }
   });
-  it("the auditorium is at the rear left of the main ground floor", () => {
+  it("the auditorium is at the rear right of the main ground floor", () => {
     expect(nodes.auditorio.building).toBe("principal");
     expect(nodes.auditorio.level).toBe("terreo");
-    expect(nodes.auditorio.x).toBeLessThan(nodes.finalPrincipal.x);
+    expect(nodes.auditorio.x).toBeGreaterThan(nodes.finalPrincipal.x);
     expect(nodes.auditorio.y).toBeGreaterThan(nodes.finalPrincipal.y);
   });
-  it("bathrooms are catalogued at the rear right of the main ground floor", () => {
+  it("bathrooms are catalogued at the rear left of the main ground floor", () => {
     expect(placeById("banheiros")?.node).toBe("banheiros");
     expect(nodes.banheiros.building).toBe("principal");
     expect(nodes.banheiros.level).toBe("terreo");
-    expect(nodes.banheiros.x).toBeGreaterThan(nodes.finalPrincipal.x);
+    expect(nodes.banheiros.x).toBeLessThan(nodes.finalPrincipal.x);
     expect(nodes.banheiros.y).toBeGreaterThan(nodes.finalPrincipal.y);
   });
   it("Coordenação is at the rear of the main building second floor", () => {
@@ -56,12 +57,35 @@ describe("confirmed school layout", () => {
     expect(placeById("biblioteca")?.node).toBe("biblioteca");
     expect(nodes.biblioteca.building).toBe("anexo");
   });
+  it("the auditorium is only slightly wider than the bathrooms", () => {
+    const a = rearRooms.auditorium.right - rearRooms.auditorium.left;
+    const b = rearRooms.bathrooms.right - rearRooms.bathrooms.left;
+    expect(a).toBeGreaterThan(b);
+    expect(a / b).toBeLessThan(1.15);
+  });
+  it("number 9 is the ground-floor pilotis dining area, not classrooms", () => {
+    expect(places[8]?.id).toBe("convivencia");
+    expect(nodes.convivencia.level).toBe("terreo");
+    expect(nodes.convivencia.building).toBe("principal");
+    expect(routeBetween("portaria", "convivencia")).toEqual(["portaria", "rampa", "alameda", "patio", "convivencia"]);
+  });
+  it("classrooms are reached on the second floor through both flights", () => {
+    expect(nodes.salas.level).toBe("andar2");
+    expect(nodes.salas.building).toBe("principal");
+    expect(routeBetween("portaria", "salas")).toEqual(["portaria", "rampa", "alameda", "patio", "escada", "corredor", "escada2", "corredor2", "salas"]);
+  });
+  it("the explorer catalog contains at least 15 real environments", () => expect(places.length).toBeGreaterThanOrEqual(15));
+  it("honours Pedro as lead before the three named teammates", () => {
+    expect(team.map((t) => t.name)).toEqual(["Pedro Henrique Lamin Barbosa Ciriaco", "Luigi Paulo", "Odira", "Kauan Ribeiro"]);
+    expect(team[0]?.lead).toBe(true);
+  });
 });
 
 describe("verified real photo associations", () => {
   it("Portaria uses the actual yellow-arch photo", () => expect(placeById("portaria")?.photo).toBe(portaria.url));
   it.each(["lab1", "lab2"])("%s uses the supplied first-floor photo", (id) => expect(placeById(id)?.photo).toBe(labs.url));
   it("the refectory uses the real blue-table photo", () => expect(placeById("refeitorio")?.photo).toBe(refeitorio.url));
+  it("the access ramp uses the real front entrance photo", () => expect(placeById("rampa")?.photo).toBe(frontal.url));
 });
 
 describe("walking routes in both directions", () => {
