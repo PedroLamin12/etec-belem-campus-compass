@@ -1,6 +1,6 @@
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
 import portariaEntrada from "@/assets/photos/portaria-entrada.jpg.asset.json";
-import rampa from "@/assets/photos/rampa.jpg.asset.json";
+import aerial from "@/assets/photos/campus-aerial.jpg.asset.json";
 import estacionamento from "@/assets/photos/estacionamento-entrada-real.jpg.asset.json";
 import quadra1 from "@/assets/photos/quadra1.jpg.asset.json";
 import quadras from "@/assets/photos/quadras.jpg.asset.json";
@@ -14,12 +14,12 @@ import labInfo from "@/assets/photos/lab-info.jpg.asset.json";
 import labInfo2 from "@/assets/photos/lab-info2.jpg.asset.json";
 import nutricao from "@/assets/photos/nutricao.jpg.asset.json";
 import auditorio from "@/assets/photos/auditorio.jpg.asset.json";
-import bloco from "@/assets/photos/bloco-anexo-exterior-real.jpg.asset.json";
 import areaAberta from "@/assets/photos/area-aberta.jpg.asset.json";
 
 export const mainBuildingPhoto = fachada.url;
-export const annexPhoto = bloco.url;
-export const heroPhoto = portaria.url;
+export const annexPhoto = aerial.url;
+export const aerialPhoto = aerial.url;
+export const heroPhoto = fachada.url;
 
 export type Level = "externa" | "subsolo" | "terreo" | "andar1" | "andar2";
 export const levelLabel: Record<Level, string> = {
@@ -42,7 +42,7 @@ export type NodeId =
   | "portaria" | "rampa" | "alameda" | "caixa" | "quadra1" | "quadra2"
   | "patio" | "refeitorio" | "secretaria" | "coordenacao" | "escada"
   | "corredor" | "salas" | "acessoAnexo" | "escadaAnexo" | "nutricao" | "auditorio" | "lab1" | "lab2"
-  | "biblioteca" | "banheiros" | "finalPrincipal" | "escada2" | "corredor2";
+  | "biblioteca" | "banheiros" | "finalPrincipal" | "escada2" | "corredor2" | "convivencia";
 
 export const nodes: Record<NodeId, { x: number; y: number; level: Level; building: Building; label: string; landmark: string; accessOnly?: boolean }> = {
   portaria: { x: 236, y: 38, level: "externa", building: "externa", label: "Portaria principal", landmark: "Arco amarelo e guarita vermelha na entrada da escola." },
@@ -60,12 +60,13 @@ export const nodes: Record<NodeId, { x: number; y: number; level: Level; buildin
   biblioteca: { x: 70, y: 434, level: "terreo", building: "anexo", accessOnly: true, label: "Biblioteca Escolar", landmark: "Biblioteca no Bloco Anexo; entre pelo pátio, no térreo, e confirme a sala no atendimento do bloco." },
   escada: { x: 204, y: 274, level: "terreo", building: "principal", label: "Escadaria principal", landmark: "Escadaria no pátio coberto do Prédio Principal, com acesso aos andares superiores." },
   corredor: { x: 182, y: 250, level: "andar1", building: "principal", label: "Corredor do 1º andar", landmark: "Corredor envidraçado do Prédio Principal, onde ficam os laboratórios de Informática." },
-  salas: { x: 182, y: 128, level: "andar1", building: "principal", label: "Salas de aula", landmark: "Salas ao longo do corredor do Prédio Principal." },
+  convivencia: { x: 182, y: 312, level: "terreo", building: "principal", label: "Refeição e convivência nos pilotis", landmark: "Mesas para comer e sentar no pátio coberto sob o Prédio Principal, no térreo." },
+  salas: { x: 182, y: 128, level: "andar2", building: "principal", label: "Salas de aula · 2º andar", landmark: "Salas distribuídas pelos corredores de todo o 2º andar do Prédio Principal, até a Coordenação no final." },
   lab1: { x: 182, y: 182, level: "andar1", building: "principal", label: "Lab. de Informática 1", landmark: "No 1º andar do Prédio Principal, acessado pelo corredor envidraçado." },
   lab2: { x: 182, y: 216, level: "andar1", building: "principal", label: "Lab. de Informática 2", landmark: "No mesmo 1º andar do Prédio Principal; procure a identificação do laboratório." },
-  finalPrincipal: { x: 182, y: 380, level: "terreo", building: "principal", label: "Final do Prédio Principal", landmark: "Siga pelo térreo até a parte mais larga no final do prédio. Na visão de quem entra: Auditório à esquerda e Banheiros à direita." },
-  auditorio: { x: 152, y: 426, level: "terreo", building: "principal", label: "Auditório", landmark: "No final do Prédio Principal, no térreo, à esquerda de quem entra." },
-  banheiros: { x: 214, y: 426, level: "terreo", building: "principal", label: "Banheiros / Sanitários", landmark: "No final do Prédio Principal, no térreo, à direita de quem entra." },
+  finalPrincipal: { x: 182, y: 380, level: "terreo", building: "principal", label: "Final do Prédio Principal", landmark: "Siga pelo térreo até a parte mais larga no final do prédio. Na visão de quem entra: Banheiros à esquerda e Auditório à direita." },
+  auditorio: { x: 212, y: 426, level: "terreo", building: "principal", label: "Auditório", landmark: "No final do Prédio Principal, no térreo, à direita de quem entra; um pouco maior que os Banheiros." },
+  banheiros: { x: 151, y: 426, level: "terreo", building: "principal", label: "Banheiros / Sanitários", landmark: "No final do Prédio Principal, no térreo, à esquerda de quem entra." },
   escada2: { x: 204, y: 310, level: "andar1", building: "principal", label: "Escada para o 2º andar", landmark: "Continue pela escadaria do Prédio Principal entre o 1º e o 2º andar." },
   corredor2: { x: 182, y: 360, level: "andar2", building: "principal", label: "Corredor do 2º andar", landmark: "No piso superior, siga até o final do Prédio Principal." },
   coordenacao: { x: 182, y: 452, level: "andar2", building: "principal", label: "Coordenação / Direção", landmark: "No final do Prédio Principal, no 2º andar (piso superior)." },
@@ -87,7 +88,8 @@ export const pathFromPortaria: Record<NodeId, NodeId[]> = {
   coordenacao: ["portaria", "rampa", "alameda", "patio", "escada", "corredor", "escada2", "corredor2", "coordenacao"],
   escada: ["portaria", "rampa", "alameda", "patio", "escada"],
   corredor: ["portaria", "rampa", "alameda", "patio", "escada", "corredor"],
-  salas: ["portaria", "rampa", "alameda", "patio", "escada", "corredor", "salas"],
+  convivencia: ["portaria", "rampa", "alameda", "patio", "convivencia"],
+  salas: ["portaria", "rampa", "alameda", "patio", "escada", "corredor", "escada2", "corredor2", "salas"],
   nutricao: ["portaria", "rampa", "alameda", "patio", "acessoAnexo", "nutricao"],
   biblioteca: ["portaria", "rampa", "alameda", "patio", "acessoAnexo", "biblioteca"],
   finalPrincipal: ["portaria", "rampa", "alameda", "patio", "finalPrincipal"],
@@ -139,7 +141,7 @@ export const places: Place[] = [
   { id: "portaria", node: "portaria", name: "Portaria Principal", category: "Acesso", photo: portaria.url, gallery: [portariaEntrada.url],
     description: "Entrada oficial da ETEC Parque Belém, marcada pelo arco amarelo e pela guarita vermelha. É o ponto de partida de todas as rotas do app.",
     services: ["Identificação de visitantes", "Informações gerais", "Entrada e saída de alunos"], block: "Área Externa · entrada da rua", keywords: ["entrada", "portão", "guarita", "arco"] },
-  { id: "rampa", node: "rampa", name: "Rampa de Acesso", category: "Acesso", photo: rampa.url,
+  { id: "rampa", node: "rampa", name: "Rampa de Acesso", category: "Acesso", photo: portariaEntrada.url,
     description: "Rampa e escadaria com corrimão que ligam a portaria ao nível da alameda, garantindo acessibilidade a cadeirantes e pessoas com mobilidade reduzida.",
     services: ["Acesso acessível", "Ligação portaria ↔ alameda"], block: "Área Externa · logo após o arco", keywords: ["acessibilidade", "escada", "cadeirante"] },
   { id: "estacionamento", node: "alameda", name: "Estacionamento e Alameda", category: "Acesso", photo: estacionamento.url,
@@ -151,18 +153,18 @@ export const places: Place[] = [
   { id: "refeitorio", node: "refeitorio", name: "Refeitório e Cantina", category: "Convivência", photo: refeitorio.url,
     description: "Refeitório com mesas azuis e cantina para os lanches, no Bloco Anexo. O bloco é independente e seu acesso é feito pelo pátio, no térreo.",
     services: ["Merenda escolar", "Venda de lanches", "Mesas para refeição"], block: "Bloco Anexo · entrada pelo pátio", keywords: ["almoço", "lanche", "comida", "merenda", "cantina"] },
-  { id: "secretaria", node: "secretaria", name: "Secretaria Acadêmica", category: "Administração", photo: bloco.url, photoCaption: "Exterior do Bloco Anexo; a Secretaria fica no subsolo.",
+  { id: "secretaria", node: "secretaria", name: "Secretaria Acadêmica", category: "Administração", photo: aerial.url, photoCaption: "Vista aérea: o Bloco Anexo é o menor, à esquerda. A Secretaria fica no subsolo; não é uma foto interna.",
     description: "A matrícula é feita na Secretaria Acadêmica, no subsolo do Bloco Anexo. Saindo da Portaria, siga até o pátio, entre no bloco vizinho pelo térreo e desça ao subsolo.",
     services: ["Matrícula e rematrícula", "Declarações e históricos", "Atualização de cadastro", "Carteirinha estudantil"], block: "Bloco Anexo · Subsolo", keywords: ["matrícula", "documento", "declaração", "histórico", "inscrição", "subsolo"] },
   { id: "coordenacao", node: "coordenacao", name: "Coordenação e Direção", category: "Administração", photo: fachada.url, photoCaption: "Exterior do Prédio Principal; a Coordenação fica no 2º andar.",
     description: "Coordenação pedagógica, coordenação de curso e direção no final do Prédio Principal, no 2º andar, o piso superior. O acesso é pela escadaria do pátio coberto.",
     services: ["Atendimento a responsáveis", "Dúvidas sobre o curso", "Justificativa de faltas"], block: "Prédio Principal · final do prédio · 2º Andar", keywords: ["coordenador", "diretor", "administração", "falta"] },
   { id: "corredor", node: "corredor", name: "Corredor Panorâmico", category: "Ensino", photo: labsAndar.url,
-    description: "Corredor envidraçado do 1º andar do Prédio Principal, onde ficam os laboratórios de Informática e as salas de aula. Não há ligação suspensa com o Bloco Anexo.",
-    services: ["Acesso às salas", "Acesso aos laboratórios de Informática"], block: "Prédio Principal · 1º Andar", keywords: ["vidro", "andar", "corredor"] },
-  { id: "salas", node: "salas", name: "Salas de Aula", category: "Ensino", photo: salaAula.url,
-    description: "Salas teóricas dos cursos técnicos e do ensino médio, distribuídas ao longo do corredor panorâmico, com lousa, projetor e carteiras.",
-    services: ["Aulas teóricas", "Provas e avaliações"], block: "Prédio principal · 1º Andar", keywords: ["aula", "sala", "turma", "classe"] },
+    description: "Corredor envidraçado do 1º andar do Prédio Principal, onde ficam os laboratórios de Informática. As salas de aula ficam no 2º andar. Não há ligação suspensa com o Bloco Anexo.",
+    services: ["Acesso aos laboratórios de Informática"], block: "Prédio Principal · 1º Andar", keywords: ["vidro", "andar", "corredor"] },
+  { id: "convivencia", node: "convivencia", name: "Refeição e Convivência", category: "Convivência", photo: pilotis.url,
+    description: "Área de refeição e convivência com mesas para comer e sentar no pátio sob pilotis, no térreo do Prédio Principal. Este é o ponto 9 do mapa, não as salas de aula nem o Refeitório do Bloco Anexo.",
+    services: ["Mesas para refeição", "Intervalo", "Convivência"], block: "Prédio Principal · Térreo · sob pilotis", keywords: ["comida", "mesas", "sentar", "pátio", "pilotis", "refeição"] },
   { id: "lab1", node: "lab1", name: "Laboratório de Informática 1", category: "Laboratórios", photo: labsAndar.url, gallery: [labInfo.url], photoCaption: "Corredor real do 1º andar do Prédio Principal, onde ficam os labs.",
     description: "Laboratório de Informática no 1º andar do Prédio Principal, usado nas aulas de programação, redes e desenvolvimento de sistemas. Suba a escadaria do pátio e siga pelo corredor envidraçado.",
     services: ["Aulas de programação", "Pesquisa e trabalhos", "PCs com internet"], block: "Prédio Principal · 1º Andar", keywords: ["computador", "pc", "informática", "programação", "ds"] },
@@ -173,20 +175,23 @@ export const places: Place[] = [
     description: "Cozinha com equipamentos em inox no Bloco Anexo, usada nas aulas práticas de Nutrição. Para chegar ao bloco, atravesse o pátio no térreo.",
     services: ["Aulas práticas de cozinha", "Técnica dietética", "Análise de alimentos"], block: "Bloco Anexo · entrada pelo pátio", keywords: ["cozinha", "nutrição", "gastronomia"] },
   { id: "auditorio", node: "auditorio", name: "Auditório", category: "Eventos", photo: auditorio.url,
-    description: "Auditório no final do Prédio Principal, no térreo, à esquerda na visão de quem entra. Espaço para palestras, apresentações e eventos da escola.",
-    services: ["Palestras", "Apresentações de TCC", "Reuniões de pais"], block: "Prédio Principal · final do térreo · esquerda", keywords: ["evento", "palestra", "tcc", "reunião"] },
-  { id: "biblioteca", node: "biblioteca", name: "Biblioteca Escolar", category: "Ensino", photo: bloco.url, photoCaption: "Exterior do Bloco Anexo, onde fica a Biblioteca; foto interna não fornecida.",
+    description: "Auditório no final do Prédio Principal, no térreo, à direita na visão de quem entra; um pouco maior que os Banheiros à esquerda. Espaço para palestras, apresentações e eventos da escola.",
+    services: ["Palestras", "Apresentações de TCC", "Reuniões de pais"], block: "Prédio Principal · final do térreo · direita", keywords: ["evento", "palestra", "tcc", "reunião"] },
+  { id: "biblioteca", node: "biblioteca", name: "Biblioteca Escolar", category: "Ensino", photo: aerial.url, photoCaption: "Vista aérea: Biblioteca no Bloco Anexo, o menor à esquerda; foto interna não fornecida.",
     description: "Biblioteca Escolar no Bloco Anexo. O acesso ao bloco é pelo pátio, no térreo; confirme a sala da biblioteca no atendimento do bloco.",
     services: ["Leitura", "Consulta ao acervo", "Estudo e pesquisa"], block: "Bloco Anexo · entrada pelo pátio", keywords: ["livro", "livros", "biblioteca", "leitura", "acervo", "estudo"] },
-  { id: "banheiros", node: "banheiros", name: "Banheiros / Sanitários", category: "Convivência", photo: fachada.url, photoCaption: "Exterior do Prédio Principal; os Banheiros ficam no final do térreo, à direita.",
-    description: "Banheiros e sanitários no final do Prédio Principal, na parte mais larga do prédio, no térreo, à direita na visão de quem entra.",
-    services: ["Sanitários", "Higiene pessoal"], block: "Prédio Principal · final do térreo · direita", keywords: ["banheiro", "sanitário", "toalete", "wc"] },
+  { id: "banheiros", node: "banheiros", name: "Banheiros / Sanitários", category: "Convivência", photo: fachada.url, photoCaption: "Exterior do Prédio Principal; os Banheiros ficam no final do térreo, à esquerda.",
+    description: "Banheiros e sanitários no final do Prédio Principal, na parte mais larga do prédio, no térreo, à esquerda na visão de quem entra.",
+    services: ["Sanitários", "Higiene pessoal"], block: "Prédio Principal · final do térreo · esquerda", keywords: ["banheiro", "sanitário", "toalete", "wc"] },
   { id: "quadra1", node: "quadra1", name: "Quadra Poliesportiva 1", category: "Esportes", photo: quadra1.url, gallery: [quadras.url],
     description: "Quadra externa com alambrado para futsal, vôlei e basquete nas aulas de Educação Física.",
     services: ["Educação Física", "Interclasse", "Recreação"], block: "Área Externa · atrás da caixa d'água", keywords: ["educação física", "futebol", "esporte", "quadra"] },
   { id: "quadra2", node: "quadra2", name: "Quadra Poliesportiva 2", category: "Esportes", photo: quadras.url, gallery: [areaAberta.url],
     description: "Segunda quadra externa, ao fundo do terreno, usada em aulas simultâneas e campeonatos.",
     services: ["Educação Física", "Campeonatos"], block: "Área Externa · fundo do terreno", keywords: ["educação física", "esporte", "quadra"] },
+  { id: "salas", node: "salas", name: "Salas de Aula", category: "Ensino", photo: salaAula.url,
+    description: "Salas de aula distribuídas pelos corredores de todo o 2º andar do Prédio Principal, até a Coordenação no final. O acesso é pela escadaria do pátio, passando pelo 1º andar e subindo ao 2º.",
+    services: ["Aulas teóricas", "Provas e avaliações"], block: "Prédio Principal · 2º Andar", keywords: ["aula", "sala", "turma", "classe"] },
 ];
 
 export const placeById = (id: string) => places.find((p) => p.id === id);
@@ -194,7 +199,7 @@ export const placeByNode = (n: NodeId) => places.find((p) => p.node === n);
 
 export const quickActions = [
   { label: "Fazer Matrícula", sub: "Secretaria · Subsolo do Bloco Anexo", place: "secretaria", emoji: "📝" },
-  { label: "Assistir Aula", sub: "Salas", place: "salas", emoji: "📚" },
+  { label: "Assistir Aula", sub: "Salas · 2º andar", place: "salas", emoji: "📚" },
   { label: "Laboratórios", sub: "Informática / Nutrição", place: "lab1", emoji: "💻" },
   { label: "Almoço e Lanche", sub: "Refeitório e Cantina", place: "refeitorio", emoji: "🍽️" },
   { label: "Educação Física", sub: "Quadras", place: "quadra1", emoji: "🏀" },
@@ -206,17 +211,32 @@ export const missions = [
   { id: "m-portaria", place: "portaria", title: "O primeiro passo", goal: "Faça check-in na Portaria", xp: 50 },
   { id: "m-secretaria", place: "secretaria", title: "Encontre a Secretaria", goal: "Chegue ao subsolo do Bloco Anexo, onde se faz matrícula", xp: 150 },
   { id: "m-refeitorio", place: "refeitorio", title: "Hora do lanche", goal: "Encontre as mesas azuis no Refeitório do Bloco Anexo", xp: 100 },
-  { id: "m-salas", place: "salas", title: "Rumo à sala", goal: "Chegue ao corredor das salas de aula", xp: 100 },
+  { id: "m-salas", place: "salas", title: "Rumo à sala", goal: "Explore as salas nos corredores do 2º andar", xp: 100 },
   { id: "m-lab1", place: "lab1", title: "Hacker iniciante", goal: "Conheça a Informática no 1º andar do Prédio Principal", xp: 150 },
   { id: "m-nutricao", place: "nutricao", title: "Chef em formação", goal: "Visite a cozinha de Nutrição no Bloco Anexo", xp: 100 },
-  { id: "m-auditorio", place: "auditorio", title: "Palco aberto", goal: "Encontre o Auditório à esquerda, no final do térreo", xp: 100 },
+  { id: "m-auditorio", place: "auditorio", title: "Palco aberto", goal: "Encontre o Auditório à direita, no final do térreo", xp: 100 },
   { id: "m-quadra", place: "quadra1", title: "Aquecimento", goal: "Vá até a Quadra Poliesportiva 1", xp: 100 },
   { id: "m-biblioteca", place: "biblioteca", title: "Entre livros", goal: "Conheça a Biblioteca Escolar no Bloco Anexo", xp: 100 },
 ];
 
 export const team = [
-  { name: "Integrante 1", role: "Mapeamento", desc: "Levantamento dos ambientes, fotos e planta da escola." },
-  { name: "Integrante 2", role: "Modelagem e Conteúdo Visual", desc: "Mapa interativo, identidade visual e tratamento das imagens." },
-  { name: "Integrante 3", role: "Programação Mobile", desc: "Desenvolvimento das telas, rotas e empacotamento do APK." },
-  { name: "Integrante 4", role: "Dados e Testes", desc: "Catálogo dos ambientes, descrições e testes em dispositivos." },
+  { name: "Pedro Henrique Lamin Barbosa Ciriaco", role: "Líder do Projeto / Tech Lead & Idealizador", desc: "Idealização, liderança e desenvolvimento do Tour ETEC Belém.", initials: "PH", lead: true },
+  { name: "Luigi Paulo", role: "Equipe de Desenvolvimento de Sistemas", desc: "Mapeamento, conteúdo e construção coletiva do projeto.", initials: "LP", lead: false },
+  { name: "Odira", role: "Equipe de Desenvolvimento de Sistemas", desc: "Identidade visual, ambientes e construção coletiva do projeto.", initials: "OD", lead: false },
+  { name: "Kauan Ribeiro", role: "Equipe de Desenvolvimento de Sistemas", desc: "Dados, testes e construção coletiva do projeto.", initials: "KR", lead: false },
 ];
+
+/** Ground-floor footprint, not a claim of precise indoor positioning in the aerial image. */
+export function satellitePoint(id: NodeId): { x: number; y: number } {
+  const n = nodes[id];
+  const fixed: Partial<Record<NodeId, { x: number; y: number }>> = {
+    portaria: { x: 428, y: 28 }, rampa: { x: 443, y: 85 }, alameda: { x: 490, y: 132 },
+    caixa: { x: 525, y: 578 }, quadra1: { x: 643, y: 585 }, quadra2: { x: 643, y: 677 },
+    acessoAnexo: { x: 170, y: 434 }, escadaAnexo: { x: 145, y: 453 },
+  };
+  return fixed[id] ?? (n.building === "anexo"
+    ? { x: 122, y: 280 + (n.y - 182) * 1.45 }
+    : { x: 240 + (n.x - 150) * 1.7, y: 115 + (n.y - 78) * 1.5 });
+}
+
+export const rearRooms = { bathrooms: { left: 128, right: 180 }, auditorium: { left: 180, right: 236 } };

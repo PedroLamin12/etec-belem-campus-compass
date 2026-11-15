@@ -34,3 +34,6 @@ use the editor.
 - Use verified real photos; when only an exterior or corridor is available, retain a contextual photo caption so it is not presented as the destination's interior.
 - Mission progress is device-local (localStorage via `src/data/progress.ts`); no backend is used.
 - Android APK uses Capacitor (`capacitor.config.ts`) pointing at the published URL, because the app is SSR and has no static export.
+- Share schematic/satellite switching through `SchoolMap` and render uploaded aerial media in `SatelliteMap`; satellite points represent building footprints rather than verified indoor coordinates, so floor-aware walking directions remain authoritative.
+- Keep rear-room footprint sizes in school data and reuse them in the schematic so map geometry and location rules cannot diverge.
+- Render reusable environment feed cards through `PlaceFeed` so real-photo captions, numbering, and route actions stay consistent between home search and the catalog.

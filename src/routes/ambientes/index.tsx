@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { places, nodeLocation, type Category } from "@/data/school";
+import { places, type Category } from "@/data/school";
+import { PlaceFeed } from "@/components/PlaceFeed";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,25 +28,12 @@ function Lista() {
   return (
     <AppShell>
       <PageHeader title="Ambientes" subtitle={`${places.length} lugares reais da escola`} />
-      <div className="flex gap-2 overflow-x-auto px-5 pb-3">
+      <div className="mb-5 flex gap-2 overflow-x-auto px-5 pb-3 md:px-8">
         {cats.map((x) => (
-          <Button key={x} variant="secondary" aria-pressed={c === x} onClick={() => setC(x)} className={cn("rounded-full px-3.5 text-sm font-semibold", c === x && "bg-foreground text-background hover:bg-foreground/90")}>{x}</Button>
+          <Button key={x} variant="secondary" aria-pressed={c === x} onClick={() => setC(x)} className={cn("shrink-0 rounded-md border border-border bg-card px-3.5 text-xs font-semibold", c === x && "border-primary bg-primary text-primary-foreground hover:bg-primary/90")}>{x}</Button>
         ))}
       </div>
-      <ul className="grid grid-cols-2 gap-3 px-5">
-        {list.map((p) => (
-          <li key={p.id}>
-            <Link to="/ambientes/$id" params={{ id: p.id }} className="block overflow-hidden rounded-2xl border bg-card">
-              <img src={p.photo} alt={p.photoCaption ?? p.name} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-              <div className="p-2.5">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-primary">{p.category}</p>
-                <p className="text-sm font-bold leading-tight">{p.name}</p>
-                <p className="mt-1 text-[11px] text-muted-foreground">{nodeLocation(p.node)}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="px-5 md:px-8"><PlaceFeed items={list} /></div>
     </AppShell>
   );
 }

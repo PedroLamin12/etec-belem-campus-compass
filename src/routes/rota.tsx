@@ -3,8 +3,8 @@ import { AppShell, PageHeader } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
 import { RouteSteps } from "@/components/RouteSteps";
 import { Button } from "@/components/ui/button";
-import { ArrowDownUp } from "lucide-react";
-import { places, placeById, routeBetween } from "@/data/school";
+import { ArrowDownUp, Navigation, MapPin, Flag } from "lucide-react";
+import { places, placeById, routeBetween, nodeLocation } from "@/data/school";
 
 type S = { de?: string | undefined; para?: string | undefined };
 
@@ -34,12 +34,12 @@ function RotaPage() {
   if (!from || !to) return null;
   const route = routeBetween(from.node, to.node);
   const set = (k: keyof S, v: string) => nav({ search: (s: S) => ({ ...s, [k]: v }), replace: true });
-  const sel = "w-full rounded-xl border bg-card px-3 py-3 font-semibold";
+  const sel = "mt-1 w-full rounded-lg border bg-card px-3 py-3 text-sm font-semibold text-foreground";
   return (
     <AppShell>
-      <PageHeader title="Como chegar" subtitle="Rota a pé com marcos visuais." />
-      <div className="space-y-2 px-5">
-        <label className="block text-xs font-semibold text-muted-foreground">Estou em
+      <PageHeader title="Seu caminho pela ETEC" subtitle="Como chegar · A pé, a partir da Portaria ou de outro ambiente" />
+      <div className="grid items-end gap-2 px-5 md:grid-cols-[1fr_48px_1fr] md:px-8">
+        <label className="block min-w-0 text-[11px] font-semibold text-muted-foreground">Estou em
           <select className={sel} value={from.id} onChange={(e) => set("de", e.target.value)}>
             {places.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
@@ -51,12 +51,15 @@ function RotaPage() {
           </select>
         </label>
       </div>
-      <div className="px-5 pt-4">
+      <div className="grid gap-8 px-5 pt-7 md:grid-cols-2 md:px-8">
+        <div>
         <SchoolMap level="all" route={route} />
-        <p className="mt-3 text-sm"><b>{route.length - 1} etapas</b></p>
-        <div className="mt-4"><RouteSteps route={route} /></div>
-        <img src={to.photo} alt={to.name} className="mt-5 aspect-video w-full rounded-2xl object-cover" />
-        <p className="mt-2 text-center text-sm text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</p>
+        <figure className="mt-5"><img src={to.photo} alt={to.photoCaption ?? to.name} className="aspect-video w-full rounded-lg object-cover" /><figcaption className="mt-2 text-[11px] text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</figcaption></figure>
+        </div>
+        <section>
+          <div className="mb-6 flex items-center justify-between border-b pb-4"><div><p className="mb-1 flex items-center gap-1.5 text-[10px] font-bold text-primary"><Flag className="h-3 w-3" />SEU DESTINO</p><h2 className="font-display text-3xl font-bold">{to.name}</h2><p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin className="h-3 w-3" />{nodeLocation(to.node)}</p></div><span className="flex shrink-0 items-center gap-1 rounded-md bg-brand-yellow/10 px-2 py-2 text-[10px] font-bold text-brand-yellow"><Navigation className="h-3 w-3" />{route.length - 1} etapas</span></div>
+          <RouteSteps route={route} />
+        </section>
       </div>
     </AppShell>
   );

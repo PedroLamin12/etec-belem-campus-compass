@@ -13,15 +13,15 @@ export function RouteSteps({ route }: { route: NodeId[] }) {
         const last = i === route.length - 1;
         return (
           <li key={id + i} className="relative">
-            <span className={`absolute -left-[37px] flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${last ? "bg-primary text-primary-foreground" : i === 0 ? "bg-brand-yellow text-foreground" : "bg-card border-2 border-primary text-primary"}`}>
+            <span className={`absolute -left-[37px] flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${last ? "bg-primary text-primary-foreground" : i === 0 ? "bg-brand-yellow text-brand-yellow-foreground" : "bg-card border-2 border-primary text-primary"}`}>
               {last ? "★" : i + 1}
             </span>
-            <div className="rounded-xl border bg-card p-3">
+            <div className="border-b pb-4 pl-1">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                 {i === 0 ? "Partida" : last ? "Chegada" : `Passo ${i}`} · {nodeLocation(id)}
                 {transition === "up" ? " · suba a escada ↑" : transition === "down" ? " · desça a escada ↓" : ""}
               </p>
-              <p className="font-semibold">{n.label}</p>
+              <p className="mt-1 font-display text-xl font-bold">{n.label}</p>
               <p className="text-sm text-muted-foreground">{n.landmark}</p>
               {p && !last && i > 0 && <Link to="/ambientes/$id" params={{ id: p.id }} className="mt-1 inline-block text-xs font-semibold text-primary">Ver foto do marco →</Link>}
             </div>
