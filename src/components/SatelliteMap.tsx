@@ -1,7 +1,7 @@
 import { aerialPhoto, nodes, places, satellitePoint, nodeLocation, type Level, type NodeId } from "@/data/school";
 import { cn } from "@/lib/utils";
 
-type Props = { level: Level | "all"; route: NodeId[]; selected?: NodeId; onSelect?: (id: NodeId) => void };
+type Props = { level: Level | "all"; route: NodeId[]; selected?: NodeId | undefined; onSelect?: ((id: NodeId) => void) | undefined };
 
 export function SatelliteMap({ level, route, selected, onSelect }: Props) {
   return (
