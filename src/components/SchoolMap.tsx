@@ -83,7 +83,7 @@ export function SchoolMap({ level, route = [], selected, onSelect, className }: 
             {active && <circle cx={n.x} cy={n.y} r="13" className="fill-primary/25 animate-ping-slow" />}
             <circle cx={n.x} cy={n.y} r={placeIndex >= 0 ? 9 : 5} className={cn(active ? "fill-primary" : route[0] === id ? "fill-brand-yellow" : "fill-card", "stroke-foreground")} strokeWidth="1.5" />
             {placeIndex >= 0 && <text x={n.x} y={n.y + 3} textAnchor="middle" className={cn("text-[8px] font-bold", active ? "fill-primary-foreground" : "fill-foreground")}>{placeIndex + 1}</text>}
-            <title>{n.label} · {nodeLocation(id)}</title>
+            <title>{`${n.label} · ${nodeLocation(id)}`}</title>
           </g>
         );
       })}
