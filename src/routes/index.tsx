@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Search, MapPin, ArrowUpRight, Navigation, GraduationCap, Monitor, Utensils, Dribbble, Mic, BookOpen, Compass, ArrowRight, X } from "lucide-react";
+import { useState } from "react";
+import { Search, ArrowUpRight, Navigation, GraduationCap, Monitor, Utensils, Dribbble, Mic, BookOpen, Compass, ArrowRight, X, Shuffle, Zap } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { PlaceFeed } from "@/components/PlaceFeed";
 import { Button } from "@/components/ui/button";
-import { heroPhoto, places, quickActions, placeById, missions } from "@/data/school";
+import { heroPhoto, places, quickActions, placeById } from "@/data/school";
 import { useProgress } from "@/data/progress";
+import { CampusMascot } from "@/components/CampusMascot";
+import { discoveryDestination, findCampusPlaces, nextCampusMission } from "@/data/exploration";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,65 +23,46 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const norm = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
 function Index() {
   const [q, setQ] = useState("");
-  const { done, total, xp } = useProgress();
-  const results = useMemo(() => {
-    const t = norm(q.trim());
-    if (!t) return [];
-    return places.filter((p) => norm([p.name, p.category, p.description, ...p.services, ...p.keywords].join(" ")).includes(t));
-  }, [q]);
+  const [surprise, setSurprise] = useState<ReturnType<typeof discoveryDestination>>();
+  const { done, total, xp, visited } = useProgress();
+  const results = findCampusPlaces(q);
   const icons = [Navigation, GraduationCap, Monitor, Utensils, Dribbble, Mic, BookOpen];
-  const featured = ["convivencia", "lab1", "quadra1"].flatMap((id) => { const p = placeById(id); return p ? [p] : []; });
-  const nextMission = missions.find((m) => !done.some((d) => d.id === m.id));
+  const featured = ["lab1", "convivencia", "quadra1", "nutricao", "portaria"].flatMap((id) => { const p = placeById(id); return p ? [p] : []; });
+  const nextMission = nextCampusMission(visited);
 
   return (
     <AppShell>
-      <section className="campus-hero relative overflow-hidden md:mx-8 md:mt-7 md:rounded-lg">
+      <section className="campus-hero relative overflow-hidden md:mx-8 md:mt-6 md:rounded-lg">
         <img src={heroPhoto} alt="Prédio Principal da ETEC Parque Belém, com corredores e pátio sob pilotis" className="hero-photo absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[image:var(--gradient-hero)]" />
-        <div className="hero-content relative flex h-full flex-col justify-center px-6 pb-10 text-on-image md:px-10">
-          <div>
-            <p className="mb-4 flex items-center gap-2 text-xs font-medium text-on-image/90"><MapPin className="h-3.5 w-3.5" />ETEC Parque Belém · São Paulo</p>
-            <h1 className="font-display text-4xl font-semibold leading-tight md:text-5xl">Tour ETEC Belém</h1>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-on-image/90">Um lugar para aprender.<br />Muitos caminhos para descobrir.</p>
-            <Button asChild variant="ghost" className="mt-5 h-9 border border-on-image/40 bg-on-image/10 px-3 text-xs text-on-image hover:bg-on-image/20 hover:text-on-image"><Link to="/mapa">Explorar o campus<ArrowUpRight className="h-4 w-4" /></Link></Button>
-          </div>
+        <div className="hero-content relative flex h-full flex-col justify-between px-5 pb-10 pt-7 text-on-image md:px-10 md:pb-12 md:pt-10">
+          <div className="flex items-start justify-between gap-3"><div><p className="eyebrow mb-3 text-on-image/90">SÃO PAULO · PARQUE BELÉM</p><h1 className="home-title font-display">Tour ETEC<br /><em>Belém.</em></h1></div><span className="hero-label mt-4 shrink-0">O CAMPUS<br />É SEU ↗</span></div>
+          <div><p className="mb-5 text-base font-medium leading-relaxed md:text-xl">Seu campus. Sua aventura.<br /><span className="text-xs font-normal text-on-image/80 md:text-sm">Da primeira matrícula à última descoberta.</span></p><div className="flex items-center justify-between gap-3"><Button asChild className="h-12 rounded-lg px-5 font-semibold"><Link to="/mapa">Bora explorar<ArrowUpRight className="h-4 w-4" /></Link></Button><div className="hero-metric"><b>{places.length}</b><span>lugares reais</span></div></div></div>
         </div>
       </section>
-      <div className="relative -mt-7 px-5 md:px-16">
+      <div className="relative -mt-5 px-5 md:px-10">
         <label className="hero-search flex h-[60px] items-center gap-3 rounded-lg border border-border bg-card px-4 md:px-5">
           <Search className="h-5 w-5 shrink-0 text-primary" />
-          <input aria-label="Buscar ambiente" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Onde você quer chegar?" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground md:text-base" />
+          <input aria-label="Buscar ambiente" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Qual vai ser a próxima parada?" className="min-w-0 flex-1 bg-transparent text-xs outline-none placeholder:text-muted-foreground md:text-sm" />
           {q ? <Button variant="ghost" size="icon" aria-label="Limpar busca" onClick={() => setQ("")}><X /></Button> : <span className="hidden text-xs text-muted-foreground sm:block">{places.length} ambientes</span>}
         </label>
       </div>
-      {q.trim() ? <section className="px-5 pt-8 md:px-8"><h2 className="mb-5 font-display text-xl font-semibold">{results.length} resultados</h2>{results.length ? <PlaceFeed items={results} /> : <p className="text-sm text-muted-foreground">Nenhum ambiente encontrado para “{q}”.</p>}</section> : <>
-        <div className="grid gap-8 px-5 pt-9 md:grid-cols-[1fr_300px] md:px-8 md:pt-10">
-          <section>
-            <h2 className="mb-5 font-display text-xl font-semibold">O que você precisa fazer hoje?</h2>
-            <Button asChild className="mb-3 h-auto w-full justify-between whitespace-normal rounded-lg p-4 text-left"><Link to="/rota" search={{ de: "portaria", para: "secretaria" }}>
-              <span className="flex items-center gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/10"><Navigation className="!h-5 !w-5" /></span><span><span className="block text-sm font-semibold">Fazer matrícula</span><span className="mt-1 block text-[11px] font-normal text-primary-foreground/85">Secretaria · Subsolo do Bloco Anexo</span></span></span><ArrowUpRight className="!h-5 !w-5" />
-            </Link></Button>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {quickActions.slice(1).map((a, i) => { const Icon = icons[i + 1] ?? BookOpen; return <Button asChild variant="ghost" key={a.place} className="quick-action h-[72px] justify-start whitespace-normal rounded-lg border border-border bg-card px-3 text-left"><Link to="/rota" search={{ de: "portaria", para: a.place }}><Icon className="text-primary" /><span className="text-xs font-medium">{a.label}</span></Link></Button>; })}
-            </div>
-          </section>
-          <section className="border-t pt-6 md:border-l md:border-t-0 md:pl-8 md:pt-0">
-            <div className="mb-5 flex items-center justify-between"><h2 className="font-display text-xl font-semibold">Sua jornada</h2><Compass className="h-5 w-5 text-primary" /></div>
-            <div className="flex items-center gap-3"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent text-primary"><Compass className="h-6 w-6" /></span><div><p className="font-display text-2xl font-semibold">{xp} <span className="text-xs font-medium text-muted-foreground">XP</span></p><p className="mt-1 text-xs text-muted-foreground">{done.length} de {total} missões concluídas</p></div></div>
-            <progress aria-label="Progresso das missões" value={done.length} max={total} className="mt-5 h-1.5 w-full overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-secondary [&::-webkit-progress-value]:bg-primary" />
-            <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{nextMission ? `Próxima: ${nextMission.title}` : "Calouro ETEC Conhecedor — selo conquistado!"}</p>
-            <Button asChild variant="ghost" className="mt-3 px-0 text-xs text-primary"><Link to="/missoes">Continuar jornada<ArrowRight /></Link></Button>
-          </section>
-        </div>
-        <section className="px-5 pt-9 md:px-8 md:pt-10">
-          <div className="mb-5 flex items-end justify-between gap-3"><div><p className="mb-2 text-xs text-muted-foreground">Por dentro da ETEC</p><h2 className="font-display text-xl font-semibold">Próxima parada</h2></div><Button asChild variant="ghost" className="h-8 px-0 text-xs text-primary"><Link to="/ambientes">Ver todos<ArrowRight /></Link></Button></div>
-          <PlaceFeed items={featured} />
+      {q.trim() ? <section aria-live="polite" className="px-5 pt-8 md:px-8"><h2 className="mb-5 section-title">{results.length} destinos encontrados</h2>{results.length ? <PlaceFeed items={results} /> : <p className="text-sm text-muted-foreground">Nenhum ambiente encontrado para “{q}”.</p>}</section> : <>
+        <section className="mx-5 mb-8 mt-7 md:mx-8"><div className="guide-strip py-2"><CampusMascot className="h-28 w-full" /><div className="min-w-0"><p className="eyebrow text-primary">BÊ, SEU PARCEIRO DE CAMPUS</p><h2 className="mt-1 font-display text-xl font-medium">Chegou agora? Tamo junto.</h2><p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">O primeiro dia não precisa ser um labirinto.</p><Button asChild variant="ghost" className="mt-1 h-8 px-0 text-xs text-primary"><Link to="/ambientes/$id" params={{ id: nextMission?.place ?? "portaria" }}>{nextMission ? "Começar minha jornada" : "Revisitar a Portaria"}<ArrowRight /></Link></Button></div></div></section>
+        <section className="px-5 md:px-8"><div className="mb-4 flex items-end justify-between"><div><p className="eyebrow mb-2 text-muted-foreground">MENOS PERDIDO. MAIS PRESENTE.</p><h2 className="section-title">Pra onde vamos?</h2></div><Compass className="h-5 w-5 text-primary" /></div>
+          <Button asChild variant="secondary" className="quest-feature mb-3 h-auto w-full justify-between whitespace-normal p-4 text-left"><Link to="/rota" search={{ de: "portaria", para: "secretaria" }}><span className="flex items-center gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-yellow text-brand-yellow-foreground"><Navigation className="!h-5 !w-5" /></span><span><span className="block text-sm font-semibold">Fazer matrícula</span><span className="mt-1 block text-[10px] font-normal text-muted-foreground">Secretaria · Subsolo do Bloco Anexo</span></span></span><ArrowUpRight className="text-brand-yellow" /></Link></Button>
+          <div className="action-track">{quickActions.slice(1).map((action, i) => { const Icon = icons[i + 1] ?? BookOpen; return <Button asChild variant="ghost" key={action.place} className="action-tile quick-action border border-border bg-card text-center whitespace-normal"><Link to="/rota" search={{ de: "portaria", para: action.place }}><Icon className={i % 3 === 0 ? "text-brand-teal" : i % 3 === 1 ? "text-primary" : "text-brand-yellow"} /><span>{action.label}</span></Link></Button>; })}</div>
         </section>
-        <footer className="mx-5 mt-10 flex flex-wrap items-center justify-between gap-3 border-t pt-6 md:mx-8"><p className="text-xs text-muted-foreground">Feito por alunos da ETEC Parque Belém.</p><Button asChild variant="ghost" className="h-8 px-0 text-xs text-primary"><Link to="/creditos">Conheça a equipe<ArrowUpRight /></Link></Button></footer>
+        <section className="px-5 pt-9 md:px-8 md:pt-12">
+          <div className="mb-5 flex items-end justify-between gap-3"><div><p className="eyebrow mb-2 text-muted-foreground">NÃO É SÓ SALA DE AULA</p><h2 className="section-title">Por dentro da ETEC.</h2></div><Button asChild variant="ghost" className="h-8 px-0 text-xs text-primary"><Link to="/ambientes">Todos<ArrowUpRight /></Link></Button></div>
+          <PlaceFeed items={featured} layout="rail" />
+        </section>
+        <section className="mt-7 grid gap-7 px-5 md:grid-cols-2 md:px-8"><div className="passport-stat py-5"><div className="flex items-center justify-between"><div><p className="eyebrow text-primary">SEU PASSAPORTE ETEC</p><h2 className="mt-2 section-title">Cada lugar, um carimbo.</h2></div><Zap className="h-6 w-6 text-primary" /></div><div className="mt-5 flex items-end justify-between"><p className="font-display text-4xl font-medium">{xp}<span className="ml-2 text-xs text-muted-foreground">XP</span></p><p className="text-xs text-muted-foreground">{done.length}/{total} missões</p></div><progress aria-label="Progresso das missões" value={done.length} max={total} className="mt-4 h-1.5 w-full overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-secondary [&::-webkit-progress-value]:bg-primary" /><Button asChild variant="ghost" className="mt-3 px-0 text-xs text-primary"><Link to="/missoes">Abrir meu passaporte<ArrowRight /></Link></Button></div>
+          <div className="border-y border-border py-5"><div className="flex items-center justify-between"><p className="eyebrow text-brand-yellow">SAIA DO ÓBVIO</p><Shuffle className="h-5 w-5 text-brand-yellow" /></div><h2 className="mt-2 section-title">O próximo lugar? Surpresa.</h2><div aria-live="polite" className="mt-3 min-h-10"><p className="text-xs leading-relaxed text-muted-foreground">{surprise ? surprise.name : "Às vezes, o melhor caminho é o que você ainda não fez."}</p></div>{surprise && <Button asChild variant="ghost" className="mb-2 w-full justify-between px-0 text-primary"><Link to="/ambientes/$id" params={{ id: surprise.id }}>Conhecer esse lugar<ArrowUpRight /></Link></Button>}<Button variant="outline" className="h-11 w-full" onClick={() => setSurprise(discoveryDestination(visited))}><Shuffle />{surprise ? "Outro destino" : "Me surpreenda"}</Button></div>
+        </section>
+        <footer className="mx-5 mt-10 flex flex-wrap items-center justify-between gap-3 border-t pt-6 md:mx-8"><p className="text-[10px] text-muted-foreground">Da ETEC. Por alunos. Pra você.</p><Button asChild variant="ghost" className="h-8 px-0 text-xs text-primary"><Link to="/creditos">Quem fez<ArrowUpRight /></Link></Button></footer>
       </>}
     </AppShell>
   );

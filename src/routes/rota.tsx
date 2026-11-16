@@ -5,6 +5,7 @@ import { RouteSteps } from "@/components/RouteSteps";
 import { Button } from "@/components/ui/button";
 import { ArrowDownUp, Navigation, MapPin, Flag } from "lucide-react";
 import { places, placeById, routeBetween, nodeLocation } from "@/data/school";
+import { GuidedWalk } from "@/components/GuidedWalk";
 
 type S = { de?: string | undefined; para?: string | undefined };
 
@@ -37,7 +38,7 @@ function RotaPage() {
   const sel = "mt-1 w-full rounded-lg border bg-card px-3 py-3 text-sm font-semibold text-foreground";
   return (
     <AppShell>
-      <PageHeader title="Como chegar" subtitle="Escolha seu destino e encontre o caminho pelo campus." />
+      <PageHeader title="Vamos juntos." subtitle="Um caminho de cada vez. Sem se perder no campus." />
       <div className="grid items-end gap-2 px-5 md:grid-cols-[1fr_48px_1fr] md:px-8">
         <label className="block min-w-0 text-[11px] font-semibold text-muted-foreground">Estou em
           <select className={sel} value={from.id} onChange={(e) => set("de", e.target.value)}>
@@ -51,6 +52,7 @@ function RotaPage() {
           </select>
         </label>
       </div>
+      <div className="mx-5 mt-5 md:mx-8"><GuidedWalk key={`${from.id}-${to.id}`} route={route} destination={to} /></div>
       <div className="grid gap-8 px-5 pt-7 md:grid-cols-2 md:px-8">
         <div>
         <SchoolMap level="all" route={route} />
