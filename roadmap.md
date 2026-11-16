@@ -1,8 +1,9 @@
-# Tour ETEC Belém — Explorer do campus
+# Tour ETEC Belém — Redesign clean tech
 
-- [x] Corrigir lados do Auditório/Banheiros, ponto 9 e salas no 2º andar; atualizar rotas e missões.
-- [x] Mostrar os dois blocos paralelos e alternar mapa esquemático/foto aérea real.
-- [x] Corrigir a foto da rampa e usar destaque real cinematográfico no início.
-- [x] Renovar as telas com tema escuro, carmim, amarelo, feed e badges.
-- [x] Destacar Pedro e apresentar Luigi Paulo, Odira e Kauan Ribeiro nos créditos.
-- [x] Testar regras, matrícula, mapa, missões e telas no celular/computador (36 testes; 18 fichas; XP salvo; telas a 360px/390px/1280px).
+- [ ] Renovar todas as telas com tipografia elegante, espaços harmônicos e microinterações refinadas.
+- [ ] Criar e integrar logo profissional de bússola e arquitetura.
+- [ ] Garantir abertura no Início e preservar navegação entre abas.
+- [ ] Apresentar as atribuições reais da equipe, com destaque discreto para Pedro.
+- [ ] Usar a foto interna do Lab 1 na Home e na ficha.
+- [ ] Aplicar foto aérea v2 e reposicionar Portaria/Rampa na entrada.
+- [ ] Testar regras, navegação, matrícula, mapas, XP e telas no celular/computador.
