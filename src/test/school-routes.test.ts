@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { floorTransition, missions, nodes, pathFromPortaria, placeById, places, rearRooms, routeBetween, team, type NodeId } from "@/data/school";
+import { aerialPhoto, floorTransition, missions, nodes, pathFromPortaria, placeById, places, rearRooms, routeBetween, satellitePoint, team, type NodeId } from "@/data/school";
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
 import labs from "@/assets/photos/informatica-primeiro-andar-real.jpg.asset.json";
 import refeitorio from "@/assets/photos/refeitorio-mesas-azuis-real.jpg.asset.json";
 import frontal from "@/assets/photos/portaria-entrada.jpg.asset.json";
+import labInfo from "@/assets/photos/lab-info.jpg.asset.json";
+import aerialV2 from "@/assets/photos/campus-aerial-v2.jpg.asset.json";
 
 describe("confirmed school layout", () => {
   it.each(["lab1", "lab2"] as const)("%s is on the first floor of the main building", (id) => {
@@ -75,7 +77,7 @@ describe("confirmed school layout", () => {
     expect(routeBetween("portaria", "salas")).toEqual(["portaria", "rampa", "alameda", "patio", "escada", "corredor", "escada2", "corredor2", "salas"]);
   });
   it("the explorer catalog contains at least 15 real environments", () => expect(places.length).toBeGreaterThanOrEqual(15));
-  it("honours Pedro as lead before the three named teammates", () => {
+  it("keeps Pedro as lead before the three named teammates", () => {
     expect(team.map((t) => t.name)).toEqual(["Pedro Henrique Lamin Barbosa Ciriaco", "Luigi Paulo", "Odira", "Kauan Ribeiro"]);
     expect(team[0]?.lead).toBe(true);
   });
@@ -83,9 +85,42 @@ describe("confirmed school layout", () => {
 
 describe("verified real photo associations", () => {
   it("Portaria uses the actual yellow-arch photo", () => expect(placeById("portaria")?.photo).toBe(portaria.url));
-  it.each(["lab1", "lab2"])("%s uses the supplied first-floor photo", (id) => expect(placeById(id)?.photo).toBe(labs.url));
+  it("Lab 1 uses the real interior with computers", () => expect(placeById("lab1")?.photo).toBe(labInfo.url));
+  it("Lab 2 retains the first-floor contextual photo", () => expect(placeById("lab2")?.photo).toBe(labs.url));
+  it("satellite uses the supplied clean v2 photograph", () => expect(aerialPhoto).toBe(aerialV2.url));
   it("the refectory uses the real blue-table photo", () => expect(placeById("refeitorio")?.photo).toBe(refeitorio.url));
   it("the access ramp uses the real front entrance photo", () => expect(placeById("rampa")?.photo).toBe(frontal.url));
+});
+
+describe("entrance markers in the aerial photograph", () => {
+  it("Portaria sits in the entrance strip left of the parking area", () => {
+    expect(satellitePoint("portaria")).toEqual({ x: 382, y: 30 });
+    expect(satellitePoint("portaria").x).toBeLessThan(420);
+  });
+  it("Rampa follows the entrance before the parking area", () => {
+    expect(satellitePoint("rampa")).toEqual({ x: 392, y: 76 });
+    expect(satellitePoint("rampa").x).toBeLessThan(420);
+    expect(satellitePoint("rampa").y).toBeGreaterThan(satellitePoint("portaria").y);
+  });
+});
+
+describe("confirmed team responsibilities", () => {
+  it("Pedro leads conception and software architecture", () => {
+    expect(team[0]?.role).toBe("Líder da Equipe");
+    expect(team[0]?.desc).toBe("Concepção do projeto e arquitetura de software.");
+  });
+  it("Luigi develops the front-end and navigation", () => {
+    expect(team[1]?.role).toBe("Desenvolvimento front-end");
+    expect(team[1]?.desc).toBe("Lógica de rotas e navegação.");
+  });
+  it("Odira owns interface design and user experience", () => {
+    expect(team[2]?.role).toBe("Design de interface (UI/UX)");
+    expect(team[2]?.desc).toBe("Paleta visual e experiência do usuário.");
+  });
+  it("Kauan maps environments and curates campus photos and data", () => {
+    expect(team[3]?.role).toBe("Mapeamento de campo");
+    expect(team[3]?.desc).toBe("Mapeamento dos ambientes, curadoria de fotos e dados do campus.");
+  });
 });
 
 describe("walking routes in both directions", () => {
