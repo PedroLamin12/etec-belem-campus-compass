@@ -22,13 +22,13 @@ export function SchoolMap({ level, route = [], selected, onSelect, className, de
   return (
     <div className={className}>
     <div className="mb-3 flex items-center justify-between gap-2">
-      <div className="flex rounded-lg border bg-card p-1" role="group" aria-label="Tipo de mapa">
+      <div className="flex rounded-lg border bg-card p-1 shadow-sm" role="group" aria-label="Tipo de mapa">
         <Button variant={view === "schematic" ? "secondary" : "ghost"} size="sm" aria-pressed={view === "schematic"} onClick={() => setView("schematic")} className="text-xs"><Map />Esquemático</Button>
         <Button variant={view === "satellite" ? "secondary" : "ghost"} size="sm" aria-pressed={view === "satellite"} onClick={() => setView("satellite")} className="text-xs"><Satellite />Satélite</Button>
       </div>
-      <Compass className="h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
+      <Compass className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
     </div>
-    {view === "satellite" ? <SatelliteMap level={level} route={route} selected={selected} onSelect={onSelect} /> : <svg viewBox="0 0 360 520" className="max-h-[620px] w-full rounded-lg border bg-map" role={onSelect ? "group" : "img"} aria-label="Planta da ETEC Parque Belém">
+    {view === "satellite" ? <SatelliteMap level={level} route={route} selected={selected} onSelect={onSelect} /> : <svg key="schematic" viewBox="0 0 360 520" className="page-enter max-h-[620px] w-full rounded-lg border bg-map" role={onSelect ? "group" : "img"} aria-label="Planta da ETEC Parque Belém">
       <defs>
         <pattern id={patternId} width="8" height="8" patternUnits="userSpaceOnUse">
           <circle cx="2" cy="2" r="1" className="fill-map-grass-dot" />
