@@ -39,4 +39,8 @@ use the editor.
 - Render reusable environment feed cards through `PlaceFeed` so real-photo captions, numbering, and route actions stay consistent between home search and the catalog.
 - Use global semantic surface, typography, and motion tokens for the clean-tech UI, and disable motion for reduced-motion preferences to keep every screen consistent and accessible.
 - App launch entry points target `/`; do not restore a previously viewed tab on startup, and preserve explicit deep links for navigation and sharing.
-- Derive header and install icons from the same approved logo pixels so branding stays consistent without redrawing the asset.
+- Derive header and install icons from `campus-mark.svg` and render the accessible wordmark in live text, so mobile contrast and branding stay consistent.
+- Keep companion destination lookup in `src/data/exploration.ts` using confirmed school data, never generated answers or invented locations.
+- Emit one celebration event after each new persisted check-in and preserve existing mission XP; the shared shell owns the reward dialog to prevent duplicate effects.
+- GuidedWalk advances through `routeBetween` nodes and uses shared floor transitions, so guided and overview walking directions stay consistent.
+- CampusMascot is an original inline SVG with semantic colors and reduced-motion support, so character interaction works offline without a generation service.

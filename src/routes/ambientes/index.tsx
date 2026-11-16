@@ -27,7 +27,7 @@ function Lista() {
   const list = places.filter((p) => c === "Todos" || p.category === c);
   return (
     <AppShell>
-      <PageHeader title="Ambientes" subtitle={`${places.length} lugares reais da escola`} />
+      <PageHeader title="Muito além da sala." subtitle={`${places.length} lugares reais. Qual você vai descobrir hoje?`} />
       <div className="mb-5 flex gap-2 overflow-x-auto px-5 pb-3 md:px-8">
         {cats.map((x) => (
           <Button key={x} variant="secondary" aria-pressed={c === x} onClick={() => setC(x)} className={cn("shrink-0 rounded-md border border-border bg-card px-3.5 text-xs font-semibold", c === x && "border-primary bg-primary text-primary-foreground hover:bg-primary/90")}>{x}</Button>

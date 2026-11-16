@@ -29,7 +29,7 @@ function MapaPage() {
   const place = sel ? placeByNode(sel) : undefined;
   return (
     <AppShell>
-      <PageHeader title="Mapa do campus" subtitle="Prédio Principal · Bloco Anexo · Área Externa" />
+      <PageHeader title="O campus é seu." subtitle="Do arco amarelo às quadras. Cada ponto, uma descoberta." />
       <div className="mb-4 flex flex-wrap gap-2 px-5 md:px-8">
         {levels.map((l) => (
           <Button key={l} variant="secondary" aria-pressed={level === l} onClick={() => { setLevel(l); setSel(undefined); }} className={cn("h-8 rounded-md border border-border bg-card px-3 text-xs font-semibold", level === l && "border-primary bg-primary text-primary-foreground hover:bg-primary/90")}>
