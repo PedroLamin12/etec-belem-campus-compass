@@ -37,10 +37,11 @@ use the editor.
 - Share schematic/satellite switching through `SchoolMap` and render uploaded aerial media in `SatelliteMap`; satellite points represent building footprints rather than verified indoor coordinates, so floor-aware walking directions remain authoritative.
 - Keep rear-room footprint sizes in school data and reuse them in the schematic so map geometry and location rules cannot diverge.
 - Render reusable environment feed cards through `PlaceFeed` so real-photo captions, numbering, and route actions stay consistent between home search and the catalog.
-- Use global semantic surface, typography, and motion tokens for the clean-tech UI, and disable motion for reduced-motion preferences to keep every screen consistent and accessible.
+- Use global semantic surface, typography, and motion tokens throughout the UI, and disable motion for reduced-motion preferences to keep every screen consistent and accessible.
 - App launch entry points target `/`; do not restore a previously viewed tab on startup, and preserve explicit deep links for navigation and sharing.
 - Derive header and install icons from `campus-mark.svg` and render the accessible wordmark in live text, so mobile contrast and branding stay consistent.
 - Keep companion destination lookup in `src/data/exploration.ts` using confirmed school data, never generated answers or invented locations.
 - Emit one celebration event after each new persisted check-in and preserve existing mission XP; the shared shell owns the reward dialog to prevent duplicate effects.
 - GuidedWalk advances through `routeBetween` nodes and uses shared floor transitions, so guided and overview walking directions stay consistent.
 - CampusMascot is an original inline SVG with semantic colors and reduced-motion support, so character interaction works offline without a generation service.
+- Place the companion launcher in the shared header and show mobile navigation below the desktop breakpoint, so assistance never covers map points or content and tablet navigation remains available.
