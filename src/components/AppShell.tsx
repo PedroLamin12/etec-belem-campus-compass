@@ -28,16 +28,15 @@ export function AppShell({ children }: { children: ReactNode }) {
             <img src={logo} width={96} height={96} alt="" className="h-10 w-10 md:h-12 md:w-12" />
             <span className="brand-wordmark"><span>TOUR <b>ETEC</b></span><span>Belém<span className="brand-wordmark-dot">.</span></span></span>
           </Link>
-          <nav aria-label="Navegação principal" className="hidden md:block"><ul className="flex gap-1">
+          <nav aria-label="Navegação principal" className="hidden lg:block"><ul className="flex gap-1">
             {tabs.map((t) => <li key={t.to}><Button asChild variant="ghost" className="nav-tab px-3 text-xs"><Link to={t.to} aria-current={(t.to === "/" ? pathname === "/" : pathname.startsWith(t.to)) ? "page" : undefined}><t.icon className="h-4 w-4" />{t.label}</Link></Button></li>)}
           </ul></nav>
-          <Button asChild variant="ghost" className="h-10 border border-border bg-card px-3 text-primary"><Link to="/missoes"><Zap className="h-4 w-4" /><span className="text-xs font-semibold">{xp} XP</span></Link></Button>
+          <div className="flex shrink-0 items-center gap-3"><CampusGuide /><Button asChild variant="ghost" className="h-10 border border-border bg-card px-3 text-primary"><Link to="/missoes"><Zap className="h-4 w-4" /><span className="text-xs font-semibold">{xp} XP</span></Link></Button></div>
         </div>
       </header>
-      <main key={pathname} className="page-enter mx-auto max-w-7xl pb-36 md:pb-20">{children}</main>
-      <CampusGuide />
+      <main key={pathname} className="page-enter mx-auto max-w-7xl pb-36 lg:pb-20">{children}</main>
       <CheckInCelebration />
-      <nav aria-label="Navegação mobile" className="mobile-nav fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
+      <nav aria-label="Navegação mobile" className="mobile-nav fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
         <ul className="grid grid-cols-6">
           {tabs.map((t) => {
             const active = t.to === "/" ? pathname === "/" : pathname.startsWith(t.to);

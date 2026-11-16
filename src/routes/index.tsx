@@ -4,7 +4,7 @@ import { Search, ArrowUpRight, Navigation, GraduationCap, Monitor, Utensils, Dri
 import { AppShell } from "@/components/AppShell";
 import { PlaceFeed } from "@/components/PlaceFeed";
 import { Button } from "@/components/ui/button";
-import { heroPhoto, places, quickActions, placeById, missions } from "@/data/school";
+import { heroPhoto, places, quickActions, placeById } from "@/data/school";
 import { useProgress } from "@/data/progress";
 import { CampusMascot } from "@/components/CampusMascot";
 import { discoveryDestination, findCampusPlaces, nextCampusMission } from "@/data/exploration";
