@@ -2,9 +2,10 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, MapPin, Navigation, CheckCircle2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
-import { missions, nodeLocation, nodes, placeById } from "@/data/school";
+import { missions, nodeLocation, nodes, placeById, places, routeBetween } from "@/data/school";
 import { Button } from "@/components/ui/button";
 import { checkIn, useProgress } from "@/data/progress";
+import { GuidedWalk } from "@/components/GuidedWalk";
 
 export const Route = createFileRoute("/ambientes/$id")({
   loader: ({ params }) => {
@@ -38,12 +39,13 @@ function Ficha() {
       <div className="relative md:mx-8 md:mt-6">
         <img src={p.photo} alt={p.photoCaption ?? p.name} className={`aspect-[4/3] max-h-[480px] w-full md:aspect-[21/9] md:rounded-lg ${p.id === "lab1" ? "bg-secondary object-contain" : "object-cover"} ${p.id === "portaria" ? "object-top" : ""}`} />
         <Button asChild variant="secondary" size="icon" className="absolute left-4 top-4 rounded-full bg-card/90"><Link to="/ambientes" aria-label="Voltar aos ambientes"><ArrowLeft className="h-5 w-5" /></Link></Button>
+        <span className="absolute bottom-3 left-5 rounded-md border border-on-image/25 bg-background/90 px-3 py-2 font-display text-lg text-on-image">LOCAL {String(places.indexOf(p) + 1).padStart(2, "0")}<span className="ml-3 text-xs text-primary">{here ? "DESCOBERTO ✓" : p.category}</span></span>
       </div>
       {p.photoCaption && <p className="px-5 pt-2 text-xs text-muted-foreground md:px-8">{p.photoCaption}</p>}
       <div className="grid gap-7 px-5 pt-7 md:grid-cols-2 md:px-8">
         <section className="space-y-5">
         <div>
-          <p className="text-xs font-medium text-primary">{p.category}</p>
+          <p className="eyebrow text-primary">{mission ? `MISSÃO · +${mission.xp} XP` : "PRÓXIMA DESCOBERTA"}</p>
           <h1 className="mt-1 font-display text-2xl font-semibold leading-tight md:text-3xl">{p.name}</h1>
           <p className="mt-2 flex items-start gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{nodeLocation(p.node)}</p>
           <p className="mt-1 pl-5 text-sm"><b>Referência:</b> {n.landmark}</p>
@@ -51,6 +53,7 @@ function Ficha() {
         <Button asChild className="h-auto w-full whitespace-normal rounded-lg py-4 font-medium"><Link to="/rota" search={{ de: "portaria", para: p.id }}>
           <Navigation className="h-5 w-5" /> Como Chegar
         </Link></Button>
+        <GuidedWalk route={routeBetween("portaria", p.node)} destination={p} />
         <p className="text-sm leading-relaxed text-muted-foreground">{p.description}</p>
         <div>
           <h2 className="font-display text-base font-semibold">Serviços e usos</h2>

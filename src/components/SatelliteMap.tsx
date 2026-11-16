@@ -22,7 +22,7 @@ export function SatelliteMap({ level, route, selected, onSelect }: Props) {
           return <g key={p.id} role={onSelect ? "button" : undefined} tabIndex={onSelect ? 0 : undefined} aria-label={`${p.name} · ${nodeLocation(p.node)}`} aria-pressed={onSelect ? selected === p.node : undefined} onClick={() => onSelect?.(p.node)} onKeyDown={(e) => { if (onSelect && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onSelect(p.node); } }} className={cn(onSelect && "cursor-pointer outline-none focus:stroke-on-image/50")}>
             {onSelect && <circle cx={point.x} cy={point.y} r="26" fill="transparent" />}
             <circle cx={point.x} cy={point.y} r="16" strokeWidth="2" className={cn("stroke-on-image", active ? "fill-primary" : "fill-image-scrim")} />
-            <text x={point.x} y={point.y + 5} textAnchor="middle" className="fill-on-image text-[14px] font-semibold">{i + 1}</text>
+            <text x={point.x} y={point.y + 5} textAnchor="middle" className={cn("text-[14px] font-semibold", active ? "fill-primary-foreground" : "fill-on-image")}>{i + 1}</text>
             <title>{p.name} · {nodeLocation(p.node)}</title>
           </g>;
         })}
