@@ -37,7 +37,7 @@ function RotaPage() {
   const sel = "mt-1 w-full rounded-lg border bg-card px-3 py-3 text-sm font-semibold text-foreground";
   return (
     <AppShell>
-      <PageHeader title="Seu caminho pela ETEC" subtitle="Como chegar · A pé, a partir da Portaria ou de outro ambiente" />
+      <PageHeader title="Como chegar" subtitle="Escolha seu destino e encontre o caminho pelo campus." />
       <div className="grid items-end gap-2 px-5 md:grid-cols-[1fr_48px_1fr] md:px-8">
         <label className="block min-w-0 text-[11px] font-semibold text-muted-foreground">Estou em
           <select className={sel} value={from.id} onChange={(e) => set("de", e.target.value)}>
@@ -57,7 +57,7 @@ function RotaPage() {
         <figure className="mt-5"><img src={to.photo} alt={to.photoCaption ?? to.name} className="aspect-video w-full rounded-lg object-cover" /><figcaption className="mt-2 text-[11px] text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</figcaption></figure>
         </div>
         <section>
-          <div className="mb-6 flex items-center justify-between border-b pb-4"><div><p className="mb-1 flex items-center gap-1.5 text-[10px] font-bold text-primary"><Flag className="h-3 w-3" />SEU DESTINO</p><h2 className="font-display text-3xl font-bold">{to.name}</h2><p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin className="h-3 w-3" />{nodeLocation(to.node)}</p></div><span className="flex shrink-0 items-center gap-1 rounded-md bg-brand-yellow/10 px-2 py-2 text-[10px] font-bold text-brand-yellow"><Navigation className="h-3 w-3" />{route.length - 1} etapas</span></div>
+          <div className="mb-6 flex items-center justify-between border-b pb-4"><div><p className="mb-1 flex items-center gap-1.5 text-[10px] font-medium text-primary"><Flag className="h-3 w-3" />Seu destino</p><h2 className="font-display text-xl font-semibold">{to.name}</h2><p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin className="h-3 w-3" />{nodeLocation(to.node)}</p></div><span className="flex shrink-0 items-center gap-1 rounded-md bg-accent px-2 py-2 text-[10px] font-medium text-primary"><Navigation className="h-3 w-3" />{route.length - 1} etapas</span></div>
           <RouteSteps route={route} />
         </section>
       </div>

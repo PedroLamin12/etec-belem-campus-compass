@@ -1,6 +1,6 @@
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
 import portariaEntrada from "@/assets/photos/portaria-entrada.jpg.asset.json";
-import aerial from "@/assets/photos/campus-aerial.jpg.asset.json";
+import aerial from "@/assets/photos/campus-aerial-v2.jpg.asset.json";
 import estacionamento from "@/assets/photos/estacionamento-entrada-real.jpg.asset.json";
 import quadra1 from "@/assets/photos/quadra1.jpg.asset.json";
 import quadras from "@/assets/photos/quadras.jpg.asset.json";
@@ -165,7 +165,7 @@ export const places: Place[] = [
   { id: "convivencia", node: "convivencia", name: "Refeição e Convivência", category: "Convivência", photo: pilotis.url,
     description: "Área de refeição e convivência com mesas para comer e sentar no pátio sob pilotis, no térreo do Prédio Principal. Este é o ponto 9 do mapa, não as salas de aula nem o Refeitório do Bloco Anexo.",
     services: ["Mesas para refeição", "Intervalo", "Convivência"], block: "Prédio Principal · Térreo · sob pilotis", keywords: ["comida", "mesas", "sentar", "pátio", "pilotis", "refeição"] },
-  { id: "lab1", node: "lab1", name: "Laboratório de Informática 1", category: "Laboratórios", photo: labsAndar.url, gallery: [labInfo.url], photoCaption: "Corredor real do 1º andar do Prédio Principal, onde ficam os labs.",
+  { id: "lab1", node: "lab1", name: "Laboratório de Informática 1", category: "Laboratórios", photo: labInfo.url, gallery: [labsAndar.url],
     description: "Laboratório de Informática no 1º andar do Prédio Principal, usado nas aulas de programação, redes e desenvolvimento de sistemas. Suba a escadaria do pátio e siga pelo corredor envidraçado.",
     services: ["Aulas de programação", "Pesquisa e trabalhos", "PCs com internet"], block: "Prédio Principal · 1º Andar", keywords: ["computador", "pc", "informática", "programação", "ds"] },
   { id: "lab2", node: "lab2", name: "Laboratório de Informática 2", category: "Laboratórios", photo: labsAndar.url, gallery: [labInfo2.url], photoCaption: "Corredor real do 1º andar do Prédio Principal, onde ficam os labs.",
@@ -220,17 +220,17 @@ export const missions = [
 ];
 
 export const team = [
-  { name: "Pedro Henrique Lamin Barbosa Ciriaco", role: "Líder do Projeto / Tech Lead & Idealizador", desc: "Idealização, liderança e desenvolvimento do Tour ETEC Belém.", initials: "PH", lead: true },
-  { name: "Luigi Paulo", role: "Equipe de Desenvolvimento de Sistemas", desc: "Mapeamento, conteúdo e construção coletiva do projeto.", initials: "LP", lead: false },
-  { name: "Odira", role: "Equipe de Desenvolvimento de Sistemas", desc: "Identidade visual, ambientes e construção coletiva do projeto.", initials: "OD", lead: false },
-  { name: "Kauan Ribeiro", role: "Equipe de Desenvolvimento de Sistemas", desc: "Dados, testes e construção coletiva do projeto.", initials: "KR", lead: false },
+  { name: "Pedro Henrique Lamin Barbosa Ciriaco", role: "Líder da Equipe", desc: "Concepção do projeto e arquitetura de software.", initials: "PH", lead: true },
+  { name: "Luigi Paulo", role: "Desenvolvimento front-end", desc: "Lógica de rotas e navegação.", initials: "LP", lead: false },
+  { name: "Odira", role: "Design de interface (UI/UX)", desc: "Paleta visual e experiência do usuário.", initials: "OD", lead: false },
+  { name: "Kauan Ribeiro", role: "Mapeamento de campo", desc: "Mapeamento dos ambientes, curadoria de fotos e dados do campus.", initials: "KR", lead: false },
 ];
 
 /** Ground-floor footprint, not a claim of precise indoor positioning in the aerial image. */
 export function satellitePoint(id: NodeId): { x: number; y: number } {
   const n = nodes[id];
   const fixed: Partial<Record<NodeId, { x: number; y: number }>> = {
-    portaria: { x: 428, y: 28 }, rampa: { x: 443, y: 85 }, alameda: { x: 490, y: 132 },
+    portaria: { x: 382, y: 30 }, rampa: { x: 392, y: 76 }, alameda: { x: 490, y: 132 },
     caixa: { x: 525, y: 578 }, quadra1: { x: 643, y: 585 }, quadra2: { x: 643, y: 677 },
     acessoAnexo: { x: 170, y: 434 }, escadaAnexo: { x: 145, y: 453 },
   };
