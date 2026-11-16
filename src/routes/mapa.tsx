@@ -51,7 +51,7 @@ function MapaPage() {
           </section> : null}
           <section>
             <p className="mb-1 flex items-center gap-2 text-[10px] font-medium text-primary"><Layers className="h-3 w-3" />Um campus, dois blocos</p>
-            <h2 className="mb-4 font-display text-xl font-semibold uppercase">Os dois prédios</h2>
+            <h2 className="mb-4 font-display text-xl font-semibold">Os dois prédios</h2>
             <figure>
               <img src={aerialPhoto} alt="Vista aérea dos dois blocos paralelos: Bloco Anexo menor à esquerda e Prédio Principal mais longo à direita" className="aspect-[767/732] w-full rounded-lg object-contain" />
               <figcaption className="mt-2 text-[10px] text-muted-foreground">Foto aérea fornecida · Google Earth.</figcaption>

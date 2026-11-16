@@ -4,7 +4,7 @@ const config = {
   appId: "br.etec.parquebelem.tour",
   appName: "Tour ETEC Belém",
   webDir: "public",
-  server: { url: process.env.CAP_SERVER_URL ?? "https://etec-belem-campus-compass.lovable.app/", cleartext: false },
+  server: { url: process.env['CAP_SERVER_URL'] ?? "https://etec-belem-campus-compass.lovable.app/", cleartext: false },
   android: { backgroundColor: "#f7f9f9" },
 };
 export default config;
