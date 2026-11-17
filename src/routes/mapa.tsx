@@ -1,3 +1,4 @@
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
@@ -41,7 +42,7 @@ function MapaPage() {
         <SchoolMap level={level} selected={sel} onSelect={setSel} />
         <aside className="min-w-0">
           {sel ? <section className="mb-7 border-b pb-6">
-            {place && <img src={place.photo} alt={place.photoCaption ?? place.name} className="mb-3 aspect-video w-full rounded-lg object-cover" />}
+            {place && <PlacePhoto place={place} className="mb-3 aspect-video w-full rounded-lg" />}
             <p className="mb-1 flex items-center gap-1.5 text-[10px] font-medium text-primary"><MapPin className="h-3 w-3" />Local selecionado</p>
             <h2 className="font-display text-xl font-semibold">{place?.name ?? nodes[sel].label}</h2>
             <p className="mt-2 text-xs font-bold text-brand-yellow">{nodeLocation(sel)}</p>

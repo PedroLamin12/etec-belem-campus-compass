@@ -5,7 +5,7 @@ export type GuideMood = "happy" | "talk" | "wink" | "wow" | "think" | "cheer" | 
 export const GUIDE_NAME = "Prô";
 
 /** Original illustrated guide inspired by one of the supporting teachers: short blond bob, round glasses, shearling jacket. */
-export function ProfGuide({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string; bubble?: boolean; label?: string }) {
+export function ProfGuide({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
   const closedEyes = mood === "cheer";
   const raisedArm = mood === "wave" || mood === "cheer";
   return (

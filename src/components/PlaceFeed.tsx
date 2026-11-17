@@ -1,3 +1,4 @@
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, MapPin, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ export function PlaceFeed({ items, layout = "grid" }: { items: Place[]; layout?:
   return <ul className={layout === "rail" ? "discovery-track" : "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
     {items.map((p) => <li key={p.id} className="feed-item flex flex-col overflow-hidden rounded-lg border bg-card">
       <Link to="/ambientes/$id" params={{ id: p.id }} className="group relative block overflow-hidden">
-        <img src={p.photo} alt={p.photoCaption ?? p.name} loading="lazy" className={`feed-photo aspect-[16/10] w-full object-cover ${p.id === "lab1" ? "photo-contained" : ""}`} />
+        <PlacePhoto place={p} loading="lazy" className="feed-photo aspect-[16/10] w-full" />
         <span className="absolute inset-x-0 bottom-0 h-16 bg-[image:var(--gradient-hero)]" />
         <span className="absolute left-3 top-3 rounded-md bg-background/90 px-2.5 py-1.5 text-[9px] font-medium text-foreground backdrop-blur-sm">{visited.includes(p.id) ? <span className="flex items-center gap-1 text-primary"><Check className="h-3 w-3" />Descoberto</span> : p.category}</span>
         <span className="feed-number absolute bottom-2 left-3">{String(places.indexOf(p) + 1).padStart(2, "0")}</span>

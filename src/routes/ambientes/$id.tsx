@@ -1,3 +1,4 @@
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, MapPin, Navigation, CheckCircle2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
@@ -37,7 +38,7 @@ function Ficha() {
   return (
     <AppShell>
       <div className="relative md:mx-8 md:mt-6">
-        <img src={p.photo} alt={p.photoCaption ?? p.name} className={`aspect-[4/3] max-h-[480px] w-full md:aspect-[21/9] md:rounded-lg ${p.id === "lab1" ? "bg-secondary object-contain" : "object-cover"} ${p.id === "portaria" ? "object-top" : ""}`} />
+        <PlacePhoto place={p} className={`aspect-[4/3] max-h-[480px] w-full md:aspect-[21/9] md:rounded-lg ${p.id === "portaria" ? "object-top" : ""}`} />
         <Button asChild variant="secondary" size="icon" className="absolute left-4 top-4 rounded-full bg-card/90"><Link to="/ambientes" aria-label="Voltar aos ambientes"><ArrowLeft className="h-5 w-5" /></Link></Button>
         <span className="absolute bottom-3 left-5 rounded-md border border-on-image/25 bg-background/90 px-3 py-2 font-display text-lg text-on-image">LOCAL {String(places.indexOf(p) + 1).padStart(2, "0")}<span className="ml-3 text-xs text-primary">{here ? "DESCOBERTO ✓" : p.category}</span></span>
       </div>

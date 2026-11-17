@@ -1,3 +1,4 @@
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
@@ -56,7 +57,7 @@ function RotaPage() {
       <div className="grid gap-8 px-5 pt-7 md:grid-cols-2 md:px-8">
         <div>
         <SchoolMap level="all" route={route} />
-        <figure className="mt-5"><img src={to.photo} alt={to.photoCaption ?? to.name} className="aspect-video w-full rounded-lg object-cover" /><figcaption className="mt-2 text-[11px] text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</figcaption></figure>
+        <figure className="mt-5"><PlacePhoto place={to} className="aspect-video w-full rounded-lg" /><figcaption className="mt-2 text-[11px] text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</figcaption></figure>
         </div>
         <section>
           <div className="mb-6 flex items-center justify-between border-b pb-4"><div><p className="mb-1 flex items-center gap-1.5 text-[10px] font-medium text-primary"><Flag className="h-3 w-3" />Seu destino</p><h2 className="font-display text-xl font-semibold">{to.name}</h2><p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin className="h-3 w-3" />{nodeLocation(to.node)}</p></div><span className="flex shrink-0 items-center gap-1 rounded-md bg-accent px-2 py-2 text-[10px] font-medium text-primary"><Navigation className="h-3 w-3" />{route.length - 1} etapas</span></div>
