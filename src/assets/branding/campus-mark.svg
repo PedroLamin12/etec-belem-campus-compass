@@ -1,8 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
-  <rect width="96" height="96" rx="24" fill="#e5f27b"/>
-  <path d="M22 68V43a26 26 0 0 1 52 0v25" fill="none" stroke="#171918" stroke-width="7" stroke-linecap="round"/>
-  <path d="M41 72V44h24v28" fill="#b83d4d"/>
-  <path d="m35 61 8-28 19-12-8 28z" fill="#171918" stroke="#e5f27b" stroke-width="3" stroke-linejoin="round"/>
-  <path d="m43 33 19-12-8 28z" fill="#fbfaf3"/>
-  <circle cx="66" cy="70" r="3" fill="#e5f27b"/>
+  <defs><clipPath id="r"><rect width="96" height="96" rx="26"/></clipPath></defs>
+  <g clip-path="url(#r)">
+    <rect width="96" height="96" fill="#D7263D"/>
+    <rect y="74" width="96" height="22" fill="#B01A30"/>
+  </g>
+  <path d="M20 76V50a28 28 0 0 1 56 0v26" fill="none" stroke="#FFC629" stroke-width="10" stroke-linecap="round"/>
+  <path d="M48 31c-8 0-14.5 6.4-14.5 14.3C33.5 56.2 48 68 48 68s14.5-11.8 14.5-22.7C62.5 37.4 56 31 48 31z" fill="#FFFFFF"/>
+  <circle cx="48" cy="45.5" r="5.4" fill="#D7263D"/>
 </svg>
