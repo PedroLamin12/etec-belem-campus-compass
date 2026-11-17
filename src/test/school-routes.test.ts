@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { aerialPhoto, floorTransition, missions, nodes, pathFromPortaria, placeById, places, rearRooms, routeBetween, satellitePoint, team, type NodeId } from "@/data/school";
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
-import labs from "@/assets/photos/informatica-primeiro-andar-real.jpg.asset.json";
 import refeitorio from "@/assets/photos/refeitorio-mesas-azuis-real.jpg.asset.json";
 import frontal from "@/assets/photos/portaria-entrada.jpg.asset.json";
 import labInfo from "@/assets/photos/lab-info.jpg.asset.json";
@@ -16,7 +15,7 @@ describe("confirmed school layout", () => {
     expect(nodes.secretaria.building).toBe("anexo");
     expect(nodes.secretaria.level).toBe("subsolo");
   });
-  it.each(["refeitorio", "nutricao", "biblioteca"] as const)("%s is in the independent annex, with only the ground-floor access confirmed", (id) => {
+  it.each(["cantina", "nutricao"] as const)("%s is in the independent annex, with only the ground-floor access confirmed", (id) => {
     expect(nodes[id].building).toBe("anexo");
     expect(nodes[id].accessOnly).toBe(true);
     expect(pathFromPortaria[id]).toEqual(["portaria", "rampa", "alameda", "patio", "acessoAnexo", id]);
@@ -55,9 +54,9 @@ describe("confirmed school layout", () => {
     expect(nodes.coordenacao.level).toBe("andar2");
     expect(nodes.coordenacao.y).toBeGreaterThan(nodes.finalPrincipal.y);
   });
-  it("the library is included in the catalogue and map", () => {
-    expect(placeById("biblioteca")?.node).toBe("biblioteca");
-    expect(nodes.biblioteca.building).toBe("anexo");
+  it("the library, covered courtyard and panoramic corridor are not catalogued until photographed", () => {
+    for (const id of ["biblioteca", "patio", "corredor"]) expect(placeById(id)).toBeUndefined();
+    expect(places).toHaveLength(15);
   });
   it("the auditorium is only slightly wider than the bathrooms", () => {
     const a = rearRooms.auditorium.right - rearRooms.auditorium.left;
@@ -66,7 +65,7 @@ describe("confirmed school layout", () => {
     expect(a / b).toBeLessThan(1.15);
   });
   it("number 9 is the ground-floor pilotis dining area, not classrooms", () => {
-    expect(places[8]?.id).toBe("convivencia");
+    expect(placeById("convivencia")?.category).toBe("Convivência");
     expect(nodes.convivencia.level).toBe("terreo");
     expect(nodes.convivencia.building).toBe("principal");
     expect(routeBetween("portaria", "convivencia")).toEqual(["portaria", "rampa", "alameda", "patio", "convivencia"]);
@@ -86,9 +85,9 @@ describe("confirmed school layout", () => {
 describe("verified real photo associations", () => {
   it("Portaria uses the actual yellow-arch photo", () => expect(placeById("portaria")?.photo).toBe(portaria.url));
   it("Lab 1 uses the real interior with computers", () => expect(placeById("lab1")?.photo).toBe(labInfo.url));
-  it("Lab 2 retains the first-floor contextual photo", () => expect(placeById("lab2")?.photo).toBe(labs.url));
+  it("places without their own photo show none instead of another place", () => { for (const id of ["banheiros", "cantina", "secretaria", "coordenacao"]) expect(placeById(id)?.photo).toBeUndefined(); });
   it("satellite uses the supplied clean v2 photograph", () => expect(aerialPhoto).toBe(aerialV2.url));
-  it("the refectory uses the real blue-table photo", () => expect(placeById("refeitorio")?.photo).toBe(refeitorio.url));
+  it("the dining area uses the real blue-table photo", () => expect(placeById("convivencia")?.photo).toBe(refeitorio.url));
   it("the access ramp uses the real front entrance photo", () => expect(placeById("rampa")?.photo).toBe(frontal.url));
 });
 
@@ -130,7 +129,7 @@ describe("walking routes in both directions", () => {
     expect(floorTransition("secretaria", "escadaAnexo")).toBe("up");
   });
   it("Lab 1 to Refeitório descends main stairs before crossing the ground-floor courtyard", () => {
-    expect(routeBetween("lab1", "refeitorio")).toEqual(["lab1", "corredor", "escada", "patio", "acessoAnexo", "refeitorio"]);
+    expect(routeBetween("lab1", "cantina")).toEqual(["lab1", "corredor", "escada", "patio", "acessoAnexo", "cantina"]);
     expect(floorTransition("corredor", "escada")).toBe("down");
   });
   it("Coordenação climbs to both upper floors instead of passing through the Secretaria", () => {
@@ -180,8 +179,8 @@ describe("missions follow the corrected destinations", () => {
     expect(secretary?.node).toBe("secretaria");
     expect(itLab?.node).toBe("lab1");
   });
-  it("includes a library exploration mission", () => {
-    expect(missions.find((m) => m.place === "biblioteca")?.id).toBe("m-biblioteca");
+  it("every catalogued place is a mission", () => {
+    expect(missions.map((m) => m.place).sort()).toEqual(places.map((p) => p.id).sort());
   });
   it("every mission has a real, reachable destination", () => {
     for (const mission of missions) {

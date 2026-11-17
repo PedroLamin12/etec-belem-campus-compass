@@ -8,12 +8,12 @@ describe("corrected exploration missions", () => {
 
   it("a library check-in completes the new library mission and survives reopening", () => {
     const first = renderHook(() => useProgress());
-    act(() => checkIn("biblioteca"));
-    expect(first.result.current.done.map((m) => m.place)).toEqual(["biblioteca"]);
+    act(() => checkIn("cantina"));
+    expect(first.result.current.done.map((m) => m.place)).toEqual(["cantina"]);
     first.unmount();
     const reopened = renderHook(() => useProgress());
-    expect(reopened.result.current.visited).toEqual(["biblioteca"]);
-    expect(reopened.result.current.done.map((m) => m.place)).toEqual(["biblioteca"]);
+    expect(reopened.result.current.visited).toEqual(["cantina"]);
+    expect(reopened.result.current.done.map((m) => m.place)).toEqual(["cantina"]);
     reopened.unmount();
   });
 
@@ -27,10 +27,10 @@ describe("corrected exploration missions", () => {
   it("awards the explorer badge only after every mission destination, including the library, is visited", () => {
     const state = renderHook(() => useProgress());
     act(() => {
-      missions.filter((m) => m.place !== "biblioteca").forEach((m) => checkIn(m.place));
+      missions.filter((m) => m.place !== "cantina").forEach((m) => checkIn(m.place));
     });
     expect(state.result.current.badge).toBe(false);
-    act(() => checkIn("biblioteca"));
+    act(() => checkIn("cantina"));
     expect(state.result.current.badge).toBe(true);
     state.unmount();
   });
