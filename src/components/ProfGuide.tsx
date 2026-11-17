@@ -13,14 +13,14 @@ export function ProfGuide({ mood = "happy", className, bubble = false, label }: 
       {bubble && <circle cx="120" cy="140" r="112" className="fill-guide-halo" />}
       <g className="prof-body">
         {/* back hair */}
-        <path d="M60 156Q44 98 66 62Q92 26 132 30Q178 36 186 84Q194 124 182 158Q172 168 160 156L162 112Q120 98 78 112L80 156Q68 168 60 156Z" className="fill-guide-hair-shade" />
+        <path d="M56 152Q42 92 68 58Q96 26 136 30Q184 38 190 92Q194 132 182 158Q172 166 162 152L162 112H78L80 152Q68 166 56 152Z" className="fill-guide-hair-shade" />
         {/* body */}
         <path d="M20 262Q22 204 80 188L102 182Q120 198 138 182L160 188Q218 204 220 262Z" className="fill-guide-jacket" />
         <path d="M44 262Q48 222 70 204M196 262Q192 222 170 204" fill="none" className="stroke-guide-jacket-shade" strokeWidth="3" strokeLinecap="round" />
         <path d="M96 186Q120 216 144 186L152 262H88Z" className="fill-guide-top" />
         <path d="M100 188Q120 210 140 188" fill="none" className="stroke-guide-top-shade" strokeWidth="3" />
         {/* neck */}
-        <path d="M104 156V190Q120 200 136 190V156Z" className="fill-guide-skin-shade" />
+        <path d="M105 160V188Q120 198 135 188V160Z" className="fill-guide-skin-shade" />
         {/* shearling collar */}
         <g className="fill-guide-collar stroke-guide-collar" strokeWidth="7" strokeLinecap="round" strokeDasharray="0.1 7.5" strokeLinejoin="round">
           <path d="M100 182Q78 186 56 198Q64 226 92 252Q96 226 108 208Q102 196 100 182Z" />
@@ -34,13 +34,13 @@ export function ProfGuide({ mood = "happy", className, bubble = false, label }: 
         <path d="M74 104Q72 162 120 174Q168 162 166 104Q164 56 120 54Q76 56 74 104Z" className="fill-guide-skin" />
         <ellipse cx="94" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
         <ellipse cx="146" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
-        {/* side hair over ears */}
-        <path d="M66 98Q62 132 70 152Q78 150 80 138Q76 116 82 96Z" className="fill-guide-hair" />
-        <path d="M174 98Q178 132 170 152Q162 150 160 138Q164 116 158 96Z" className="fill-guide-hair" />
-        {/* bangs swept to the side */}
-        <path d="M68 104Q64 50 116 40Q168 34 176 96Q168 76 152 70Q158 84 154 96Q138 72 112 72Q100 84 82 92Q76 98 68 104Z" className="fill-guide-hair" />
-        <path d="M92 58Q118 46 146 54M84 80Q100 64 124 60M130 64Q150 66 162 82" fill="none" className="stroke-guide-hair-light" strokeWidth="3" strokeLinecap="round" />
-        <path d="M112 72Q128 74 140 84M152 70Q160 80 160 92" fill="none" className="stroke-guide-hair-shade" strokeWidth="2" strokeLinecap="round" />
+        {/* side locks with flicked tips */}
+        <path d="M62 92Q54 128 62 162Q68 154 74 160Q72 148 78 150Q76 124 82 98Z" className="fill-guide-hair" />
+        <path d="M178 92Q186 128 178 162Q172 154 166 160Q168 148 162 150Q164 124 158 98Z" className="fill-guide-hair" />
+        {/* crown and swept bangs */}
+        <path d="M62 110Q54 52 112 38Q172 28 182 104Q174 88 164 82L166 98Q152 84 142 78Q134 92 122 90Q116 78 106 78Q94 92 78 98Q70 102 62 110Z" className="fill-guide-hair" />
+        <path d="M88 60Q114 44 148 50M80 84Q98 62 126 58M136 60Q160 64 170 86" fill="none" className="stroke-guide-hair-light" strokeWidth="3.2" strokeLinecap="round" />
+        <path d="M106 78Q118 64 134 62M142 78Q150 70 152 62M66 120Q64 140 68 154M174 120Q176 140 172 154" fill="none" className="stroke-guide-hair-shade" strokeWidth="2" strokeLinecap="round" />
         {/* brows */}
         <g className={cn("prof-brows", mood === "wow" && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
           <path d="M90 96Q100 91 110 95" className="stroke-guide-hair-shade" />
@@ -76,8 +76,15 @@ export function ProfGuide({ mood = "happy", className, bubble = false, label }: 
           <g className="prof-arm">
             <path d="M176 214Q204 196 206 152L226 156Q230 204 200 236Z" className="fill-guide-jacket" />
             <path d="M203 156L228 160" className="stroke-guide-collar" strokeWidth="9" strokeLinecap="round" />
-            <path d="M206 150Q200 128 208 116Q214 110 218 118L220 108Q226 102 230 110L232 122Q238 120 238 130Q236 148 226 154Z" className="fill-guide-skin stroke-guide-skin-line" strokeWidth="1.5" strokeLinejoin="round" />
-          </g>
+            <g className="fill-guide-skin stroke-guide-skin-line" strokeWidth="1.6">
+              <rect x="203" y="110" width="8" height="26" rx="4" transform="rotate(-12 207 123)" />
+              <rect x="212" y="104" width="8" height="28" rx="4" transform="rotate(-4 216 118)" />
+              <rect x="221" y="105" width="8" height="27" rx="4" transform="rotate(5 225 118)" />
+              <rect x="229" y="112" width="7.5" height="23" rx="3.75" transform="rotate(14 233 123)" />
+              <path d="M202 140Q200 126 212 124H230Q238 126 236 142Q232 158 218 158Q204 156 202 140Z" />
+              <path d="M204 142Q194 134 196 126Q200 122 206 130" />
+            </g>
+            </g>
         )}
       </g>
       {(mood === "cheer" || mood === "wave") && (
