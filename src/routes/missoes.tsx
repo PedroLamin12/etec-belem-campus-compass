@@ -1,3 +1,4 @@
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { missions, placeById } from "@/data/school";
@@ -50,7 +51,7 @@ function Missoes() {
           return (
             <li key={m.id} className="feed-item">
               <Link to="/ambientes/$id" params={{ id: p.id }} className={`block h-full overflow-hidden rounded-lg border ${ok ? "border-success/40 bg-success/5" : "bg-card"}`}>
-                <div className="relative"><img src={p.photo} alt={p.photoCaption ?? p.name} loading="lazy" className={`feed-photo aspect-[16/8] w-full object-cover ${p.id === "lab1" ? "photo-contained" : ""}`} /><span className="absolute left-3 top-3 rounded-md bg-background/95 px-2 py-1.5 text-[10px] font-medium text-foreground">Missão {String(i + 1).padStart(2, "0")}</span><span className={`absolute right-3 top-3 flex items-center gap-1 rounded-md px-2 py-1.5 text-[10px] font-medium ${ok ? "bg-primary text-primary-foreground" : "bg-background/95 text-primary"}`}>{ok ? <><Check className="h-3 w-3" />Concluída</> : <><Zap className="h-3 w-3" />+{m.xp} XP</>}</span></div>
+                <div className="relative"><PlacePhoto place={p} loading="lazy" className="feed-photo aspect-[16/8] w-full" /><span className="absolute left-3 top-3 rounded-md bg-background/95 px-2 py-1.5 text-[10px] font-medium text-foreground">Missão {String(i + 1).padStart(2, "0")}</span><span className={`absolute right-3 top-3 flex items-center gap-1 rounded-md px-2 py-1.5 text-[10px] font-medium ${ok ? "bg-primary text-primary-foreground" : "bg-background/95 text-primary"}`}>{ok ? <><Check className="h-3 w-3" />Concluída</> : <><Zap className="h-3 w-3" />+{m.xp} XP</>}</span></div>
                 <div className="p-5"><p className="font-display text-base font-semibold">{m.title}</p><p className="mt-2 min-h-9 text-xs leading-relaxed text-muted-foreground">{m.goal}</p><span className={`mt-5 flex items-center justify-between text-xs font-medium ${ok ? "text-success" : "text-primary"}`}><span className="flex items-center gap-1.5">{ok ? <Check className="h-3.5 w-3.5" /> : <Compass className="h-3.5 w-3.5" />}{ok ? "Lugar descoberto" : "Explorar ambiente"}</span><ArrowUpRight className="h-4 w-4" /></span></div>
               </Link>
             </li>

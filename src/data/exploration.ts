@@ -12,7 +12,7 @@ export function findCampusPlaces(query: string): Place[] {
 }
 
 export function discoveryDestination(visited: string[], random = Math.random): Place | undefined {
-  const ids = ["lab1", "convivencia", "quadra1", "nutricao", "auditorio", "biblioteca", "refeitorio", "corredor"];
+  const ids = ["lab1", "convivencia", "quadra1", "nutricao", "auditorio", "cantina", "lab2", "salas"];
   const pool = ids.filter((id) => !visited.includes(id));
   const candidates = pool.length ? pool : ids;
   const index = Math.min(candidates.length - 1, Math.max(0, Math.floor(random() * candidates.length)));
