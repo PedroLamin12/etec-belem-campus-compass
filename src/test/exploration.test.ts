@@ -15,6 +15,6 @@ describe("campus companion destinations", () => {
     expect(discoveryDestination(["lab1", "convivencia"], () => 0)?.id).toBe("quadra1");
   });
   it("next mission skips completed check-ins", () => {
-    expect(nextCampusMission(["portaria"])?.place).toBe("secretaria");
+    expect(nextCampusMission(["portaria"])?.place).toBe("rampa");
   });
 });
