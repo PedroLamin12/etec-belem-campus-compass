@@ -1,9 +1,9 @@
-import { PlacePhoto } from "@/components/PlacePhoto";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, Flag, Footprints, MoveDown, MoveUp } from "lucide-react";
+import { ArrowRight, CheckCircle2, Footprints, MoveDown, MoveUp, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { CampusMascot } from "@/components/CampusMascot";
+import { Titia, GUIDE_NAME } from "@/components/Titia";
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { floorTransition, nodeLocation, nodes, placeByNode, type NodeId, type Place } from "@/data/school";
 import { checkIn, useProgress } from "@/data/progress";
 
@@ -18,14 +18,27 @@ export function GuidedWalk({ route, destination }: { route: NodeId[]; destinatio
   const currentPlace = placeByNode(id);
   const last = step === route.length - 1;
   const done = visited.includes(destination.id);
+  const pct = ((step + 1) / route.length) * 100;
   return <>
-    <Button className="h-12 w-full" onClick={() => { setStep(0); setOpen(true); }}><Footprints className="h-5 w-5" />Ir com Bê<ArrowRight /></Button>
+    <Button size="lg" className="w-full" onClick={() => { setStep(0); setOpen(true); }}><Footprints className="!h-5 !w-5" />Ir com a {GUIDE_NAME}</Button>
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="walk-dialog w-[calc(100%-32px)] max-w-md overflow-hidden rounded-lg border-border bg-card p-0">
-        <div className="px-5 pb-3 pt-5"><p className="eyebrow text-primary">{last ? "CHEGAMOS AO DESTINO" : "BÊ TÁ COM VOCÊ"} · {step + 1}/{route.length}</p><DialogTitle className="mt-2 pr-5 font-display text-xl leading-snug">{nodes[id].label}</DialogTitle><DialogDescription className="mt-1 text-xs">{nodeLocation(id)}</DialogDescription><div className="walk-progress mt-4" aria-label={`Etapa ${step + 1} de ${route.length}`}>{route.map((node, index) => <span key={`${node}-${index}`} className={index <= step ? "completed" : ""} />)}</div></div>
-        {currentPlace && <figure><PlacePhoto place={currentPlace} className="h-[190px] w-full" />{currentPlace.photoCaption && <figcaption className="px-5 pt-2 text-[10px] text-muted-foreground">{currentPlace.photoCaption}</figcaption>}</figure>}
-        <div key={id} className="page-enter px-5 pb-5"><div className="flex items-center gap-2 border-b pb-3"><CampusMascot className="h-24 w-20 shrink-0" /><div>{transition && <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-brand-yellow">{transition === "down" ? <><MoveDown className="h-4 w-4" />Desça a escada</> : <><MoveUp className="h-4 w-4" />Suba a escada</>}</p>}<p className="text-xs leading-relaxed">{nodes[id].landmark}</p></div></div>
-          <div className="mt-4 flex items-center gap-3"><Button variant="outline" size="icon" aria-label="Etapa anterior" title="Etapa anterior" disabled={step === 0} onClick={() => setStep((value) => Math.max(0, value - 1))}><ArrowLeft /></Button>{last ? <Button className="h-11 flex-1 whitespace-normal" onClick={() => { setOpen(false); if (!done) checkIn(destination.id); }}>{done ? <><Flag />Destino já descoberto</> : <><CheckCircle2 />Cheguei — fazer check-in</>}</Button> : <Button className="h-11 flex-1" onClick={() => setStep((value) => Math.min(route.length - 1, value + 1))}>{step === 0 ? "Vamos nessa" : "Próxima etapa"}<ArrowRight /></Button>}</div>
+      <DialogContent className="flex h-[100dvh] w-full max-w-none flex-col gap-0 rounded-none border-0 bg-background p-0 sm:h-auto sm:max-h-[90dvh] sm:max-w-md sm:rounded-3xl sm:border-2">
+        <div className="flex items-center gap-3 px-4 pb-3 pr-14 pt-5">
+          <div className="progress-track flex-1" role="progressbar" aria-label={`Etapa ${step + 1} de ${route.length}`} aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={route.length}><div className="progress-fill" style={{ width: `${pct}%` }} /></div>
+          <span className="text-xs font-extrabold text-muted-foreground">{step + 1}/{route.length}</span>
+        </div>
+        <div key={id} className="welcome-step flex-1 overflow-y-auto px-4 pb-4">
+          {currentPlace && <PlacePhoto place={currentPlace} className="mb-4 aspect-video w-full rounded-2xl" />}
+          {transition && <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-brand-yellow-soft px-3 py-1.5 text-xs font-extrabold text-foreground">{transition === "down" ? <><MoveDown className="h-4 w-4" />Desça a escada</> : <><MoveUp className="h-4 w-4" />Suba a escada</>}</p>}
+          <DialogTitle className="font-display text-2xl font-semibold leading-tight">{nodes[id].label}</DialogTitle>
+          <DialogDescription className="mt-1 text-sm text-muted-foreground">{nodeLocation(id)}</DialogDescription>
+          <div className="mt-4 flex items-start gap-2"><Titia mood={last ? "cheer" : "talk"} className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{nodes[id].landmark}</p></div>
+        </div>
+        <div className={`border-t-2 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] ${last ? "bg-success-soft" : ""}`}>
+          {last && <p className="mb-3 flex items-center gap-2 font-display text-lg font-semibold text-success-shade"><PartyPopper className="h-5 w-5" />Você chegou!</p>}
+          {last
+            ? <Button variant="success" size="lg" className="w-full" onClick={() => { setOpen(false); if (!done) checkIn(destination.id); }}><CheckCircle2 className="!h-5 !w-5" />{done ? "Já descoberto — fechar" : "Fazer check-in"}</Button>
+            : <div className="flex gap-3">{step > 0 && <Button variant="outline" size="lg" onClick={() => setStep((v) => Math.max(0, v - 1))}>Voltar</Button>}<Button size="lg" className="flex-1" onClick={() => setStep((v) => Math.min(route.length - 1, v + 1))}>{step === 0 ? "Vamos lá" : "Continuar"}<ArrowRight /></Button></div>}
         </div>
       </DialogContent>
     </Dialog>

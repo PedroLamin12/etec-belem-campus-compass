@@ -1,21 +1,20 @@
-import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
+import { Titia } from "@/components/Titia";
 import { missions, placeById } from "@/data/school";
 import { resetProgress, useProgress } from "@/data/progress";
-import { Button } from "@/components/ui/button";
-import { Trophy, Compass, Check, ArrowUpRight, RotateCcw, Flag, Navigation, Utensils, GraduationCap, Monitor, ChefHat, Mic, Dribbble, BookOpen, Zap } from "lucide-react";
-import { CampusMascot } from "@/components/CampusMascot";
 import { nextCampusMission } from "@/data/exploration";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useState } from "react";
+import { Check, RotateCcw, Trophy, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/missoes")({
   head: () => ({
     meta: [
-      { title: "Missões de Calouro — Tour ETEC Belém" },
-      { name: "description", content: "Modo Explorador: cumpra missões pela escola e ganhe o selo Calouro ETEC Conhecedor." },
-      { property: "og:title", content: "Missões de Calouro · ETEC Parque Belém" },
+      { title: "Conquistas — Tour ETEC Belém" },
+      { name: "description", content: "Faça check-in nos 15 lugares da ETEC Parque Belém, ganhe XP e conquiste o selo Calouro ETEC Conhecedor." },
+      { property: "og:title", content: "Conquistas · Tour ETEC Belém" },
       { property: "og:description", content: "Explore a escola, ganhe XP e conquiste seu selo." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -24,42 +23,43 @@ export const Route = createFileRoute("/missoes")({
   component: Missoes,
 });
 
+const levelName = (n: number) => (n >= 15 ? "Conhecedor" : n >= 10 ? "Explorador" : n >= 4 ? "Calouro" : "Visitante");
+
 function Missoes() {
   const { visited, done, xp, total, badge } = useProgress();
   const [resetOpen, setResetOpen] = useState(false);
-  const pct = Math.round((done.length / total) * 100);
-  const icons = [Flag, Navigation, Utensils, GraduationCap, Monitor, ChefHat, Mic, Dribbble, BookOpen];
   const next = nextCampusMission(visited);
   return (
     <AppShell>
-      <PageHeader title="Seu passaporte." subtitle="A escola é maior do que a sua sala. Bora descobrir?" />
-      <div className="grid gap-8 px-5 md:grid-cols-[320px_1fr] md:px-8">
-      <section className="self-start border-y py-5 md:sticky md:top-28">
-        <div className="flex items-center gap-4"><CampusMascot mood={badge ? "celebrate" : "wave"} className="h-36 w-32 shrink-0" /><div><p className="eyebrow text-primary">{badge ? "VOCÊ CHEGOU LÁ" : "O COMEÇO DE UMA HISTÓRIA"}</p><p className="mt-3 font-display text-2xl font-medium leading-tight">{badge ? "Campus conquistado." : "De calouro a conhecedor."}</p></div></div>
-        <div className="flex items-end justify-between"><p className="font-display text-4xl font-medium">{xp}<span className="ml-2 text-xs text-muted-foreground">XP</span></p><p className="text-xs text-muted-foreground">{done.length}/{total} carimbos · {pct}%</p></div>
-        <progress aria-label="Progresso das missões" value={done.length} max={total} className="mt-4 h-1.5 w-full overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-secondary [&::-webkit-progress-value]:bg-primary" />
-        <div className="mt-6 grid grid-cols-3 justify-items-center gap-y-4" aria-label="Carimbos do passaporte">{missions.map((mission, i) => { const Icon = icons[i] ?? Compass; const complete = visited.includes(mission.place); return <Link key={mission.id} to="/ambientes/$id" params={{ id: mission.place }} aria-label={`${mission.title}${complete ? ", concluída" : ", a descobrir"}`} className={`passport-stamp ${complete ? "is-complete" : ""}`}><Icon /><span>{String(i + 1).padStart(2, "0")}{complete ? " · OK" : " · ETEC"}</span></Link>; })}</div>
-        <div className="mt-6 flex items-center gap-3 border-t pt-4"><Trophy className={`h-6 w-6 shrink-0 ${badge ? "text-primary" : "text-muted-foreground"}`} /><div><p className="eyebrow text-muted-foreground">{badge ? "SELO CONQUISTADO" : "SEU PRÓXIMO SELO"}</p><p className="mt-1 text-xs font-medium">Calouro ETEC Conhecedor</p></div></div>
-        {next && <Button asChild className="mt-5 h-11 w-full"><Link to="/ambientes/$id" params={{ id: next.place }}>Continuar aventura<ArrowUpRight /></Link></Button>}
-        {done.length > 0 && <Button variant="ghost" onClick={() => setResetOpen(true)} className="mt-3 h-8 px-0 text-xs text-muted-foreground"><RotateCcw />Reiniciar progresso</Button>}
+      <PageHeader title="Conquistas" />
+      <section className="surface flex items-center gap-4 p-4">
+        <Titia mood={badge ? "cheer" : "happy"} bubble className="h-24 w-24 shrink-0" />
+        <div className="min-w-0 flex-1">
+          <p className="eyebrow text-muted-foreground">Seu nível</p>
+          <p className="font-display text-2xl font-semibold">{levelName(done.length)}</p>
+          <div className="mt-2 flex items-center gap-3 text-sm font-extrabold"><span className="flex items-center gap-1"><Zap className="h-4 w-4 fill-brand-yellow text-brand-yellow-shade" />{xp} XP</span><span className="text-muted-foreground">{done.length}/{total} lugares</span></div>
+        </div>
       </section>
-      <ul className="grid gap-3 lg:grid-cols-2">
-        {missions.map((m, i) => {
-          const ok = visited.includes(m.place);
-          const p = placeById(m.place);
-          if (!p) return null;
-          return (
-            <li key={m.id} className="feed-item">
-              <Link to="/ambientes/$id" params={{ id: p.id }} className={`block h-full overflow-hidden rounded-lg border ${ok ? "border-success/40 bg-success/5" : "bg-card"}`}>
-                <div className="relative"><PlacePhoto place={p} loading="lazy" className="feed-photo aspect-[16/8] w-full" /><span className="absolute left-3 top-3 rounded-md bg-background/95 px-2 py-1.5 text-[10px] font-medium text-foreground">Missão {String(i + 1).padStart(2, "0")}</span><span className={`absolute right-3 top-3 flex items-center gap-1 rounded-md px-2 py-1.5 text-[10px] font-medium ${ok ? "bg-primary text-primary-foreground" : "bg-background/95 text-primary"}`}>{ok ? <><Check className="h-3 w-3" />Concluída</> : <><Zap className="h-3 w-3" />+{m.xp} XP</>}</span></div>
-                <div className="p-5"><p className="font-display text-base font-semibold">{m.title}</p><p className="mt-2 min-h-9 text-xs leading-relaxed text-muted-foreground">{m.goal}</p><span className={`mt-5 flex items-center justify-between text-xs font-medium ${ok ? "text-success" : "text-primary"}`}><span className="flex items-center gap-1.5">{ok ? <Check className="h-3.5 w-3.5" /> : <Compass className="h-3.5 w-3.5" />}{ok ? "Lugar descoberto" : "Explorar ambiente"}</span><ArrowUpRight className="h-4 w-4" /></span></div>
-              </Link>
-            </li>
-          );
-        })}
+      <div className="progress-track mt-4"><div className="progress-fill" style={{ width: `${(done.length / total) * 100}%` }} /></div>
+
+      <h2 className="mb-3 mt-8 font-display text-lg font-semibold">Carimbos</h2>
+      <ul className="grid grid-cols-5 gap-2.5 sm:gap-4">
+        {missions.map((m, i) => { const ok = visited.includes(m.place); return <li key={m.id}><Link to="/ambientes/$id" params={{ id: m.place }} aria-label={`${m.title}${ok ? ", concluída" : ""}`} className={`stamp ${ok ? "is-complete" : ""}`}>{ok ? <Check className="h-5 w-5" strokeWidth={3} /> : <span className="text-sm font-extrabold">{i + 1}</span>}</Link></li>; })}
       </ul>
-      </div>
-      <Dialog open={resetOpen} onOpenChange={setResetOpen}><DialogContent className="w-[calc(100%-32px)] rounded-lg"><DialogTitle>Começar uma nova aventura?</DialogTitle><DialogDescription>Seus check-ins, carimbos e XP serão apagados deste dispositivo.</DialogDescription><Button variant="destructive" onClick={() => { resetProgress(); setResetOpen(false); }}><RotateCcw />Reiniciar progresso</Button><Button variant="outline" onClick={() => setResetOpen(false)}>Manter meu passaporte</Button></DialogContent></Dialog>
+      <div className="mt-6 flex items-center gap-3 rounded-2xl border-2 p-4"><Trophy className={`h-8 w-8 shrink-0 ${badge ? "text-brand-yellow-shade" : "text-muted-foreground"}`} /><div><p className="text-sm font-extrabold">Selo Calouro ETEC Conhecedor</p><p className="text-xs text-muted-foreground">{badge ? "Conquistado!" : "Faça check-in em todos os lugares."}</p></div></div>
+
+      <h2 className="mb-3 mt-8 font-display text-lg font-semibold">Missões</h2>
+      <ul className="stagger grid gap-2 md:grid-cols-2">
+        {missions.map((m) => { const ok = visited.includes(m.place); const p = placeById(m.place); if (!p) return null; return (
+          <li key={m.id}><Link to="/ambientes/$id" params={{ id: p.id }} className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-3">
+            <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${ok ? "bg-success text-success-foreground" : "bg-secondary text-muted-foreground"}`}>{ok ? <Check className="h-5 w-5" strokeWidth={3} /> : <Zap className="h-4 w-4" />}</span>
+            <span className="min-w-0 flex-1"><span className="block truncate text-sm font-extrabold">{m.title}</span><span className="block truncate text-xs text-muted-foreground">{m.goal}</span></span>
+            <span className="shrink-0 text-xs font-extrabold text-brand-yellow-shade">+{m.xp}</span>
+          </Link></li>); })}
+      </ul>
+      {next && <Button asChild size="lg" className="mt-6 w-full"><Link to="/ambientes/$id" params={{ id: next.place }}>Continuar a trilha</Link></Button>}
+      {done.length > 0 && <Button variant="ghost" onClick={() => setResetOpen(true)} className="mt-3 w-full text-muted-foreground"><RotateCcw />Recomeçar do zero</Button>}
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}><DialogContent className="w-[calc(100%-24px)] max-w-sm rounded-3xl border-2"><DialogTitle className="font-display text-xl">Recomeçar do zero?</DialogTitle><DialogDescription>Seus check-ins e XP serão apagados deste aparelho.</DialogDescription><Button variant="destructive" onClick={() => { resetProgress(); setResetOpen(false); }}>Apagar progresso</Button><Button variant="outline" onClick={() => setResetOpen(false)}>Cancelar</Button></DialogContent></Dialog>
     </AppShell>
   );
 }

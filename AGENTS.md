@@ -43,5 +43,7 @@ use the editor.
 - Keep companion destination lookup in `src/data/exploration.ts` using confirmed school data, never generated answers or invented locations.
 - Emit one celebration event after each new persisted check-in and preserve existing mission XP; the shared shell owns the reward dialog to prevent duplicate effects.
 - GuidedWalk advances through `routeBetween` nodes and uses shared floor transitions, so guided and overview walking directions stay consistent.
-- CampusMascot is an original inline SVG with semantic colors and reduced-motion support, so character interaction works offline without a generation service.
+- The guide character (`Titia`) is an original inline SVG with semantic colors and reduced-motion support, so it works offline and follows light/dark themes.
+- Theme is a `.dark` class on <html> set by an inline head script before paint (`src/lib/theme.ts`), so saved light/dark choice never flashes.
+- Places without their own photo render through `PlacePhoto`, which shows a no-photo notice instead of any other image.
 - Place the companion launcher in the shared header and show mobile navigation below the desktop breakpoint, so assistance never covers map points or content and tablet navigation remains available.

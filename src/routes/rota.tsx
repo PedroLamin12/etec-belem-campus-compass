@@ -1,12 +1,11 @@
-import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
 import { RouteSteps } from "@/components/RouteSteps";
-import { Button } from "@/components/ui/button";
-import { ArrowDownUp, Navigation, MapPin, Flag } from "lucide-react";
-import { places, placeById, routeBetween, nodeLocation } from "@/data/school";
 import { GuidedWalk } from "@/components/GuidedWalk";
+import { Button } from "@/components/ui/button";
+import { ArrowDownUp } from "lucide-react";
+import { places, placeById, routeBetween } from "@/data/school";
 
 type S = { de?: string | undefined; para?: string | undefined };
 
@@ -36,33 +35,23 @@ function RotaPage() {
   if (!from || !to) return null;
   const route = routeBetween(from.node, to.node);
   const set = (k: keyof S, v: string) => nav({ search: (s: S) => ({ ...s, [k]: v }), replace: true });
-  const sel = "mt-1 w-full rounded-lg border bg-card px-3 py-3 text-sm font-semibold text-foreground";
+  const sel = "mt-1 h-12 w-full appearance-none rounded-xl border-2 bg-background px-3 text-sm font-extrabold text-foreground outline-none focus:border-brand-sky";
   return (
     <AppShell>
-      <PageHeader title="Vamos juntos." subtitle="Um caminho de cada vez. Sem se perder no campus." />
-      <div className="grid items-end gap-2 px-5 md:grid-cols-[1fr_48px_1fr] md:px-8">
-        <label className="block min-w-0 text-[11px] font-semibold text-muted-foreground">Estou em
-          <select className={sel} value={from.id} onChange={(e) => set("de", e.target.value)}>
-            {places.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-          </select>
+      <PageHeader title="Como chegar" subtitle={`${route.length - 1} etapas · a pé`} />
+      <div className="surface relative grid gap-3 p-4">
+        <label className="block pr-12 text-xs font-extrabold text-muted-foreground">Estou em
+          <select className={sel} value={from.id} onChange={(e) => set("de", e.target.value)}>{places.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
         </label>
-        <div className="flex justify-center"><Button size="icon" variant="ghost" aria-label="Inverter origem e destino" title="Inverter origem e destino" onClick={() => nav({ search: { de: to.id, para: from.id }, replace: true })}><ArrowDownUp /></Button></div>
-        <label className="block text-xs font-semibold text-muted-foreground">Quero ir para
-          <select className={sel} value={to.id} onChange={(e) => set("para", e.target.value)}>
-            {places.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-          </select>
+        <label className="block pr-12 text-xs font-extrabold text-muted-foreground">Quero ir para
+          <select className={sel} value={to.id} onChange={(e) => set("para", e.target.value)}>{places.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
         </label>
+        <Button variant="outline" size="icon" className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full" aria-label="Inverter origem e destino" title="Inverter" onClick={() => nav({ search: { de: to.id, para: from.id }, replace: true })}><ArrowDownUp /></Button>
       </div>
-      <div className="mx-5 mt-5 md:mx-8"><GuidedWalk key={`${from.id}-${to.id}`} route={route} destination={to} /></div>
-      <div className="grid gap-8 px-5 pt-7 md:grid-cols-2 md:px-8">
-        <div>
-        <SchoolMap level="all" route={route} />
-        <figure className="mt-5"><PlacePhoto place={to} className="aspect-video w-full rounded-lg" /><figcaption className="mt-2 text-[11px] text-muted-foreground">{to.photoCaption ?? `Destino: ${to.name}`}</figcaption></figure>
-        </div>
-        <section>
-          <div className="mb-6 flex items-center justify-between border-b pb-4"><div><p className="mb-1 flex items-center gap-1.5 text-[10px] font-medium text-primary"><Flag className="h-3 w-3" />Seu destino</p><h2 className="font-display text-xl font-semibold">{to.name}</h2><p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin className="h-3 w-3" />{nodeLocation(to.node)}</p></div><span className="flex shrink-0 items-center gap-1 rounded-md bg-accent px-2 py-2 text-[10px] font-medium text-primary"><Navigation className="h-3 w-3" />{route.length - 1} etapas</span></div>
-          <RouteSteps route={route} />
-        </section>
+      <div className="mt-4"><GuidedWalk key={`${from.id}-${to.id}`} route={route} destination={to} /></div>
+      <div className="mt-7 grid gap-7 md:grid-cols-2">
+        <section><h2 className="mb-4 font-display text-lg font-semibold">Passo a passo</h2><RouteSteps route={route} /></section>
+        <section><h2 className="mb-3 font-display text-lg font-semibold">No mapa</h2><SchoolMap level="all" route={route} /></section>
       </div>
     </AppShell>
   );

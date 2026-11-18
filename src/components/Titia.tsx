@@ -2,18 +2,18 @@ import { cn } from "@/lib/utils";
 
 export type GuideMood = "happy" | "talk" | "wink" | "wow" | "think" | "cheer" | "wave";
 
-export const GUIDE_NAME = "Prô";
+export const GUIDE_NAME = "Titia";
 
-/** Original illustrated guide inspired by one of the supporting teachers: short blond bob, round glasses, shearling jacket. */
-export function ProfGuide({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
+/** Original illustrated guide inspired by one of the supporting teachers: short blond bowl cut, round glasses, shearling jacket. */
+export function Titia({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
   const closedEyes = mood === "cheer";
   const raisedArm = mood === "wave" || mood === "cheer";
   return (
     <svg viewBox="0 0 240 260" role="img" aria-label={label ?? `${GUIDE_NAME}, sua guia no campus`} className={cn("prof-guide", `prof-${mood}`, className)}>
       {bubble && <circle cx="120" cy="140" r="112" className="fill-guide-halo" />}
       <g className="prof-body">
-        {/* back hair */}
-        <path d="M56 152Q42 92 68 58Q96 26 136 30Q184 38 190 92Q194 132 182 158Q172 166 162 152L162 112H78L80 152Q68 166 56 152Z" className="fill-guide-hair-shade" />
+        {/* back hair: short bowl */}
+        <path d="M64 130Q52 78 82 54Q120 28 158 54Q188 78 176 130Q170 136 164 130L162 108H78L76 130Q70 136 64 130Z" className="fill-guide-hair-shade" />
         {/* body */}
         <path d="M20 262Q22 204 80 188L102 182Q120 198 138 182L160 188Q218 204 220 262Z" className="fill-guide-jacket" />
         <path d="M44 262Q48 222 70 204M196 262Q192 222 170 204" fill="none" className="stroke-guide-jacket-shade" strokeWidth="3" strokeLinecap="round" />
@@ -34,17 +34,14 @@ export function ProfGuide({ mood = "happy", className, bubble = false, label }: 
         <path d="M74 104Q72 162 120 174Q168 162 166 104Q164 56 120 54Q76 56 74 104Z" className="fill-guide-skin" />
         <ellipse cx="94" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
         <ellipse cx="146" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
-        {/* side locks with flicked tips */}
-        <path d="M62 92Q54 128 62 162Q68 154 74 160Q72 148 78 150Q76 124 82 98Z" className="fill-guide-hair" />
-        <path d="M178 92Q186 128 178 162Q172 154 166 160Q168 148 162 150Q164 124 158 98Z" className="fill-guide-hair" />
-        {/* crown and swept bangs */}
-        <path d="M62 110Q54 52 112 38Q172 28 182 104Q174 88 164 82L166 98Q152 84 142 78Q134 92 122 90Q116 78 106 78Q94 92 78 98Q70 102 62 110Z" className="fill-guide-hair" />
-        <path d="M88 60Q114 44 148 50M80 84Q98 62 126 58M136 60Q160 64 170 86" fill="none" className="stroke-guide-hair-light" strokeWidth="3.2" strokeLinecap="round" />
-        <path d="M106 78Q118 64 134 62M142 78Q150 70 152 62M66 120Q64 140 68 154M174 120Q176 140 172 154" fill="none" className="stroke-guide-hair-shade" strokeWidth="2" strokeLinecap="round" />
+        {/* bowl cut: rounded cap, short sides, straight little fringe */}
+        <path d="M64 128Q56 62 120 46Q184 62 176 128Q172 134 166 130Q167 108 160 98L152 102L144 95L135 101L126 94L117 101L108 95L99 101L90 96L80 100Q73 108 74 130Q68 134 64 128Z" className="fill-guide-hair" />
+        <path d="M86 66Q104 54 124 54M140 56Q156 60 166 74" fill="none" className="stroke-guide-hair-light" strokeWidth="3.4" strokeLinecap="round" />
+        <path d="M70 108Q70 120 72 128M170 108Q170 120 168 128" fill="none" className="stroke-guide-hair-shade" strokeWidth="2" strokeLinecap="round" />
         {/* brows */}
         <g className={cn("prof-brows", mood === "wow" && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
-          <path d="M90 96Q100 91 110 95" className="stroke-guide-hair-shade" />
-          <path d="M130 95Q140 91 150 96" className="stroke-guide-hair-shade" />
+          <path d="M91 104Q100 101 109 103" className="stroke-guide-hair-shade" />
+          <path d="M131 103Q140 101 149 104" className="stroke-guide-hair-shade" />
         </g>
         {/* eyes */}
         {closedEyes ? (

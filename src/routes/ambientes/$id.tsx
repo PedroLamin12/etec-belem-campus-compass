@@ -1,12 +1,13 @@
-import { PlacePhoto } from "@/components/PlacePhoto";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, MapPin, Navigation, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Map } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
-import { missions, nodeLocation, nodes, placeById, places, routeBetween } from "@/data/school";
+import { PlacePhoto } from "@/components/PlacePhoto";
+import { GuidedWalk } from "@/components/GuidedWalk";
+import { Titia } from "@/components/Titia";
+import { buildingLabel, levelLabel, missions, nodes, placeById, placeNumber, routeBetween } from "@/data/school";
 import { Button } from "@/components/ui/button";
 import { checkIn, useProgress } from "@/data/progress";
-import { GuidedWalk } from "@/components/GuidedWalk";
 
 export const Route = createFileRoute("/ambientes/$id")({
   loader: ({ params }) => {
@@ -16,10 +17,10 @@ export const Route = createFileRoute("/ambientes/$id")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.name ?? "Ambiente"} — Tour ETEC Belém` },
-      { name: "description", content: loaderData?.description ?? "" },
-      { property: "og:title", content: `${loaderData?.name} · ETEC Parque Belém` },
-      { property: "og:description", content: loaderData?.description ?? "" },
+      { title: `${loaderData?.name ?? "Lugar"} — Tour ETEC Belém` },
+      { name: "description", content: loaderData?.description ?? "Lugar da ETEC Parque Belém." },
+      { property: "og:title", content: `${loaderData?.name ?? "Lugar"} · ETEC Parque Belém` },
+      { property: "og:description", content: loaderData?.description ?? "Lugar da ETEC Parque Belém." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -35,40 +36,34 @@ function Ficha() {
   const n = nodes[p.node];
   const here = visited.includes(p.id);
   const mission = missions.find((m) => m.place === p.id);
+  const chips = [buildingLabel[n.building], ...(n.building === "externa" ? [] : [n.accessOnly ? "Acesso pelo térreo" : levelLabel[n.level]]), p.category];
   return (
     <AppShell>
-      <div className="relative md:mx-8 md:mt-6">
-        <PlacePhoto place={p} className={`aspect-[4/3] max-h-[480px] w-full md:aspect-[21/9] md:rounded-lg ${p.id === "portaria" ? "object-top" : ""}`} />
-        <Button asChild variant="secondary" size="icon" className="absolute left-4 top-4 rounded-full bg-card/90"><Link to="/ambientes" aria-label="Voltar aos ambientes"><ArrowLeft className="h-5 w-5" /></Link></Button>
-        <span className="absolute bottom-3 left-5 rounded-md border border-on-image/25 bg-background/90 px-3 py-2 font-display text-lg text-on-image">LOCAL {String(places.indexOf(p) + 1).padStart(2, "0")}<span className="ml-3 text-xs text-primary">{here ? "DESCOBERTO ✓" : p.category}</span></span>
+      <div className="relative -mx-4 -mt-5 md:mx-0 md:mt-0">
+        <PlacePhoto place={p} className={`aspect-[4/3] w-full md:aspect-[21/9] md:rounded-3xl ${p.id === "portaria" ? "object-top" : ""}`} />
+        <Button asChild variant="outline" size="icon" className="absolute left-4 top-4 rounded-full"><Link to="/ambientes" aria-label="Voltar para os lugares"><ArrowLeft className="!h-5 !w-5" /></Link></Button>
+        <span className="absolute bottom-3 left-4 rounded-full bg-card px-3 py-1 text-xs font-extrabold">Lugar {String(placeNumber(p)).padStart(2, "0")}{here && " · descoberto ✓"}</span>
       </div>
-      {p.photoCaption && <p className="px-5 pt-2 text-xs text-muted-foreground md:px-8">{p.photoCaption}</p>}
-      <div className="grid gap-7 px-5 pt-7 md:grid-cols-2 md:px-8">
-        <section className="space-y-5">
-        <div>
-          <p className="eyebrow text-primary">{mission ? `MISSÃO · +${mission.xp} XP` : "PRÓXIMA DESCOBERTA"}</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold leading-tight md:text-3xl">{p.name}</h1>
-          <p className="mt-2 flex items-start gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{nodeLocation(p.node)}</p>
-          <p className="mt-1 pl-5 text-sm"><b>Referência:</b> {n.landmark}</p>
-        </div>
-        <Button asChild className="h-auto w-full whitespace-normal rounded-lg py-4 font-medium"><Link to="/rota" search={{ de: "portaria", para: p.id }}>
-          <Navigation className="h-5 w-5" /> Como Chegar
-        </Link></Button>
-        <GuidedWalk route={routeBetween("portaria", p.node)} destination={p} />
-        <p className="text-sm leading-relaxed text-muted-foreground">{p.description}</p>
-        <div>
-          <h2 className="font-display text-base font-semibold">Serviços e usos</h2>
-          <ul className="mt-2 flex flex-wrap gap-2">{p.services.map((s) => <li key={s} className="rounded-md border bg-card px-3 py-1.5 text-xs">{s}</li>)}</ul>
-        </div>
-        {p.gallery && (
-          <div className="grid grid-cols-2 gap-2">{p.gallery.map((g) => <img key={g} src={g} alt="" loading="lazy" className="aspect-square rounded-lg object-cover" />)}</div>
-        )}
-        <Button variant="outline" onClick={() => checkIn(p.id)} disabled={here}
-          className="h-auto w-full whitespace-normal rounded-lg border border-primary/30 py-3.5 font-medium text-primary disabled:border-solid disabled:bg-accent">
-          <CheckCircle2 className="h-5 w-5" /> {here ? "Check-in feito!" : "Estou aqui — fazer check-in"}{mission && !here && ` (+${mission.xp} XP)`}
-        </Button>
+      {p.photoCaption && <p className="mt-2 text-xs text-muted-foreground">{p.photoCaption}</p>}
+      <div className="md:grid md:grid-cols-2 md:gap-8">
+        <section>
+          <h1 className="mt-5 font-display text-3xl font-semibold leading-tight">{p.name}</h1>
+          <ul className="mt-3 flex flex-wrap gap-2">{chips.map((c) => <li key={c} className="rounded-full bg-secondary px-3 py-1 text-xs font-extrabold">{c}</li>)}</ul>
+          <div className="mt-5 flex items-start gap-2"><Titia mood="talk" className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{n.landmark}</p></div>
+          <div className="mt-5 grid gap-3">
+            <GuidedWalk route={routeBetween("portaria", p.node)} destination={p} />
+            <Button asChild variant="outline" size="lg"><Link to="/rota" search={{ de: "portaria", para: p.id }}><Map className="!h-5 !w-5" />Ver rota no mapa</Link></Button>
+          </div>
+          <h2 className="mt-8 font-display text-lg font-semibold">Sobre</h2>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+          <ul className="mt-3 flex flex-wrap gap-2">{p.services.map((s) => <li key={s} className="rounded-xl border-2 px-3 py-1.5 text-xs font-bold">{s}</li>)}</ul>
+          {p.gallery && <div className="mt-4 grid grid-cols-2 gap-2">{p.gallery.map((g) => <img key={g} src={g} alt={`Outra foto real: ${p.name}`} loading="lazy" className="aspect-square w-full rounded-2xl object-cover" />)}</div>}
+          <Button variant={here ? "outline" : "success"} size="lg" onClick={() => checkIn(p.id)} disabled={here} className="mt-6 w-full"><CheckCircle2 className="!h-5 !w-5" />{here ? "Check-in feito" : `Estou aqui${mission ? ` · +${mission.xp} XP` : ""}`}</Button>
         </section>
-        <SchoolMap level={n.level} selected={p.node} />
+        <section className="mt-8 md:mt-5">
+          <h2 className="mb-3 font-display text-lg font-semibold">No mapa</h2>
+          <SchoolMap level={n.level} selected={p.node} />
+        </section>
       </div>
     </AppShell>
   );

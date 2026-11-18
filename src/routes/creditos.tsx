@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
+import { Titia, GUIDE_NAME } from "@/components/Titia";
 import { team } from "@/data/school";
-import { Code2, Compass, GraduationCap, MapPin, Palette, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/creditos")({
   head: () => ({ meta: [
@@ -15,27 +15,29 @@ export const Route = createFileRoute("/creditos")({
   component: Creditos,
 });
 
+const tones = ["bg-primary text-primary-foreground", "bg-brand-sky-soft text-brand-sky-shade", "bg-success-soft text-success-shade", "bg-brand-yellow-soft text-foreground"];
+
 function Creditos() {
-  const icons = [Compass, Code2, Palette, MapPin];
   return <AppShell>
-    <PageHeader title="Feito aqui. Por nós." subtitle="Quatro alunos. A vontade de fazer diferente." />
-    <div className="px-5 md:px-8">
-      <section className="grid gap-8 border-t pt-8 md:grid-cols-[240px_1fr] md:gap-14">
-        <div><p className="text-xs font-medium text-primary">Nossa equipe</p><h2 className="mt-3 font-display text-xl font-semibold leading-relaxed">Desenvolvimento<br />de Sistemas</h2><p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">ETEC Parque Belém<br />Projeto de Programação Mobile</p></div>
-        <ul>
-          {team.map((member, index) => {
-            const Icon = icons[index] ?? Compass;
-            return <li key={member.name} className="flex gap-4 border-b py-6 first:pt-0 md:gap-5">
-              <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg font-display text-xl font-medium ${member.lead ? "bg-primary text-primary-foreground" : index === 1 ? "bg-brand-teal text-background" : index === 2 ? "bg-brand-red text-on-image" : "bg-brand-yellow text-background"}`}>{member.initials}</span>
-              <div className="min-w-0 flex-1"><h2 className="font-display text-lg font-semibold leading-relaxed">{member.name}</h2><p className="mt-2 flex items-start gap-2 text-xs font-medium text-primary"><Icon className="mt-0.5 h-3.5 w-3.5 shrink-0" />{member.role}</p><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{member.desc}</p></div>
-            </li>;
-          })}
-        </ul>
-      </section>
-      <section className="mt-12 grid gap-5 border-t pt-7 md:grid-cols-[240px_1fr] md:gap-14">
-        <p className="flex items-start gap-2 text-xs font-medium text-primary"><GraduationCap className="h-4 w-4" />Orientação</p>
-        <div><p className="flex items-center gap-2 text-sm font-medium">Prof. Juliano Ratusznei<ArrowUpRight className="h-4 w-4 text-primary" /></p><blockquote className="mt-4 max-w-xl font-display text-2xl font-medium leading-relaxed text-foreground">“Se uma pessoa quer saber onde fazer a matrícula, como ela vai saber onde é a secretaria?”</blockquote><p className="mt-5 text-xs text-muted-foreground">Programação Mobile · Opção 3: Explorer do campus</p></div>
-      </section>
-    </div>
+    <PageHeader title="Equipe" subtitle="Técnico em Desenvolvimento de Sistemas · ETEC Parque Belém" />
+    <ul className="stagger grid gap-3">
+      {team.map((m, i) => <li key={m.name} className={`flex items-center gap-4 rounded-2xl border-2 bg-card p-4 ${m.lead ? "border-primary" : ""}`}>
+        <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl font-display text-xl font-semibold ${tones[i] ?? tones[1]}`}>{m.initials}</span>
+        <div className="min-w-0">
+          {m.lead && <p className="eyebrow text-primary">Líder da equipe</p>}
+          <h2 className="text-base font-extrabold leading-snug">{m.name}</h2>
+          <p className="text-sm text-muted-foreground">{m.lead ? m.desc : `${m.role} · ${m.desc}`}</p>
+        </div>
+      </li>)}
+    </ul>
+    <section className="mt-8 surface p-5">
+      <p className="eyebrow text-muted-foreground">Orientação</p>
+      <p className="mt-1 font-extrabold">Prof. Juliano Ratusznei · Programação Mobile</p>
+      <blockquote className="mt-3 font-display text-xl font-medium leading-snug">“Se uma pessoa quer saber onde fazer a matrícula, como ela vai saber onde é a secretaria?”</blockquote>
+    </section>
+    <section className="mt-4 flex items-center gap-3 rounded-2xl bg-secondary p-4">
+      <Titia mood="wink" className="h-16 w-14 shrink-0" />
+      <p className="text-sm text-muted-foreground">A {GUIDE_NAME} é inspirada em uma das professoras que apoiam o projeto.</p>
+    </section>
   </AppShell>;
 }
