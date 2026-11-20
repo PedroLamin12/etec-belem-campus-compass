@@ -272,7 +272,6 @@
 .prof-guide { overflow: visible; }
 .prof-body { animation: prof-bob 4.8s ease-in-out infinite; transform-origin: 120px 250px; }
 .prof-eyes { animation: prof-blink 4.8s infinite; transform-box: fill-box; transform-origin: center; }
-.prof-arm { animation: prof-wave 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 10% 95%; }
 .prof-cheer .prof-body { animation: prof-hop 1.3s ease-in-out infinite; }
 .prof-sparkles path { animation: sparkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 .prof-sparkles path:nth-child(2) { animation-delay: 400ms; }
@@ -333,7 +332,6 @@
 @keyframes prof-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 @keyframes prof-hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
 @keyframes prof-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-@keyframes prof-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-4deg); } 75% { transform: rotate(3deg); } }
 @keyframes sparkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.6); opacity: 0.6; } }
 @keyframes talk-open { 0% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes talk-closed { 0% { opacity: 0; } 50% { opacity: 1; } }

@@ -2,12 +2,11 @@ import { cn } from "@/lib/utils";
 
 export type GuideMood = "happy" | "talk" | "wink" | "wow" | "think" | "cheer" | "wave";
 
-export const GUIDE_NAME = "Lúcia";
+export const GUIDE_NAME = "Titia";
 
-/** Original illustrated guide with a smooth blond bowl cut, round glasses, and shearling jacket. */
+/** Original illustrated guide with swept-back hair, round glasses, and a shearling jacket. */
 export function Titia({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
   const closedEyes = mood === "cheer";
-  const raisedArm = mood === "wave" || mood === "cheer";
   return (
     <svg viewBox="0 0 240 260" role="img" aria-label={label ?? `${GUIDE_NAME}, sua guia no campus`} className={cn("prof-guide", `prof-${mood}`, className)}>
       {bubble && <circle cx="120" cy="140" r="112" className="fill-guide-halo" />}
@@ -32,13 +31,16 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
         <ellipse cx="168" cy="122" rx="8" ry="12" className="fill-guide-skin-shade" />
         {/* face */}
         <path d="M74 104Q72 162 120 174Q168 162 166 104Q164 56 120 54Q76 56 74 104Z" className="fill-guide-skin" />
-        {/* smooth bowl cut with a blunt fringe */}
-        <path d="M64 128Q56 62 120 46Q184 62 176 128Q171 133 165 129L163 105Q120 100 77 105L75 129Q69 133 64 128Z" className="fill-guide-hair" />
-        <path d="M86 66Q104 54 124 54M140 56Q156 60 166 74" fill="none" className="stroke-guide-hair-light" strokeWidth="3.4" strokeLinecap="round" />
+        {/* Smooth crown and sides frame the face; separated locks leave the forehead visible. */}
+        <path d="M64 128Q56 62 120 46Q184 62 176 128Q171 133 165 129L162 105Q157 86 144 77Q133 69 120 68Q106 69 95 77Q82 87 78 105L75 129Q69 133 64 128Z" className="fill-guide-hair" />
+        <path d="M97 76Q104 70 112 68Q106 79 102 91Q99 97 96 92Q94 85 100 77Z" className="fill-guide-hair" />
+        <path d="M113 68Q120 66 127 68Q122 78 121 92Q120 99 116 95Q113 89 117 78Z" className="fill-guide-hair" />
+        <path d="M130 69Q138 71 145 77Q138 84 136 96Q134 101 131 96Q128 90 134 80Z" className="fill-guide-hair" />
+        <path d="M86 66Q104 54 124 54M140 56Q156 60 166 74M99 77Q97 83 96 88M117 76Q115 83 115 88M136 78Q133 84 133 89" fill="none" className="stroke-guide-hair-light" strokeWidth="3.4" strokeLinecap="round" />
         {/* brows */}
-        <g className={cn("prof-brows", mood === "wow" && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
-          <path d="M91 104Q100 101 109 103" className="stroke-guide-hair-shade" />
-          <path d="M131 103Q140 101 149 104" className="stroke-guide-hair-shade" />
+        <g className={cn("prof-brows", (mood === "wow" || mood === "cheer") && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
+          <path d={mood === "think" ? "M91 101Q100 95 109 101" : "M91 104Q100 101 109 103"} className="stroke-guide-hair-shade" />
+          <path d={mood === "wink" ? "M131 99Q140 97 149 102" : "M131 103Q140 101 149 104"} className="stroke-guide-hair-shade" />
         </g>
         {/* eyes */}
         {closedEyes ? (
@@ -65,17 +67,6 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
         <path d="M121 130Q125 138 119 140" fill="none" className="stroke-guide-skin-line" strokeWidth="2.2" strokeLinecap="round" />
         {/* mouth */}
         <Mouth mood={mood} />
-        {/* raised arm */}
-        {raisedArm && (
-          <g className="prof-arm">
-            <path d="M176 214Q198 201 202 171L207 151L225 155Q225 198 201 236Z" className="fill-guide-jacket" />
-            <path d="M204 157L226 161" className="stroke-guide-collar" strokeWidth="8" strokeLinecap="round" />
-            <g className="fill-guide-skin stroke-guide-skin-line" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round">
-              <path d="M205 160L203 140Q198 136 194 129Q191 125 194 121Q198 119 201 124L205 130L203 112Q203 106 208 105Q213 105 214 111L216 127L216 106Q217 100 222 101Q227 102 226 108L225 128L229 114Q231 109 235 111Q239 113 237 119L231 141Q227 154 216 160Q210 162 205 160Z" />
-              <path d="M203 140Q210 138 216 144" fill="none" />
-            </g>
-          </g>
-        )}
       </g>
       {(mood === "cheer" || mood === "wave") && (
         <g className="prof-sparkles fill-guide-spark">

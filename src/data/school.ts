@@ -38,7 +38,7 @@ export const buildingLabel: Record<Building, string> = {
 
 /** Waypoints of the school plan. x/y live in the map's 360x520 viewBox. */
 export type NodeId =
-  | "portaria" | "rampa" | "alameda" | "caixa" | "quadra1" | "quadra2"
+  | "portaria" | "rampa" | "alameda" | "caixa" | "lateralQuadras" | "quadra1" | "quadra2"
   | "patio" | "caminhoQuadras" | "cantina" | "secretaria" | "coordenacao" | "escada"
   | "corredor" | "salas" | "acessoAnexo" | "escadaAnexo" | "nutricao" | "auditorio" | "lab1" | "lab2"
   | "banheiros" | "finalPrincipal" | "escada2" | "corredor2" | "convivencia";
@@ -49,6 +49,7 @@ export const nodes: Record<NodeId, { x: number; y: number; level: Level; buildin
   alameda: { x: 260, y: 116, level: "externa", building: "externa", label: "Estacionamento e Alameda", landmark: "Vagas de estacionamento próximas à portaria. Siga pela alameda até o pátio sob o Prédio Principal." },
   caminhoQuadras: { x: 238, y: 170, level: "externa", building: "externa", label: "Caminho externo para as quadras", landmark: "Siga pela área externa ao lado do Prédio Principal, contornando o estacionamento." },
   caixa: { x: 288, y: 262, level: "externa", building: "externa", label: "Caixa d'água", landmark: "Torre cilíndrica de concreto junto às quadras." },
+  lateralQuadras: { x: 252, y: 395, level: "externa", building: "externa", label: "Lateral das quadras", landmark: "Siga pela passagem externa ao lado do alambrado até a segunda quadra, sem precisar entrar na Quadra 1." },
   quadra1: { x: 312, y: 352, level: "externa", building: "externa", label: "Quadra Poliesportiva 1", landmark: "Quadra verde com alambrado, atrás da caixa d'água." },
   quadra2: { x: 312, y: 438, level: "externa", building: "externa", label: "Quadra Poliesportiva 2", landmark: "Segunda quadra verde, ao fundo do terreno." },
   patio: { x: 182, y: 286, level: "terreo", building: "principal", label: "Pátio coberto (pilotis)", landmark: "Área coberta sob o Prédio Principal, entre as colunas de concreto." },
@@ -78,8 +79,9 @@ export const pathFromPortaria: Record<NodeId, NodeId[]> = {
   alameda: ["portaria", "rampa", "alameda"],
   caminhoQuadras: ["portaria", "rampa", "caminhoQuadras"],
   caixa: ["portaria", "rampa", "caminhoQuadras", "caixa"],
+  lateralQuadras: ["portaria", "rampa", "caminhoQuadras", "caixa", "lateralQuadras"],
   quadra1: ["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1"],
-  quadra2: ["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1", "quadra2"],
+  quadra2: ["portaria", "rampa", "caminhoQuadras", "caixa", "lateralQuadras", "quadra2"],
   patio: ["portaria", "rampa", "alameda", "patio"],
   acessoAnexo: ["portaria", "rampa", "alameda", "patio", "acessoAnexo"],
   escadaAnexo: ["portaria", "rampa", "alameda", "patio", "acessoAnexo", "escadaAnexo"],

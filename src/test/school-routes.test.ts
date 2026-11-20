@@ -99,7 +99,14 @@ describe("verified real photo associations", () => {
   it("the access ramp uses the real front entrance photo", () => expect(placeById("rampa")?.photo).toBe(frontal.url));
   it("the quadra route bypasses the parking lot after the ramp", () => {
     expect(routeBetween("portaria", "quadra1")).toEqual(["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1"]);
-    expect(routeBetween("portaria", "quadra2")).not.toContain("alameda");
+    expect(nodes.lateralQuadras).toMatchObject({
+      x: 252,
+      y: 395,
+      level: "externa",
+      label: "Lateral das quadras",
+    });
+    expect(routeBetween("portaria", "quadra2")).toEqual(["portaria", "rampa", "caminhoQuadras", "caixa", "lateralQuadras", "quadra2"]);
+    expect(routeBetween("portaria", "quadra2")).not.toContain("quadra1");
   });
   it("the main stairs are mapped on the left side of the building", () => expect(nodes.escada.x).toBe(160));
 });
