@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowLeft, CalendarDays, Compass, FileText, GraduationCap, Map, Navigation, Trophy } from "lucide-react";
 import logo from "@/assets/branding/campus-mark.svg";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,10 @@ export function Welcome({ onDone }: { onDone: () => void }) {
   const [goal, setGoal] = useState<(typeof goals)[number]>();
   const finish = () => { try { localStorage.setItem(WELCOME_KEY, "1"); } catch { /* storage unavailable */ } onDone(); };
   const target = goal && "place" in goal ? goal.place : undefined;
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); const prev = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = prev; }; }, []);
+  if (!mounted) return null;
+  return createPortal(
     <div role="dialog" aria-modal="true" aria-label="Boas-vindas ao Tour ETEC Belém" className="fixed inset-0 z-[60] flex flex-col bg-background">
       {step > 0 && <div className="mx-auto flex w-full max-w-md items-center gap-3 px-4 pt-5">
         <Button variant="ghost" size="icon" aria-label="Voltar" onClick={() => setStep((s) => s - 1)}><ArrowLeft className="!h-5 !w-5" /></Button>
@@ -58,6 +62,7 @@ export function Welcome({ onDone }: { onDone: () => void }) {
           ? <Button asChild size="lg" onClick={finish}><Link to="/rota" search={{ de: "portaria", para: target }}>{target === "secretaria" ? "Me leva até a Secretaria" : "Me leva até o Auditório"}</Link></Button>
           : <Button size="lg" onClick={finish}>Começar a trilha</Button>)}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

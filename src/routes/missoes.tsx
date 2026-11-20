@@ -49,9 +49,9 @@ function Missoes() {
       <div className="mt-6 flex items-center gap-3 rounded-2xl border-2 p-4"><Trophy className={`h-8 w-8 shrink-0 ${badge ? "text-brand-yellow-shade" : "text-muted-foreground"}`} /><div><p className="text-sm font-extrabold">Selo Calouro ETEC Conhecedor</p><p className="text-xs text-muted-foreground">{badge ? "Conquistado!" : "Faça check-in em todos os lugares."}</p></div></div>
 
       <h2 className="mb-3 mt-8 font-display text-lg font-semibold">Missões</h2>
-      <ul className="stagger grid gap-2 md:grid-cols-2">
+      <ul className="stagger grid grid-cols-1 gap-2 md:grid-cols-2">
         {missions.map((m) => { const ok = visited.includes(m.place); const p = placeById(m.place); if (!p) return null; return (
-          <li key={m.id}><Link to="/ambientes/$id" params={{ id: p.id }} className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-3">
+          <li key={m.id} className="min-w-0"><Link to="/ambientes/$id" params={{ id: p.id }} className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-3">
             <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${ok ? "bg-success text-success-foreground" : "bg-secondary text-muted-foreground"}`}>{ok ? <Check className="h-5 w-5" strokeWidth={3} /> : <Zap className="h-4 w-4" />}</span>
             <span className="min-w-0 flex-1"><span className="block truncate text-sm font-extrabold">{m.title}</span><span className="block truncate text-xs text-muted-foreground">{m.goal}</span></span>
             <span className="shrink-0 text-xs font-extrabold text-brand-yellow-shade">+{m.xp}</span>

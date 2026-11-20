@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
 const KEY = "tour-etec-theme";
+/** Browser/status-bar colour for each theme; keep in sync with --background in styles.css. */
+export const THEME_BAR = { light: "#f8f9fb", dark: "#14161f" } as const;
 
-/** Runs before paint so the saved (or system) theme never flashes. */
-export const themeScript = `(function(){try{var t=localStorage.getItem('${KEY}');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.classList.toggle('dark',t==='dark')}catch(e){}})()`;
+/** Runs before paint so the saved theme never flashes. Light is the default in the browser and the installed app alike. */
+export const themeScript = `(function(){try{var d=localStorage.getItem('${KEY}')==='dark';document.documentElement.classList.toggle('dark',d);var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',d?'${THEME_BAR.dark}':'${THEME_BAR.light}')}catch(e){}})()`;
 
 export function useTheme() {
   const [dark, setDark] = useState(false);
@@ -11,6 +13,7 @@ export function useTheme() {
   const toggle = () => {
     const next = !document.documentElement.classList.contains("dark");
     document.documentElement.classList.toggle("dark", next);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next ? THEME_BAR.dark : THEME_BAR.light);
     try { localStorage.setItem(KEY, next ? "dark" : "light"); } catch { /* storage unavailable */ }
     setDark(next);
   };

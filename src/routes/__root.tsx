@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Tour ETEC Belém" },
       { name: "description", content: "Guia interativo da ETEC Parque Belém: mapa, rotas e missões de calouro." },
-      { name: "theme-color", content: "#D7263D" },
+      { name: "theme-color", content: "#f8f9fb" },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "Guia interativo da ETEC Parque Belém." },
       { property: "og:type", content: "website" },
@@ -112,8 +112,8 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
         {children}
