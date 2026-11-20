@@ -99,7 +99,6 @@
   --color-guide-skin-line: var(--guide-skin-line);
   --color-guide-collar: var(--guide-collar);
   --color-guide-collar-shade: var(--guide-collar-shade);
-  --color-guide-blush: var(--guide-blush);
   --color-guide-ink: var(--guide-ink);
   --color-guide-eye: var(--guide-eye);
   --color-guide-white: var(--guide-white);
@@ -195,7 +194,6 @@
   --guide-skin-line: oklch(0.74 0.08 45);
   --guide-collar: oklch(0.97 0.012 85);
   --guide-collar-shade: oklch(0.86 0.025 80);
-  --guide-blush: oklch(0.79 0.11 20);
   --guide-ink: oklch(0.27 0.03 265);
   --guide-eye: oklch(0.42 0.07 50);
   --guide-white: oklch(1 0 0);
@@ -272,11 +270,11 @@
 
 /* guide */
 .prof-guide { overflow: visible; }
-.prof-body { animation: prof-bob 3.6s ease-in-out infinite; transform-origin: 120px 250px; }
+.prof-body { animation: prof-bob 4.8s ease-in-out infinite; transform-origin: 120px 250px; }
 .prof-eyes { animation: prof-blink 4.8s infinite; transform-box: fill-box; transform-origin: center; }
-.prof-arm { animation: prof-wave 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 10% 95%; }
-.prof-cheer .prof-body { animation: prof-hop 900ms var(--ease-bounce) infinite; }
-.prof-sparkles path { animation: sparkle 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.prof-arm { animation: prof-wave 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 10% 95%; }
+.prof-cheer .prof-body { animation: prof-hop 1.3s ease-in-out infinite; }
+.prof-sparkles path { animation: sparkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 .prof-sparkles path:nth-child(2) { animation-delay: 400ms; }
 .prof-mouth-open { animation: talk-open 520ms steps(1) infinite; }
 .prof-mouth-closed { animation: talk-closed 520ms steps(1) infinite; }
@@ -332,10 +330,10 @@
 @keyframes ping { 75%, 100% { transform: scale(1.5); opacity: 0; } }
 @keyframes ring-pulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.15); opacity: 0; } }
 @keyframes bubble-bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -5px); } }
-@keyframes prof-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-@keyframes prof-hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-12px); } }
+@keyframes prof-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes prof-hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
 @keyframes prof-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-@keyframes prof-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-9deg); } 75% { transform: rotate(7deg); } }
+@keyframes prof-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-4deg); } 75% { transform: rotate(3deg); } }
 @keyframes sparkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.6); opacity: 0.6; } }
 @keyframes talk-open { 0% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes talk-closed { 0% { opacity: 0; } 50% { opacity: 1; } }

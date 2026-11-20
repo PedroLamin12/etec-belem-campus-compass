@@ -39,7 +39,7 @@ export const buildingLabel: Record<Building, string> = {
 /** Waypoints of the school plan. x/y live in the map's 360x520 viewBox. */
 export type NodeId =
   | "portaria" | "rampa" | "alameda" | "caixa" | "quadra1" | "quadra2"
-  | "patio" | "cantina" | "secretaria" | "coordenacao" | "escada"
+  | "patio" | "caminhoQuadras" | "cantina" | "secretaria" | "coordenacao" | "escada"
   | "corredor" | "salas" | "acessoAnexo" | "escadaAnexo" | "nutricao" | "auditorio" | "lab1" | "lab2"
   | "banheiros" | "finalPrincipal" | "escada2" | "corredor2" | "convivencia";
 
@@ -47,6 +47,7 @@ export const nodes: Record<NodeId, { x: number; y: number; level: Level; buildin
   portaria: { x: 236, y: 38, level: "externa", building: "externa", label: "Portaria principal", landmark: "Arco amarelo e guarita vermelha na entrada da escola." },
   rampa: { x: 232, y: 76, level: "externa", building: "externa", label: "Rampa de acesso", landmark: "Rampa com corrimão logo após o arco da portaria." },
   alameda: { x: 260, y: 116, level: "externa", building: "externa", label: "Estacionamento e Alameda", landmark: "Vagas de estacionamento próximas à portaria. Siga pela alameda até o pátio sob o Prédio Principal." },
+  caminhoQuadras: { x: 238, y: 170, level: "externa", building: "externa", label: "Caminho externo para as quadras", landmark: "Siga pela área externa ao lado do Prédio Principal, contornando o estacionamento." },
   caixa: { x: 288, y: 262, level: "externa", building: "externa", label: "Caixa d'água", landmark: "Torre cilíndrica de concreto junto às quadras." },
   quadra1: { x: 312, y: 352, level: "externa", building: "externa", label: "Quadra Poliesportiva 1", landmark: "Quadra verde com alambrado, atrás da caixa d'água." },
   quadra2: { x: 312, y: 438, level: "externa", building: "externa", label: "Quadra Poliesportiva 2", landmark: "Segunda quadra verde, ao fundo do terreno." },
@@ -56,10 +57,10 @@ export const nodes: Record<NodeId, { x: number; y: number; level: Level; buildin
   secretaria: { x: 70, y: 332, level: "subsolo", building: "anexo", label: "Secretaria Acadêmica", landmark: "No subsolo do Bloco Anexo: setor de matrícula e atendimento acadêmico." },
   cantina: { x: 70, y: 214, level: "terreo", building: "anexo", accessOnly: true, label: "Cantina", landmark: "No Bloco Anexo, onde se compram lanches. Acesso ao bloco pelo pátio, no térreo." },
   nutricao: { x: 70, y: 382, level: "terreo", building: "anexo", accessOnly: true, label: "Laboratório de Nutrição", landmark: "Cozinha com bancadas e equipamentos em inox no Bloco Anexo. Acesso ao bloco pelo pátio, no térreo." },
-  escada: { x: 204, y: 274, level: "terreo", building: "principal", label: "Escadaria principal", landmark: "Escadaria no pátio coberto do Prédio Principal, com acesso aos andares superiores." },
+  escada: { x: 160, y: 274, level: "terreo", building: "principal", label: "Escadaria principal", landmark: "Escadaria à esquerda no pátio coberto do Prédio Principal, com acesso aos andares superiores." },
   corredor: { x: 182, y: 250, level: "andar1", building: "principal", label: "Corredor do 1º andar", landmark: "Corredor envidraçado do Prédio Principal, onde ficam os laboratórios de Informática." },
-  convivencia: { x: 182, y: 312, level: "terreo", building: "principal", label: "Refeição e convivência nos pilotis", landmark: "Mesas para comer e sentar no pátio coberto sob o Prédio Principal, no térreo." },
-  salas: { x: 182, y: 128, level: "andar2", building: "principal", label: "Salas de aula · 2º andar", landmark: "Salas distribuídas pelos corredores de todo o 2º andar do Prédio Principal, até a Coordenação no final." },
+  convivencia: { x: 182, y: 312, level: "terreo", building: "principal", label: "Refeição e convivência nos pilotis", landmark: "Mesas azuis para refeição e convivência sob os pilotis do Prédio Principal, no térreo." },
+  salas: { x: 182, y: 128, level: "andar2", building: "principal", label: "Salas de aula · 2º andar", landmark: "As salas ocupam quase todo o corredor do 2º andar, desde o início até perto da Coordenação e da Direção." },
   lab1: { x: 182, y: 182, level: "andar1", building: "principal", label: "Lab. de Informática 1", landmark: "No 1º andar do Prédio Principal, acessado pelo corredor envidraçado." },
   lab2: { x: 182, y: 216, level: "andar1", building: "principal", label: "Lab. de Informática 2", landmark: "No mesmo 1º andar do Prédio Principal; procure a identificação do laboratório." },
   finalPrincipal: { x: 182, y: 380, level: "terreo", building: "principal", label: "Final do Prédio Principal", landmark: "Siga pelo térreo até a parte mais larga no final do prédio. Na visão de quem entra: Banheiros à esquerda e Auditório à direita." },
@@ -75,9 +76,10 @@ export const pathFromPortaria: Record<NodeId, NodeId[]> = {
   portaria: ["portaria"],
   rampa: ["portaria", "rampa"],
   alameda: ["portaria", "rampa", "alameda"],
-  caixa: ["portaria", "rampa", "alameda", "caixa"],
-  quadra1: ["portaria", "rampa", "alameda", "caixa", "quadra1"],
-  quadra2: ["portaria", "rampa", "alameda", "caixa", "quadra1", "quadra2"],
+  caminhoQuadras: ["portaria", "rampa", "caminhoQuadras"],
+  caixa: ["portaria", "rampa", "caminhoQuadras", "caixa"],
+  quadra1: ["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1"],
+  quadra2: ["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1", "quadra2"],
   patio: ["portaria", "rampa", "alameda", "patio"],
   acessoAnexo: ["portaria", "rampa", "alameda", "patio", "acessoAnexo"],
   escadaAnexo: ["portaria", "rampa", "alameda", "patio", "acessoAnexo", "escadaAnexo"],
@@ -145,11 +147,11 @@ export const places: Place[] = [
     description: "Rampa com corrimão logo após a portaria, que leva ao nível da alameda com acessibilidade para cadeirantes e pessoas com mobilidade reduzida.",
     services: ["Acesso acessível", "Ligação portaria ↔ alameda"], block: "Área Externa · logo após o arco", keywords: ["acessibilidade", "cadeirante", "rampa"] },
   { id: "estacionamento", node: "alameda", name: "Estacionamento e Alameda", category: "Acesso", photo: estacionamento.url, gallery: [alameda.url],
-    description: "Estacionamento próximo à entrada e à portaria. A alameda segue ao lado do Prédio Principal e leva ao pátio e às quadras.",
+    description: "Estacionamento próximo à entrada e à portaria. A alameda segue ao lado do Prédio Principal e leva ao pátio; para as quadras, siga pelo caminho externo sem atravessar o estacionamento.",
     services: ["Estacionamento", "Embarque e desembarque"], block: "Área Externa · próximo à portaria", keywords: ["carro", "vaga", "alameda", "estacionar"] },
-  { id: "convivencia", node: "convivencia", name: "Refeição e Convivência", category: "Convivência", photo: refeitorio.url, gallery: [pilotis.url],
-    description: "Área com as mesas azuis para comer, sentar e conversar, no pátio coberto sob os pilotis do Prédio Principal, no térreo. É o ponto de encontro dos intervalos.",
-    services: ["Mesas para refeição", "Intervalo", "Convivência"], block: "Prédio Principal · Térreo · sob pilotis", keywords: ["comida", "mesas", "sentar", "pátio", "pilotis", "refeição", "refeitório", "almoço", "intervalo"] },
+  { id: "salas", node: "salas", name: "Salas de Aula", category: "Ensino", photo: salaAula.url,
+    description: "As salas de aula ocupam quase todo o corredor do 2º andar do Prédio Principal, desde o início até perto da Coordenação e da Direção. O acesso é pela escadaria do pátio, passando pelo 1º andar e subindo ao 2º.",
+    services: ["Aulas teóricas", "Provas e avaliações"], block: "Prédio Principal · 2º Andar", keywords: ["aula", "sala", "turma", "classe"] },
   { id: "auditorio", node: "auditorio", name: "Auditório", category: "Eventos", photo: auditorio.url,
     description: "Auditório no final do Prédio Principal, no térreo, à direita na visão de quem entra; um pouco maior que os Banheiros à esquerda. Espaço para palestras, apresentações e eventos da escola.",
     services: ["Palestras", "Apresentações de TCC", "Reuniões de pais"], block: "Prédio Principal · final do térreo · direita", keywords: ["evento", "palestra", "tcc", "reunião"] },
@@ -171,9 +173,9 @@ export const places: Place[] = [
   { id: "lab2", node: "lab2", name: "Laboratório de Informática 2", category: "Laboratórios", photo: labInfo2.url,
     description: "Segundo laboratório de Informática, com notebooks, também no 1º andar do Prédio Principal, para aulas práticas e projetos de desenvolvimento de sistemas.",
     services: ["Notebooks", "Projetos em grupo", "Aulas de mobile"], block: "Prédio Principal · 1º Andar", keywords: ["notebook", "informática", "mobile"] },
-  { id: "salas", node: "salas", name: "Salas de Aula", category: "Ensino", photo: salaAula.url,
-    description: "Salas de aula distribuídas pelos corredores de todo o 2º andar do Prédio Principal, até a Coordenação no final. O acesso é pela escadaria do pátio, passando pelo 1º andar e subindo ao 2º.",
-    services: ["Aulas teóricas", "Provas e avaliações"], block: "Prédio Principal · 2º Andar", keywords: ["aula", "sala", "turma", "classe"] },
+  { id: "convivencia", node: "convivencia", name: "Refeição e Convivência", category: "Convivência", photo: refeitorio.url, gallery: [pilotis.url],
+    description: "Área com as mesas azuis para comer, sentar e conversar, no pátio coberto sob os pilotis do Prédio Principal, no térreo. É o ponto de encontro dos intervalos.",
+    services: ["Mesas para refeição", "Intervalo", "Convivência"], block: "Prédio Principal · Térreo · sob pilotis", keywords: ["comida", "mesas", "sentar", "pátio", "pilotis", "refeição", "refeitório", "almoço", "intervalo"] },
   { id: "coordenacao", node: "coordenacao", name: "Coordenação e Direção", category: "Administração",
     description: "Coordenação pedagógica, coordenação de curso e direção no final do Prédio Principal, no 2º andar, o piso superior. O acesso é pela escadaria do pátio coberto.",
     services: ["Atendimento a responsáveis", "Dúvidas sobre o curso", "Justificativa de faltas"], block: "Prédio Principal · final do prédio · 2º Andar", keywords: ["coordenador", "diretor", "direção", "administração", "falta"] },

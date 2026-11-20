@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Tour ETEC Belém — Conheça a escola passo a passo" },
-      { name: "description", content: "Trilha, mapa e rotas passo a passo para conhecer a ETEC Parque Belém com a Titia. Descubra onde fica a Secretaria, os laboratórios e muito mais." },
+      { name: "description", content: "Trilha, mapa e rotas passo a passo para conhecer a ETEC Parque Belém com a Lúcia. Descubra onde fica a Secretaria, os laboratórios e muito mais." },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "O jeito mais fácil de conhecer a ETEC Parque Belém." },
       { property: "og:type", content: "website" },

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { aerialPhoto, floorTransition, missions, nodes, pathFromPortaria, placeById, places, rearRooms, routeBetween, satellitePoint, team, type NodeId } from "@/data/school";
 import portaria from "@/assets/photos/portaria-arco-real.jpg.asset.json";
 import refeitorio from "@/assets/photos/refeitorio-mesas-azuis-real.jpg.asset.json";
+import pilotis from "@/assets/photos/patio-pilotis-real.jpg.asset.json";
 import frontal from "@/assets/photos/portaria-entrada.jpg.asset.json";
 import labInfo from "@/assets/photos/lab-info.jpg.asset.json";
 import aerialV2 from "@/assets/photos/campus-aerial-v2.jpg.asset.json";
@@ -64,7 +65,10 @@ describe("confirmed school layout", () => {
     expect(a).toBeGreaterThan(b);
     expect(a / b).toBeLessThan(1.15);
   });
-  it("number 9 is the ground-floor pilotis dining area, not classrooms", () => {
+  it("number 12 is the ground-floor pilotis dining area, with no empty ground-floor number 4", () => {
+    expect(places.findIndex((place) => place.id === "salas")).toBe(3);
+    expect(nodes.salas.level).toBe("andar2");
+    expect(places.findIndex((place) => place.id === "convivencia")).toBe(11);
     expect(placeById("convivencia")?.category).toBe("Convivência");
     expect(nodes.convivencia.level).toBe("terreo");
     expect(nodes.convivencia.building).toBe("principal");
@@ -87,8 +91,17 @@ describe("verified real photo associations", () => {
   it("Lab 1 uses the real interior with computers", () => expect(placeById("lab1")?.photo).toBe(labInfo.url));
   it("places without their own photo show none instead of another place", () => { for (const id of ["banheiros", "cantina", "secretaria", "coordenacao"]) expect(placeById(id)?.photo).toBeUndefined(); });
   it("satellite uses the supplied clean v2 photograph", () => expect(aerialPhoto).toBe(aerialV2.url));
-  it("the dining area uses the real blue-table photo", () => expect(placeById("convivencia")?.photo).toBe(refeitorio.url));
+  it("the dining area uses its real blue-table and pilotis photos", () => {
+    expect(placeById("convivencia")?.photo).toBe(refeitorio.url);
+    expect(placeById("convivencia")?.gallery).toContain(pilotis.url);
+    expect(placeById("convivencia")?.gallery).toHaveLength(1);
+  });
   it("the access ramp uses the real front entrance photo", () => expect(placeById("rampa")?.photo).toBe(frontal.url));
+  it("the quadra route bypasses the parking lot after the ramp", () => {
+    expect(routeBetween("portaria", "quadra1")).toEqual(["portaria", "rampa", "caminhoQuadras", "caixa", "quadra1"]);
+    expect(routeBetween("portaria", "quadra2")).not.toContain("alameda");
+  });
+  it("the main stairs are mapped on the left side of the building", () => expect(nodes.escada.x).toBe(160));
 });
 
 describe("entrance markers in the aerial photograph", () => {

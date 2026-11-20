@@ -7,6 +7,7 @@ import { useProgress } from "@/data/progress";
 import { useTheme } from "@/lib/theme";
 import { CampusGuide } from "@/components/CampusGuide";
 import { CheckInCelebration } from "@/components/CheckInCelebration";
+import { InstallAppPrompt } from "@/components/InstallAppPrompt";
 
 const tabs = [
   { to: "/", label: "Início", icon: Home },
@@ -48,6 +49,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
+      <InstallAppPrompt />
       <main key={pathname} className="page-enter mx-auto max-w-5xl px-4 pb-28 pt-5 md:px-8 lg:pb-16">{children}</main>
       <CheckInCelebration />
       <nav aria-label="Navegação" className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">

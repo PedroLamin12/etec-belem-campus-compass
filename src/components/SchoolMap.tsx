@@ -66,7 +66,12 @@ export function SchoolMap({ level, route = [], selected, onSelect, className, de
           <text x="212" y="411" textAnchor="middle" className="fill-map-label text-[8px]">Auditório</text>
         </>}
         {level === "andar1" && <text x="160" y="162" className="fill-map-label text-[9px] font-bold">Informática</text>}
-        {level === "andar2" && <><text x="182" y="106" textAnchor="middle" className="fill-map-label text-[8px]">Salas · corredores</text><text x="182" y="431" textAnchor="middle" className="fill-map-label text-[9px] font-bold">Coordenação</text></>}
+        {level === "andar2" && <>
+          <path d="M154 82H210V340H230V416H154Z" className="fill-map-floor1" opacity=".75" />
+          <text x="182" y="106" textAnchor="middle" className="fill-map-label text-[8px] font-bold">Salas de aula</text>
+          <text x="182" y="250" textAnchor="middle" className="fill-map-label text-[8px]">Corredor com salas</text>
+          <text x="182" y="431" textAnchor="middle" className="fill-map-label text-[9px] font-bold">Coordenação</text>
+        </>}
       </g>
       <g opacity={on("terreo") || on("subsolo") ? 1 : 0.3}>
         <rect x="32" y="182" width="78" height="286" rx="4" className={cn(level === "subsolo" ? "fill-map-admin" : "fill-map-building", "stroke-map-line")} strokeWidth="1.5" />

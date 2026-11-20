@@ -21,7 +21,14 @@ describe("App routing", () => {
     expect(router.matchRoutes(router.history.location.pathname).at(-1)?.routeId).toBe("/");
   });
   it("installed app launches from the home URL", () => {
-    expect(JSON.parse(manifest).start_url).toBe("/");
+    const appManifest = JSON.parse(manifest) as {
+      start_url: string;
+      display: string;
+      icons: { sizes: string }[];
+    };
+    expect(appManifest.start_url).toBe("/");
+    expect(appManifest.display).toBe("standalone");
+    expect(appManifest.icons.map((icon) => icon.sizes)).toEqual(expect.arrayContaining(["192x192", "512x512"]));
   });
   it("the Android wrapper opens the published home by default", () => {
     expect(nativeConfig.server.url).toBe("https://etec-belem-campus-compass.lovable.app/");

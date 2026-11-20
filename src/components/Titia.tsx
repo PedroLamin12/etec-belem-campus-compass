@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 
 export type GuideMood = "happy" | "talk" | "wink" | "wow" | "think" | "cheer" | "wave";
 
-export const GUIDE_NAME = "Titia";
+export const GUIDE_NAME = "Lúcia";
 
-/** Original illustrated guide inspired by one of the supporting teachers: short blond bowl cut, round glasses, shearling jacket. */
+/** Original illustrated guide with a smooth blond bowl cut, round glasses, and shearling jacket. */
 export function Titia({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
   const closedEyes = mood === "cheer";
   const raisedArm = mood === "wave" || mood === "cheer";
@@ -12,7 +12,7 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
     <svg viewBox="0 0 240 260" role="img" aria-label={label ?? `${GUIDE_NAME}, sua guia no campus`} className={cn("prof-guide", `prof-${mood}`, className)}>
       {bubble && <circle cx="120" cy="140" r="112" className="fill-guide-halo" />}
       <g className="prof-body">
-        {/* back hair: short bowl */}
+        {/* back hair */}
         <path d="M64 130Q52 78 82 54Q120 28 158 54Q188 78 176 130Q170 136 164 130L162 108H78L76 130Q70 136 64 130Z" className="fill-guide-hair-shade" />
         {/* body */}
         <path d="M20 262Q22 204 80 188L102 182Q120 198 138 182L160 188Q218 204 220 262Z" className="fill-guide-jacket" />
@@ -32,12 +32,9 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
         <ellipse cx="168" cy="122" rx="8" ry="12" className="fill-guide-skin-shade" />
         {/* face */}
         <path d="M74 104Q72 162 120 174Q168 162 166 104Q164 56 120 54Q76 56 74 104Z" className="fill-guide-skin" />
-        <ellipse cx="94" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
-        <ellipse cx="146" cy="144" rx="9" ry="5.5" className="fill-guide-blush prof-blush" />
-        {/* bowl cut: rounded cap, short sides, straight little fringe */}
-        <path d="M64 128Q56 62 120 46Q184 62 176 128Q172 134 166 130Q167 108 160 98L152 102L144 95L135 101L126 94L117 101L108 95L99 101L90 96L80 100Q73 108 74 130Q68 134 64 128Z" className="fill-guide-hair" />
+        {/* smooth bowl cut with a blunt fringe */}
+        <path d="M64 128Q56 62 120 46Q184 62 176 128Q171 133 165 129L163 105Q120 100 77 105L75 129Q69 133 64 128Z" className="fill-guide-hair" />
         <path d="M86 66Q104 54 124 54M140 56Q156 60 166 74" fill="none" className="stroke-guide-hair-light" strokeWidth="3.4" strokeLinecap="round" />
-        <path d="M70 108Q70 120 72 128M170 108Q170 120 168 128" fill="none" className="stroke-guide-hair-shade" strokeWidth="2" strokeLinecap="round" />
         {/* brows */}
         <g className={cn("prof-brows", mood === "wow" && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
           <path d="M91 104Q100 101 109 103" className="stroke-guide-hair-shade" />
@@ -71,17 +68,13 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
         {/* raised arm */}
         {raisedArm && (
           <g className="prof-arm">
-            <path d="M176 214Q204 196 206 152L226 156Q230 204 200 236Z" className="fill-guide-jacket" />
-            <path d="M203 156L228 160" className="stroke-guide-collar" strokeWidth="9" strokeLinecap="round" />
-            <g className="fill-guide-skin stroke-guide-skin-line" strokeWidth="1.6">
-              <rect x="203" y="110" width="8" height="26" rx="4" transform="rotate(-12 207 123)" />
-              <rect x="212" y="104" width="8" height="28" rx="4" transform="rotate(-4 216 118)" />
-              <rect x="221" y="105" width="8" height="27" rx="4" transform="rotate(5 225 118)" />
-              <rect x="229" y="112" width="7.5" height="23" rx="3.75" transform="rotate(14 233 123)" />
-              <path d="M202 140Q200 126 212 124H230Q238 126 236 142Q232 158 218 158Q204 156 202 140Z" />
-              <path d="M204 142Q194 134 196 126Q200 122 206 130" />
+            <path d="M176 214Q198 201 202 171L207 151L225 155Q225 198 201 236Z" className="fill-guide-jacket" />
+            <path d="M204 157L226 161" className="stroke-guide-collar" strokeWidth="8" strokeLinecap="round" />
+            <g className="fill-guide-skin stroke-guide-skin-line" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round">
+              <path d="M205 160L203 140Q198 136 194 129Q191 125 194 121Q198 119 201 124L205 130L203 112Q203 106 208 105Q213 105 214 111L216 127L216 106Q217 100 222 101Q227 102 226 108L225 128L229 114Q231 109 235 111Q239 113 237 119L231 141Q227 154 216 160Q210 162 205 160Z" />
+              <path d="M203 140Q210 138 216 144" fill="none" />
             </g>
-            </g>
+          </g>
         )}
       </g>
       {(mood === "cheer" || mood === "wave") && (
