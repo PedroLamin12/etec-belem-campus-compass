@@ -3,7 +3,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { Search, X, Check, Trophy, FileText, GraduationCap, Monitor, Utensils, Dribbble, Mic, ChevronRight, DoorOpen, Building2, Users, Car, Toilet, ChefHat, Coffee, Briefcase } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
-import { Titia, GUIDE_NAME } from "@/components/Titia";
+import { Belinho, GUIDE_NAME } from "@/components/Titia";
 import { Welcome, WELCOME_KEY } from "@/components/Welcome";
 import { placeById, places, quickActions, units, nodeLocation } from "@/data/school";
 import { useProgress } from "@/data/progress";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Tour ETEC Belém — Conheça a escola passo a passo" },
-      { name: "description", content: "Trilha, mapa e rotas passo a passo para conhecer a ETEC Parque Belém com a Titia. Descubra onde fica a Secretaria, os laboratórios e muito mais." },
+      { name: "description", content: "Trilha, mapa e rotas passo a passo para conhecer a ETEC Parque Belém com o Belinho, seu guia no campus. Descubra onde fica a Secretaria, os laboratórios e muito mais." },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "O jeito mais fácil de conhecer a ETEC Parque Belém." },
       { property: "og:type", content: "website" },
@@ -44,8 +44,8 @@ function Index() {
   return (
     <AppShell>
       {welcome && <Welcome onDone={() => setWelcome(false)} />}
-      <section className="surface flex items-center gap-3 p-4">
-        <Titia mood="wave" bubble className="h-24 w-24 shrink-0" />
+      <section className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-sm">
+        <Belinho mood="wave" bubble className="h-24 w-24 shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="eyebrow text-primary">{GUIDE_NAME} diz</p>
           <h1 className="mt-1 font-display text-xl font-semibold leading-snug">{nextPlace ? <>Bora pra {nextPlace.name}?</> : "Você já conhece a ETEC inteira!"}</h1>
@@ -115,7 +115,7 @@ function Index() {
 
         <div className="mt-10 grid grid-cols-2 gap-3">
           <Link to="/creditos" className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-4"><Users className="h-5 w-5 text-primary" /><span className="text-sm font-extrabold">Quem fez</span></Link>
-          <button type="button" onClick={() => setWelcome(true)} className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-4 text-left"><Titia className="h-8 w-8" /><span className="text-sm font-extrabold">Rever a apresentação</span></button>
+          <button type="button" onClick={() => setWelcome(true)} className="tap flex items-center gap-3 rounded-2xl border-2 bg-card p-4 text-left"><Belinho className="h-8 w-8" /><span className="text-sm font-extrabold">Rever a apresentação</span></button>
         </div>
         <p className="mt-6 text-center text-xs text-muted-foreground">{places.length} lugares reais · feito por alunos da ETEC Parque Belém</p>
       </>}

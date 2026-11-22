@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { Titia } from "@/components/Titia";
+import { Belinho } from "@/components/Titia";
 import { missions, placeById } from "@/data/school";
 import { resetProgress, useProgress } from "@/data/progress";
 import { nextCampusMission } from "@/data/exploration";
@@ -33,7 +33,7 @@ function Missoes() {
     <AppShell>
       <PageHeader title="Conquistas" />
       <section className="surface flex items-center gap-4 p-4">
-        <Titia mood={badge ? "cheer" : "happy"} bubble className="h-24 w-24 shrink-0" />
+        <Belinho mood={badge ? "cheer" : "happy"} bubble className="h-24 w-24 shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="eyebrow text-muted-foreground">Seu nível</p>
           <p className="font-display text-2xl font-semibold">{levelName(done.length)}</p>

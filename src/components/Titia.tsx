@@ -2,77 +2,59 @@ import { cn } from "@/lib/utils";
 
 export type GuideMood = "happy" | "talk" | "wink" | "wow" | "think" | "cheer" | "wave";
 
-export const GUIDE_NAME = "Titia";
+export const GUIDE_NAME = "Belinho";
 
-/** Original illustrated guide with swept-back hair, round glasses, and a shearling jacket. */
-export function Titia({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
-  const closedEyes = mood === "cheer";
+export function Belinho({ mood = "happy", className, bubble = false, label }: { mood?: GuideMood; className?: string | undefined; bubble?: boolean; label?: string }) {
+  const eyesClosed = mood === "cheer";
   return (
-    <svg viewBox="0 0 240 260" role="img" aria-label={label ?? `${GUIDE_NAME}, sua guia no campus`} className={cn("prof-guide", `prof-${mood}`, className)}>
-      {bubble && <circle cx="120" cy="140" r="112" className="fill-guide-halo" />}
+    <svg viewBox="0 0 240 260" role="img" aria-label={label ?? `${GUIDE_NAME}, seu guia no campus`} className={cn("prof-guide", `prof-${mood}`, className)}>
+      {bubble && <circle cx="120" cy="142" r="112" className="fill-guide-halo" />}
       <g className="prof-body">
-        {/* back hair */}
-        <path d="M64 130Q52 78 82 54Q120 28 158 54Q188 78 176 130Q170 136 164 130L162 108H78L76 130Q70 136 64 130Z" className="fill-guide-hair-shade" />
-        {/* body */}
-        <path d="M20 262Q22 204 80 188L102 182Q120 198 138 182L160 188Q218 204 220 262Z" className="fill-guide-jacket" />
-        <path d="M44 262Q48 222 70 204M196 262Q192 222 170 204" fill="none" className="stroke-guide-jacket-shade" strokeWidth="3" strokeLinecap="round" />
-        <path d="M96 186Q120 216 144 186L152 262H88Z" className="fill-guide-top" />
-        <path d="M100 188Q120 210 140 188" fill="none" className="stroke-guide-top-shade" strokeWidth="3" />
-        {/* neck */}
-        <path d="M105 160V188Q120 198 135 188V160Z" className="fill-guide-skin-shade" />
-        {/* shearling collar */}
-        <g className="fill-guide-collar stroke-guide-collar" strokeWidth="7" strokeLinecap="round" strokeDasharray="0.1 7.5" strokeLinejoin="round">
-          <path d="M100 182Q78 186 56 198Q64 226 92 252Q96 226 108 208Q102 196 100 182Z" />
-          <path d="M140 182Q162 186 184 198Q176 226 148 252Q144 226 132 208Q138 196 140 182Z" />
+        <path d="M56 114Q39 76 48 48Q71 58 86 76Q119 54 154 76Q169 58 192 48Q201 82 182 119L177 191Q165 230 120 237Q75 230 63 191Z" className="fill-guide-feather-shade" />
+        <path d="M60 115Q45 80 53 56Q75 64 91 84Q120 66 149 84Q165 64 187 56Q195 83 180 119L174 190Q162 224 120 230Q78 224 66 190Z" className="fill-guide-feather" />
+        <path d="M72 154Q74 112 120 105Q166 112 168 154Q168 207 120 216Q72 207 72 154Z" className="fill-guide-belly" />
+        <path d="M68 118Q73 83 101 85Q116 87 120 105Q124 87 139 85Q167 83 172 118Q169 147 145 151Q131 153 120 141Q109 153 95 151Q71 147 68 118Z" className="fill-guide-face" />
+
+        <g className="prof-wing prof-wing-left">
+          <path d="M69 137Q43 128 29 151Q34 177 68 189Q79 169 78 148Z" className="fill-guide-wing" />
+          <path d="M65 151Q50 154 41 163M67 162Q54 167 49 175" fill="none" className="stroke-guide-wing-shade" strokeWidth="3" strokeLinecap="round" />
         </g>
-        <path d="M70 206Q80 222 92 236M170 206Q160 222 148 236" fill="none" className="stroke-guide-collar-shade" strokeWidth="2" strokeLinecap="round" />
-        {/* ears */}
-        <ellipse cx="72" cy="122" rx="8" ry="12" className="fill-guide-skin-shade" />
-        <ellipse cx="168" cy="122" rx="8" ry="12" className="fill-guide-skin-shade" />
-        {/* face */}
-        <path d="M74 104Q72 162 120 174Q168 162 166 104Q164 56 120 54Q76 56 74 104Z" className="fill-guide-skin" />
-        {/* Smooth crown and sides frame the face; separated locks leave the forehead visible. */}
-        <path d="M64 128Q56 62 120 46Q184 62 176 128Q171 133 165 129L162 105Q157 86 144 77Q133 69 120 68Q106 69 95 77Q82 87 78 105L75 129Q69 133 64 128Z" className="fill-guide-hair" />
-        <path d="M97 76Q104 70 112 68Q106 79 102 91Q99 97 96 92Q94 85 100 77Z" className="fill-guide-hair" />
-        <path d="M113 68Q120 66 127 68Q122 78 121 92Q120 99 116 95Q113 89 117 78Z" className="fill-guide-hair" />
-        <path d="M130 69Q138 71 145 77Q138 84 136 96Q134 101 131 96Q128 90 134 80Z" className="fill-guide-hair" />
-        <path d="M86 66Q104 54 124 54M140 56Q156 60 166 74M99 77Q97 83 96 88M117 76Q115 83 115 88M136 78Q133 84 133 89" fill="none" className="stroke-guide-hair-light" strokeWidth="3.4" strokeLinecap="round" />
-        {/* brows */}
-        <g className={cn("prof-brows", (mood === "wow" || mood === "cheer") && "prof-brows-up")} fill="none" strokeWidth="2.6" strokeLinecap="round">
-          <path d={mood === "think" ? "M91 101Q100 95 109 101" : "M91 104Q100 101 109 103"} className="stroke-guide-hair-shade" />
-          <path d={mood === "wink" ? "M131 99Q140 97 149 102" : "M131 103Q140 101 149 104"} className="stroke-guide-hair-shade" />
+        <g className="prof-wing prof-wing-right">
+          <path d="M171 137Q197 128 211 151Q206 177 172 189Q161 169 162 148Z" className="fill-guide-wing" />
+          <path d="M175 151Q190 154 199 163M173 162Q186 167 191 175" fill="none" className="stroke-guide-wing-shade" strokeWidth="3" strokeLinecap="round" />
         </g>
-        {/* eyes */}
-        {closedEyes ? (
-          <g fill="none" className="stroke-guide-ink" strokeWidth="3.5" strokeLinecap="round">
-            <path d="M90 120Q100 108 110 120" /><path d="M130 120Q140 108 150 120" />
+
+        {eyesClosed ? (
+          <g fill="none" className="stroke-guide-ink" strokeWidth="4" strokeLinecap="round">
+            <path d="M83 119Q97 105 111 119" />
+            <path d="M129 119Q143 105 157 119" />
           </g>
         ) : (
           <g className="prof-eyes">
-            <Eye cx={100} look={mood === "think" ? 2 : 0} />
+            <Eye cx={97} lookY={mood === "think" ? -5 : 0} />
             {mood === "wink" ? (
-              <path d="M130 118Q140 124 150 118" fill="none" className="stroke-guide-ink" strokeWidth="3.5" strokeLinecap="round" />
+              <path d="M130 118Q143 128 156 118" fill="none" className="stroke-guide-ink" strokeWidth="4" strokeLinecap="round" />
             ) : (
-              <Eye cx={140} look={mood === "think" ? 2 : 0} />
+              <Eye cx={143} lookY={mood === "think" ? -5 : 0} />
             )}
           </g>
         )}
-        {/* glasses */}
-        <g fill="none" className="stroke-guide-frame" strokeWidth="2.6">
-          <rect x="83" y="101" width="34" height="32" rx="14" className="fill-guide-lens" />
-          <rect x="123" y="101" width="34" height="32" rx="14" className="fill-guide-lens" />
-          <path d="M117 112Q120 108 123 112M83 113L74 110M157 113L166 110" strokeLinecap="round" />
-        </g>
-        {/* nose */}
-        <path d="M121 130Q125 138 119 140" fill="none" className="stroke-guide-skin-line" strokeWidth="2.2" strokeLinecap="round" />
-        {/* mouth */}
-        <Mouth mood={mood} />
+
+        <path d="M112 132L120 145L128 132Q120 136 112 132Z" className="fill-guide-beak" />
+        <path d="M116 145Q120 149 124 145" fill="none" className="stroke-guide-beak-shade" strokeWidth="2" strokeLinecap="round" />
+        {mood === "wow" && <ellipse cx="120" cy="160" rx="5" ry="6" className="fill-guide-mouth" />}
+        {mood === "talk" && <path d="M114 159Q120 167 126 159" fill="none" className="stroke-guide-mouth" strokeWidth="3" strokeLinecap="round" />}
+        {mood === "cheer" && <path d="M110 158Q120 170 130 158" fill="none" className="stroke-guide-mouth" strokeWidth="3" strokeLinecap="round" />}
+        {mood !== "wow" && mood !== "talk" && mood !== "cheer" && <path d="M114 159Q120 164 126 159" fill="none" className="stroke-guide-mouth" strokeWidth="2.5" strokeLinecap="round" />}
+
+        <path d="M97 226L92 234M143 226L148 234" fill="none" className="stroke-guide-beak" strokeWidth="4" strokeLinecap="round" />
+        <path d="M88 235H99M141 235H152" fill="none" className="stroke-guide-beak" strokeWidth="3.5" strokeLinecap="round" />
       </g>
       {(mood === "cheer" || mood === "wave") && (
         <g className="prof-sparkles fill-guide-spark">
-          <path d="M30 70l4-11 4 11 11 4-11 4-4 11-4-11-11-4z" />
-          <path d="M196 40l3-8 3 8 8 3-8 3-3 8-3-8-8-3z" />
-          {mood === "cheer" && <path d="M40 160l2.5-6 2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5z" />}
+          <path d="M28 86l3-8 3 8 8 3-8 3-3 8-3-8-8-3z" />
+          <path d="M196 60l3-8 3 8 8 3-8 3-3 8-3-8-8-3z" />
+          {mood === "cheer" && <path d="M35 184l2-6 2 6 6 2-6 2-2 6-2-6-6-2z" />}
         </g>
       )}
       {mood === "think" && (
@@ -84,23 +66,16 @@ export function Titia({ mood = "happy", className, bubble = false, label }: { mo
   );
 }
 
-function Eye({ cx, look }: { cx: number; look: number }) {
+export { Belinho as Titia };
+
+function Eye({ cx, lookY }: { cx: number; lookY: number }) {
   return (
     <g>
-      <ellipse cx={cx} cy="118" rx="10.5" ry="11.5" className="fill-guide-white" />
-      <ellipse cx={cx + 1 + look} cy="119.5" rx="8.6" ry="10" className="fill-guide-eye" />
-      <ellipse cx={cx + 1 + look} cy="120.5" rx="4.6" ry="5.6" className="fill-guide-ink" />
-      <circle cx={cx - 2.5 + look} cy="114.5" r="3.2" className="fill-guide-white" />
-      <circle cx={cx + 4 + look} cy="124" r="1.5" className="fill-guide-white" />
-      <path d={`M${cx - 12} 113Q${cx} 102 ${cx + 12} 112L${cx + 15} 108`} fill="none" className="stroke-guide-ink" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+      <ellipse cx={cx} cy="115" rx="15" ry="17" className="fill-guide-white" />
+      <ellipse cx={cx + 1} cy={116 + lookY} rx="10" ry="12" className="fill-guide-eye" />
+      <ellipse cx={cx + 2} cy={117 + lookY} rx="5.5" ry="7" className="fill-guide-ink" />
+      <circle cx={cx - 2} cy={111 + lookY} r="3.5" className="fill-guide-white" />
+      <circle cx={cx + 5} cy={121 + lookY} r="1.8" className="fill-guide-white" />
     </g>
   );
-}
-
-function Mouth({ mood }: { mood: GuideMood }) {
-  if (mood === "wow") return <ellipse cx="120" cy="154" rx="6" ry="7.5" className="fill-guide-mouth" />;
-  if (mood === "think") return <path d="M111 154Q118 151 128 155" fill="none" className="stroke-guide-lip" strokeWidth="3" strokeLinecap="round" />;
-  if (mood === "cheer") return <g><path d="M104 148Q120 172 136 148Q120 154 104 148Z" className="fill-guide-mouth" /><path d="M112 160Q120 166 128 160Q120 156 112 160Z" className="fill-guide-tongue" /></g>;
-  if (mood === "talk") return <g><path d="M108 150Q120 164 132 150Q120 154 108 150Z" className="fill-guide-mouth prof-mouth-open" /><path d="M108 151Q120 160 132 150" fill="none" className="stroke-guide-lip prof-mouth-closed" strokeWidth="3" strokeLinecap="round" /></g>;
-  return <path d="M107 149Q120 162 133 149" fill="none" className="stroke-guide-lip" strokeWidth="3.2" strokeLinecap="round" />;
 }

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Titia } from "@/components/Titia";
+import { Belinho } from "@/components/Titia";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { CHECKIN_EVENT, type CheckInReward, useProgress } from "@/data/progress";
 import { nextCampusMission } from "@/data/exploration";
@@ -27,7 +27,7 @@ export function CheckInCelebration() {
     <DialogContent className="w-[calc(100%-24px)] max-w-sm overflow-hidden rounded-3xl border-2 bg-card px-6 pb-6 pt-8 text-center">
       <div className="confetti-field" aria-hidden="true">{Array.from({ length: 22 }, (_, i) => <i key={i} className={`confetti confetti-${i % 11}`} />)}</div>
       <div className="relative">
-        <Titia mood="cheer" bubble className="mx-auto h-40 w-40" />
+        <Belinho mood="cheer" bubble className="mx-auto h-40 w-40" />
         <DialogTitle className="mt-3 font-display text-3xl font-semibold">{reward?.badge ? "Você conhece a ETEC!" : "Mandou bem!"}</DialogTitle>
         <DialogDescription className="mt-1 text-sm">{placeById(reward?.placeId ?? "")?.name} descoberto{reward?.badge ? " · Selo Calouro ETEC Conhecedor" : ""}</DialogDescription>
         <p className="xp-burst mx-auto mt-5 flex w-fit items-center gap-2 rounded-2xl border-2 border-brand-yellow-shade bg-brand-yellow-soft px-5 py-2 font-display text-2xl font-bold"><Zap className="h-6 w-6 fill-brand-yellow text-brand-yellow-shade" />+{reward?.xp ?? 0} XP</p>

@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { SchoolMap } from "@/components/SchoolMap";
 import { PlacePhoto } from "@/components/PlacePhoto";
 import { GuidedWalk } from "@/components/GuidedWalk";
-import { Titia } from "@/components/Titia";
+import { Belinho } from "@/components/Titia";
 import { buildingLabel, levelLabel, missions, nodes, placeById, placeNumber, routeBetween } from "@/data/school";
 import { Button } from "@/components/ui/button";
 import { checkIn, useProgress } from "@/data/progress";
@@ -49,7 +49,7 @@ function Ficha() {
         <section>
           <h1 className="mt-5 font-display text-3xl font-semibold leading-tight">{p.name}</h1>
           <ul className="mt-3 flex flex-wrap gap-2">{chips.map((c) => <li key={c} className="rounded-full bg-secondary px-3 py-1 text-xs font-extrabold">{c}</li>)}</ul>
-          <div className="mt-5 flex items-start gap-2"><Titia mood="talk" className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{n.landmark}</p></div>
+          <div className="mt-5 flex items-start gap-2"><Belinho mood="talk" className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{n.landmark}</p></div>
           <div className="mt-5 grid gap-3">
             <GuidedWalk route={routeBetween("portaria", p.node)} destination={p} />
             <Button asChild variant="outline" size="lg"><Link to="/rota" search={{ de: "portaria", para: p.id }}><Map className="!h-5 !w-5" />Ver rota no mapa</Link></Button>

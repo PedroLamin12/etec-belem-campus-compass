@@ -8,7 +8,7 @@ export function PlaceFeed({ items }: { items: Place[] }) {
   const { visited } = useProgress();
   return <ul className="stagger grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
     {items.map((p) => <li key={p.id}>
-      <Link to="/ambientes/$id" params={{ id: p.id }} className="tap group block h-full overflow-hidden rounded-2xl border-2 bg-card">
+      <Link to="/ambientes/$id" params={{ id: p.id }} className="tap group block h-full overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-md">
         <div className="relative overflow-hidden">
           <PlacePhoto place={p} loading="lazy" compact className="card-photo aspect-[4/3] w-full" />
           <span className="absolute left-2 top-2 rounded-full bg-card px-2 py-0.5 text-[11px] font-extrabold">{String(placeNumber(p)).padStart(2, "0")}</span>

@@ -29,7 +29,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { xp } = useProgress();
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-40 border-b-2 border-border bg-background/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-2 px-4 md:px-8">
           <Link to="/" aria-label="Tour ETEC Belém — início" className="flex shrink-0 items-center gap-2">
             <img src={logo} width={36} height={36} alt="" className="h-9 w-9" />
@@ -43,6 +43,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </ul>
           </nav>
           <div className="flex items-center gap-1">
+            <span className="hidden text-right text-xs font-bold text-muted-foreground sm:block">Oi! Vamos explorar?</span>
             <Link to="/missoes" className="flex h-10 items-center gap-1 rounded-xl px-2 text-sm font-extrabold text-brand-yellow-shade hover:bg-secondary" aria-label={`${xp} XP — ver conquistas`}><Zap className="h-5 w-5 fill-brand-yellow text-brand-yellow-shade" />{xp}</Link>
             <ThemeToggle />
             <CampusGuide />
@@ -52,7 +53,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <InstallAppPrompt />
       <main key={pathname} className="page-enter mx-auto max-w-5xl px-4 pb-28 pt-5 md:px-8 lg:pb-16">{children}</main>
       <CheckInCelebration />
-      <nav aria-label="Navegação" className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
+      <nav aria-label="Navegação" className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
         <ul className="mx-auto grid max-w-lg grid-cols-5">
           {tabs.map((t) => {
             const active = isActive(pathname, t.to);

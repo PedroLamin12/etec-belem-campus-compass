@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, Footprints, MoveDown, MoveUp, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { Titia, GUIDE_NAME } from "@/components/Titia";
+import { Belinho, GUIDE_NAME } from "@/components/Titia";
 import { PlacePhoto } from "@/components/PlacePhoto";
 import { floorTransition, nodeLocation, nodes, placeByNode, type NodeId, type Place } from "@/data/school";
 import { checkIn, useProgress } from "@/data/progress";
@@ -32,7 +32,7 @@ export function GuidedWalk({ route, destination }: { route: NodeId[]; destinatio
           {transition && <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-brand-yellow-soft px-3 py-1.5 text-xs font-extrabold text-foreground">{transition === "down" ? <><MoveDown className="h-4 w-4" />Desça a escada</> : <><MoveUp className="h-4 w-4" />Suba a escada</>}</p>}
           <DialogTitle className="font-display text-2xl font-semibold leading-tight">{nodes[id].label}</DialogTitle>
           <DialogDescription className="mt-1 text-sm text-muted-foreground">{nodeLocation(id)}</DialogDescription>
-          <div className="mt-4 flex items-start gap-2"><Titia mood={last ? "cheer" : "talk"} className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{nodes[id].landmark}</p></div>
+          <div className="mt-4 flex items-start gap-2"><Belinho mood={last ? "cheer" : "talk"} className="h-20 w-16 shrink-0" /><p className="speech ml-2 flex-1 text-sm">{nodes[id].landmark}</p></div>
         </div>
         <div className={`border-t-2 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] ${last ? "bg-success-soft" : ""}`}>
           {last && <p className="mb-3 flex items-center gap-2 font-display text-lg font-semibold text-success-shade"><PartyPopper className="h-5 w-5" />Você chegou!</p>}

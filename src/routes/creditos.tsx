@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { Titia, GUIDE_NAME } from "@/components/Titia";
+import { Belinho, GUIDE_NAME } from "@/components/Titia";
 import { team } from "@/data/school";
 
 export const Route = createFileRoute("/creditos")({
@@ -36,8 +36,8 @@ function Creditos() {
       <blockquote className="mt-3 font-display text-xl font-medium leading-snug">“Se uma pessoa quer saber onde fazer a matrícula, como ela vai saber onde é a secretaria?”</blockquote>
     </section>
     <section className="mt-4 flex items-center gap-3 rounded-2xl bg-secondary p-4">
-      <Titia mood="wink" className="h-16 w-14 shrink-0" />
-      <p className="text-sm text-muted-foreground">A {GUIDE_NAME} é inspirada em uma das professoras que apoiam o projeto.</p>
+      <Belinho mood="wink" className="h-16 w-14 shrink-0" />
+      <p className="text-sm text-muted-foreground">{GUIDE_NAME} é a corujinha guia do Tour ETEC Belém.</p>
     </section>
   </AppShell>;
 }

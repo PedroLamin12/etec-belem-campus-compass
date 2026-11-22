@@ -87,6 +87,14 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-guide-halo: var(--guide-halo);
   --color-guide-halo-strong: var(--guide-halo-strong);
+  --color-guide-feather: var(--guide-feather);
+  --color-guide-feather-shade: var(--guide-feather-shade);
+  --color-guide-wing: var(--guide-wing);
+  --color-guide-belly: var(--guide-belly);
+  --color-guide-face: var(--guide-face);
+  --color-guide-beak: var(--guide-beak);
+  --color-guide-beak-shade: var(--guide-beak-shade);
+  --color-guide-wing-shade: var(--guide-wing-shade);
   --color-guide-hair: var(--guide-hair);
   --color-guide-hair-shade: var(--guide-hair-shade);
   --color-guide-hair-light: var(--guide-hair-light);
@@ -182,6 +190,14 @@
   --ease-refined: cubic-bezier(0.22, 1, 0.36, 1);
   --guide-halo: oklch(0.94 0.035 255);
   --guide-halo-strong: oklch(0.86 0.06 255);
+  --guide-feather: oklch(0.67 0.16 145);
+  --guide-feather-shade: oklch(0.48 0.14 148);
+  --guide-wing: oklch(0.59 0.15 147);
+  --guide-wing-shade: oklch(0.43 0.12 148);
+  --guide-belly: oklch(0.91 0.055 88);
+  --guide-face: oklch(0.97 0.025 90);
+  --guide-beak: oklch(0.72 0.19 48);
+  --guide-beak-shade: oklch(0.52 0.17 40);
   --guide-hair: oklch(0.87 0.11 88);
   --guide-hair-shade: oklch(0.76 0.12 80);
   --guide-hair-light: oklch(0.95 0.06 95);
@@ -236,6 +252,14 @@
   --map-admin: oklch(0.42 0.08 20);
   --guide-halo: oklch(0.29 0.04 260);
   --guide-halo-strong: oklch(0.38 0.06 260);
+  --guide-feather: oklch(0.69 0.16 145);
+  --guide-feather-shade: oklch(0.46 0.12 148);
+  --guide-wing: oklch(0.58 0.14 147);
+  --guide-wing-shade: oklch(0.4 0.11 148);
+  --guide-belly: oklch(0.78 0.06 88);
+  --guide-face: oklch(0.91 0.025 90);
+  --guide-beak: oklch(0.76 0.19 48);
+  --guide-beak-shade: oklch(0.55 0.16 40);
 }
 
 @layer base {
@@ -248,11 +272,15 @@
 }
 
 /* controls */
-.ui-control { transition: transform 110ms ease, box-shadow 110ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
-.ui-control:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
+button:not(:disabled) { transition: transform 140ms ease; }
+button:not(:disabled):active { transform: scale(0.98); }
+.ui-control { transition: transform 140ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
+.ui-control:active:not(:disabled) { transform: scale(0.98); box-shadow: none; }
 .surface { border: 2px solid var(--border); border-radius: 20px; background: var(--card); }
-.tap { transition: transform 120ms ease, border-color 160ms ease, box-shadow 120ms ease; box-shadow: 0 3px 0 var(--border); }
-.tap:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--border); }
+.tap { transition: transform 140ms ease, border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease; }
+.tap:is(.border, .border-2) { border-width: 1px; border-color: color-mix(in srgb, var(--border) 60%, transparent); }
+.tap:hover { box-shadow: 0 4px 14px -8px oklch(0.2 0.03 265 / 0.32); }
+.tap:active { transform: scale(0.98); }
 .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 .page-enter { animation: page-in 380ms var(--ease-refined) both; }
 .no-scrollbar { scrollbar-width: none; } .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -260,8 +288,9 @@
 /* shell */
 .brand-wordmark { font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1; color: var(--foreground); }
 .brand-wordmark b { color: var(--primary); font-weight: 700; }
-.tab-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 62px; font-size: 10.5px; font-weight: 800; color: var(--muted-foreground); }
-.tab-link .tab-icon { display: flex; align-items: center; justify-content: center; width: 52px; height: 30px; border-radius: 999px; transition: background-color 180ms ease, transform 260ms var(--ease-bounce); }
+.tab-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; padding: 5px 2px; font-size: 11px; font-weight: 800; color: var(--muted-foreground); transition: transform 140ms ease, color 160ms ease; }
+.tab-link:active { transform: scale(0.96); }
+.tab-link .tab-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 28px; border-radius: 999px; transition: background-color 180ms ease, transform 260ms var(--ease-bounce); }
 .tab-link[aria-current="page"] { color: var(--primary); }
 .tab-link[aria-current="page"] .tab-icon { background: var(--primary-soft); transform: translateY(-1px); }
 .side-link { display: flex; align-items: center; gap: 12px; height: 46px; padding: 0 14px; border-radius: 14px; font-weight: 800; font-size: 14px; color: var(--muted-foreground); transition: background-color 150ms ease, color 150ms ease; }
@@ -273,6 +302,12 @@
 .prof-body { animation: prof-bob 4.8s ease-in-out infinite; transform-origin: 120px 250px; }
 .prof-eyes { animation: prof-blink 4.8s infinite; transform-box: fill-box; transform-origin: center; }
 .prof-cheer .prof-body { animation: prof-hop 1.3s ease-in-out infinite; }
+.prof-wing { transform-box: view-box; transition: transform 280ms var(--ease-bounce); }
+.prof-wing-left { transform-origin: 70px 153px; }
+.prof-wing-right { transform-origin: 170px 153px; }
+.prof-cheer .prof-wing-left { transform: rotate(38deg); }
+.prof-cheer .prof-wing-right { transform: rotate(-38deg); }
+.prof-wave .prof-wing-right { transform: rotate(-58deg); }
 .prof-sparkles path { animation: sparkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 .prof-sparkles path:nth-child(2) { animation-delay: 400ms; }
 .prof-mouth-open { animation: talk-open 520ms steps(1) infinite; }
@@ -293,7 +328,7 @@
 .progress-track { height: 14px; border-radius: 999px; background: var(--secondary); overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 999px; background: var(--success); transition: width 500ms var(--ease-refined); }
 .choice-card { border: 2px solid var(--border); border-radius: 18px; background: var(--card); box-shadow: 0 3px 0 var(--border); transition: transform 110ms ease, border-color 150ms ease, background-color 150ms ease; }
-.choice-card:active { transform: translateY(2px); box-shadow: none; }
+.choice-card:active { transform: scale(0.98); box-shadow: none; }
 .choice-card[aria-pressed="true"] { border-color: var(--brand-sky); background: var(--brand-sky-soft); box-shadow: 0 3px 0 var(--brand-sky); }
 
 /* photos */

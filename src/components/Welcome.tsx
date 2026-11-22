@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { ArrowLeft, CalendarDays, Compass, FileText, GraduationCap, Map, Navigation, Trophy } from "lucide-react";
 import logo from "@/assets/branding/campus-mark.svg";
 import { Button } from "@/components/ui/button";
-import { Titia, GUIDE_NAME } from "@/components/Titia";
+import { Belinho, GUIDE_NAME } from "@/components/Titia";
 import { ThemeToggle } from "@/components/AppShell";
 
 export const WELCOME_KEY = "tour-etec-welcome-done";
@@ -36,18 +36,18 @@ export function Welcome({ onDone }: { onDone: () => void }) {
           <img src={logo} alt="" width={72} height={72} className="h-[72px] w-[72px]" />
           <h1 className="mt-4 font-display text-4xl font-semibold">Tour <span className="text-primary">ETEC</span> Belém</h1>
           <p className="mt-2 max-w-xs text-muted-foreground">O jeito mais fácil de conhecer a ETEC Parque Belém.</p>
-          <Titia mood="wave" bubble className="mt-6 h-56 w-56" />
+          <Belinho mood="wave" bubble className="mt-6 h-56 w-56" />
         </div>}
         {step === 1 && <div className="flex flex-1 flex-col justify-center">
           <div className="speech type-in self-start text-lg">Oi! Eu sou a <span className="text-primary">{GUIDE_NAME}</span>. Vou te levar por cada cantinho da escola, passo a passo.</div>
-          <Titia mood="talk" bubble className="mx-auto mt-6 h-60 w-60" />
+          <Belinho mood="talk" bubble className="mx-auto mt-6 h-60 w-60" />
         </div>}
         {step === 2 && <div>
-          <div className="flex items-center gap-3"><Titia mood="think" className="h-20 w-16 shrink-0" /><h2 className="font-display text-2xl font-semibold leading-tight">O que te traz à ETEC hoje?</h2></div>
+          <div className="flex items-center gap-3"><Belinho mood="think" className="h-20 w-16 shrink-0" /><h2 className="font-display text-2xl font-semibold leading-tight">O que te traz à ETEC hoje?</h2></div>
           <div className="mt-6 grid gap-3">{goals.map((g) => <button type="button" key={g.id} aria-pressed={goal?.id === g.id} onClick={() => setGoal(g)} className="choice-card flex items-center gap-4 p-4 text-left font-extrabold"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary"><g.icon className="h-5 w-5" /></span>{g.label}</button>)}</div>
         </div>}
         {step === 3 && <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <Titia mood="cheer" bubble className="h-48 w-48" />
+          <Belinho mood="cheer" bubble className="h-48 w-48" />
           <h2 className="mt-4 font-display text-3xl font-semibold">Tudo pronto!</h2>
           <ul className="mt-6 grid w-full gap-3 text-left text-sm">
             {[{ icon: Map, t: "Mapa com os dois prédios e as quadras" }, { icon: Navigation, t: "Rotas passo a passo a partir da Portaria" }, { icon: Trophy, t: "Check-ins valem XP e o selo de Conhecedor" }].map((r) => <li key={r.t} className="flex items-center gap-3 rounded-2xl border-2 bg-card p-3"><r.icon className="h-5 w-5 shrink-0 text-primary" />{r.t}</li>)}
