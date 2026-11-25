@@ -5,14 +5,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "ui-control inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-extrabold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "ui-control inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-semibold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-[0_4px_0_var(--primary-shade)] hover:brightness-105",
-        destructive: "bg-destructive text-destructive-foreground shadow-[0_4px_0_var(--primary-shade)] hover:brightness-105",
-        success: "bg-success text-success-foreground shadow-[0_4px_0_var(--success-shade)] hover:brightness-105",
-        outline: "border-2 border-border bg-card text-foreground shadow-[0_3px_0_var(--border)] hover:bg-secondary",
+        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        success: "bg-success text-success-foreground shadow-sm hover:bg-success/90",
+        outline: "border border-border/50 bg-card text-foreground shadow-sm hover:bg-secondary",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/70",
         ghost: "hover:bg-secondary",
         link: "text-primary underline-offset-4 hover:underline",
@@ -36,7 +36,9 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    return (
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+    );
   },
 );
 Button.displayName = "Button";

@@ -17,7 +17,7 @@ Requisitos principais:
    - Localização precisa (bloco, andar e ponto de referência)
    - Botão "Como Chegar" com rota visual passo a passo partindo da Portaria principal.
 4. Rota passo a passo interativa: o usuário seleciona de onde está (ex: Portaria) e para onde quer ir (ex: Secretaria Acadêmica / Fazer Matrícula) e o app mostra a sequência exata de passos e marcos visuais para chegar lá.
-5. Modo Explorador / Missões de Calouro: gamificação inspirada em Pokémon GO onde o calouro pode cumprir missões de integração (ex: "Encontre a Secretaria", "Conheça o Laboratório de Informática", "Visite o Refeitório") e ganhar o selo de "Calouro ETEC Conhecedor".
+5. Exploração e conquistas: registre visitas aos ambientes, acompanhe seu progresso e obtenha o selo ETEC Conhecedor.
 6. Tela de Créditos da Equipe: apresentação dos 4 alunos do grupo de Técnico em Desenvolvimento de Sistemas com suas funções (Mapeamento, Modelagem e Conteúdo Visual, Programação Mobile, Dados e Testes).
 7. Suporte a PWA instalável offline e estrutura limpa com Capacitor configurado para compilação do APK Android nativo.
 

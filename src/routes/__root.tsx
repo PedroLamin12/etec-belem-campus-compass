@@ -20,9 +20,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Esse lugar não existe no tour.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Esse lugar não existe no tour.</p>
         <div className="mt-6">
           <Link
             to="/"
@@ -88,7 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-title", content: "Tour ETEC" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { title: "Tour ETEC Belém" },
-      { name: "description", content: "Guia interativo da ETEC Parque Belém: mapa, rotas e missões de calouro." },
+      {
+        name: "description",
+        content: "Guia interativo da ETEC Parque Belém: mapa, rotas e missões de calouro.",
+      },
       { name: "theme-color", content: "#f8f9fb" },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "Guia interativo da ETEC Parque Belém." },
@@ -104,7 +105,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-512.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,

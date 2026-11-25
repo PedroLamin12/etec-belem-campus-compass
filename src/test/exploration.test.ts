@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { discoveryDestination, findCampusPlaces, nextCampusMission } from "@/data/exploration";
 
-describe("campus companion destinations", () => {
+describe("campus guide destinations", () => {
   it("finds the real enrolment destination from matrícula", () => {
     expect(findCampusPlaces("matrícula").map((place) => place.id)).toContain("secretaria");
   });

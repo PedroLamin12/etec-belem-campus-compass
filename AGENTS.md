@@ -40,11 +40,11 @@ use the editor.
 - Use global semantic surface, typography, and motion tokens throughout the UI, and disable motion for reduced-motion preferences to keep every screen consistent and accessible.
 - App launch entry points target `/`; do not restore a previously viewed tab on startup, and preserve explicit deep links for navigation and sharing.
 - Derive header and install icons from `campus-mark.svg` and render the accessible wordmark in live text, so mobile contrast and branding stay consistent.
-- Keep companion destination lookup in `src/data/exploration.ts` using confirmed school data, never generated answers or invented locations.
+- Keep quick-guide destination lookup in `src/data/exploration.ts` using confirmed school data, never generated answers or invented locations.
 - Emit one celebration event after each new persisted check-in and preserve existing mission XP; the shared shell owns the reward dialog to prevent duplicate effects.
 - GuidedWalk advances through `routeBetween` nodes and uses shared floor transitions, so guided and overview walking directions stay consistent.
-- The guide character (`Titia`) is an original inline SVG with semantic colors and reduced-motion support, so it works offline and follows light/dark themes.
+- Keep the campus guide institutional and character-free, using concise location hints and neutral navigation icons.
 - Theme is a `.dark` class on <html> set by an inline head script before paint (`src/lib/theme.ts`); light is the default (never the system setting) and the theme-color meta, manifest and Capacitor background follow the page background, so the installed app looks like the site.
 - Full-screen overlays (e.g. Welcome) render through a portal to <body>, because the animated <main> creates a containing block that traps position:fixed children.
 - Places without their own photo render through `PlacePhoto`, which shows a no-photo notice instead of any other image.
-- Place the companion launcher in the shared header and show mobile navigation below the desktop breakpoint, so assistance never covers map points or content and tablet navigation remains available.
+- Place the quick-guide launcher in the shared header and show mobile navigation below the desktop breakpoint, so assistance never covers map points or content and tablet navigation remains available.
