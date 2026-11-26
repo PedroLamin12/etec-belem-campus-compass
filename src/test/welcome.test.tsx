@@ -6,11 +6,11 @@ import {
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
-import { beforeEach, describe, expect, it } from "vitest";
-import { WELCOME_KEY, shouldShowWelcome, Welcome } from "@/components/Welcome";
+import { describe, expect, it, vi } from "vitest";
+import { Welcome } from "@/components/Welcome";
 
 describe("Welcome screen", () => {
-  async function renderWelcome(onDone = () => {}) {
+  async function renderWelcome(onDone = vi.fn()) {
     const rootRoute = createRootRoute({
       component: () => <Welcome onDone={onDone} />,
     });
@@ -24,52 +24,40 @@ describe("Welcome screen", () => {
     });
 
     await router.load();
-    return render(<RouterProvider router={router} />);
+    render(<RouterProvider router={router} />);
+    return onDone;
   }
 
-  beforeEach(() => {
-    sessionStorage.clear();
-    localStorage.clear();
-  });
-
-  it("shows direct campus actions without character illustrations", async () => {
+  it("shows the welcome title, subtitle, and three direct campus actions", async () => {
     await renderWelcome();
 
     const dialog = screen.getByRole("dialog", {
-      name: "Boas-vindas ao Tour ETEC Parque Belém",
+      name: "Tour ETEC Parque Belém",
     });
-    expect(within(dialog).getByRole("link", { name: "Fazer Matrícula" })).toHaveAttribute(
+    expect(
+      within(dialog).getByText(
+        "Seu guia oficial para explorar salas, laboratórios e serviços do campus.",
+      ),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByRole("link", { name: /Fazer Matrícula/ })).toHaveAttribute(
       "href",
       "/rota?de=portaria&para=secretaria",
     );
-    expect(within(dialog).getByRole("link", { name: "Ver Mapa do Campus" })).toHaveAttribute(
+    expect(within(dialog).getByRole("link", { name: /Ver Mapa do Campus/ })).toHaveAttribute(
       "href",
       "/mapa",
     );
-    expect(within(dialog).getByRole("button", { name: "Explorar Ambientes" })).toBeInTheDocument();
-    expect(within(dialog).getByRole("button", { name: "Acessar início" })).toBeInTheDocument();
-    expect(dialog.querySelectorAll("img")).toHaveLength(1);
-    expect(dialog.querySelector("img")).toHaveAttribute("alt", "ETEC Parque Belém");
+    expect(within(dialog).getByRole("button", { name: "Explorar o Campus" })).toBeInTheDocument();
+    expect(dialog.querySelector("img")).toHaveAttribute("alt", "Marca ETEC Parque Belém");
   });
 
-  it("stores the welcome acknowledgement only for the current browser session", async () => {
-    await renderWelcome();
+  it("closes when the user chooses to explore the campus", async () => {
+    const onDone = await renderWelcome();
 
     fireEvent.click(
-      within(screen.getByRole("dialog")).getByRole("button", { name: "Acessar início" }),
+      within(screen.getByRole("dialog")).getByRole("button", { name: "Explorar o Campus" }),
     );
 
-    expect(sessionStorage.getItem(WELCOME_KEY)).toBe("1");
-    expect(localStorage.getItem(WELCOME_KEY)).toBeNull();
-    expect(shouldShowWelcome()).toBe(false);
-
-    sessionStorage.clear();
-    expect(shouldShowWelcome()).toBe(true);
-  });
-
-  it("does not suppress the welcome screen based on a previous local-storage value", () => {
-    localStorage.setItem(WELCOME_KEY, "1");
-
-    expect(shouldShowWelcome()).toBe(true);
+    expect(onDone).toHaveBeenCalledOnce();
   });
 });
