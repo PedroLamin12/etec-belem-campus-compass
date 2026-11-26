@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
-  <defs><clipPath id="r"><rect width="96" height="96" rx="26"/></clipPath></defs>
-  <g clip-path="url(#r)">
-    <rect width="96" height="96" fill="#D7263D"/>
-    <rect y="74" width="96" height="22" fill="#B01A30"/>
-  </g>
-  <path d="M20 76V50a28 28 0 0 1 56 0v26" fill="none" stroke="#FFC629" stroke-width="10" stroke-linecap="round"/>
-  <path d="M48 31c-8 0-14.5 6.4-14.5 14.3C33.5 56.2 48 68 48 68s14.5-11.8 14.5-22.7C62.5 37.4 56 31 48 31z" fill="#FFFFFF"/>
-  <circle cx="48" cy="45.5" r="5.4" fill="#D7263D"/>
+  <defs>
+    <linearGradient id="etec-red" x1="12" y1="8" x2="84" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#991b1b"/>
+      <stop offset="1" stop-color="#dc2626"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="24" fill="url(#etec-red)"/>
+  <path d="M22 69V43.5C22 32.1 31.1 23 42.5 23H53.5C64.9 23 74 32.1 74 43.5V69" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M31 69V47.5M65 69V47.5M22 58H74" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M48 34C41.4 34 36 39.4 36 46c0 9.2 12 20 12 20s12-10.8 12-20c0-6.6-5.4-12-12-12Z" fill="#fff"/>
+  <circle cx="48" cy="46" r="4.5" fill="#991b1b"/>
+  <path d="M48 15V21M31.5 18.5L35 23M64.5 18.5L61 23" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <text x="48" y="83" text-anchor="middle" fill="#fff" font-family="DM Sans,Inter,Arial,sans-serif" font-size="8" font-weight="700" letter-spacing="1.8">ETEC</text>
 </svg>

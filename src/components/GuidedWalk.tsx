@@ -32,7 +32,6 @@ export function GuidedWalk({ route, destination }: { route: NodeId[]; destinatio
   const currentPlace = placeByNode(id);
   const last = step === route.length - 1;
   const done = visited.includes(destination.id);
-  const pct = ((step + 1) / route.length) * 100;
   return (
     <>
       <Button
@@ -49,17 +48,7 @@ export function GuidedWalk({ route, destination }: { route: NodeId[]; destinatio
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="flex h-[100dvh] w-full max-w-none flex-col gap-0 rounded-none border-0 bg-background p-0 sm:h-auto sm:max-h-[90dvh] sm:max-w-md sm:rounded-2xl sm:border">
           <div className="flex items-center gap-3 px-4 pb-3 pr-14 pt-5">
-            <div
-              className="progress-track flex-1"
-              role="progressbar"
-              aria-label={`Etapa ${step + 1} de ${route.length}`}
-              aria-valuenow={step + 1}
-              aria-valuemin={1}
-              aria-valuemax={route.length}
-            >
-              <div className="progress-fill" style={{ width: `${pct}%` }} />
-            </div>
-            <span className="text-xs font-extrabold text-muted-foreground">
+            <span className="ml-auto rounded-lg border border-border/50 bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
               {step + 1}/{route.length}
             </span>
           </div>

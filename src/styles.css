@@ -90,25 +90,25 @@
 :root {
   color-scheme: light;
   --radius: 1rem;
-  --background: oklch(0.982 0.004 260);
-  --foreground: oklch(0.23 0.025 265);
-  --card: oklch(1 0 0);
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.53 0.15 22);
-  --primary-foreground: oklch(1 0 0);
-  --primary-shade: oklch(0.44 0.13 22);
-  --primary-soft: oklch(0.96 0.018 18);
-  --secondary: oklch(0.955 0.006 260);
+  --primary: #b91c1c;
+  --primary-foreground: #ffffff;
+  --primary-shade: #991b1b;
+  --primary-soft: #fee2e2;
+  --secondary: #f1f5f9;
   --secondary-foreground: var(--foreground);
   --muted: var(--secondary);
-  --muted-foreground: oklch(0.52 0.02 265);
+  --muted-foreground: #64748b;
   --accent: var(--primary-soft);
   --accent-foreground: var(--primary);
   --destructive: oklch(0.6 0.21 25);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.915 0.008 260);
+  --border: #e2e8f0;
   --input: var(--border);
   --ring: var(--brand-sky);
   --success: oklch(0.56 0.12 150);
@@ -159,17 +159,16 @@
 
 .dark {
   color-scheme: dark;
-  background-color: #14161f;
-  --background: #14161f;
-  --background: oklch(0.165 0.014 265);
-  --foreground: oklch(0.965 0.004 260);
-  --card: oklch(0.21 0.016 265);
-  --primary: oklch(0.65 0.15 22);
-  --primary-shade: oklch(0.52 0.13 22);
-  --primary-soft: oklch(0.29 0.035 20);
-  --secondary: oklch(0.255 0.016 265);
-  --muted-foreground: oklch(0.7 0.015 265);
-  --border: oklch(0.3 0.018 265);
+  background-color: #09090b;
+  --background: #09090b;
+  --foreground: #f8fafc;
+  --card: #121215;
+  --primary: #dc2626;
+  --primary-shade: #991b1b;
+  --primary-soft: #450a0a;
+  --secondary: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.08);
   --success-soft: oklch(0.28 0.05 150);
   --brand-yellow-soft: oklch(0.3 0.05 90);
   --brand-sky: oklch(0.7 0.14 250);
@@ -200,7 +199,7 @@
   }
   .dark,
   .dark body {
-    background-color: #14161f;
+    background-color: #09090b;
   }
   body {
     margin: 0;
@@ -337,60 +336,9 @@
   color: var(--primary);
 }
 
-/* trail */
-.trail-node {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
-  border-radius: 1rem;
-  background: var(--node, var(--card));
-  color: var(--node-fg, var(--muted-foreground));
-  box-shadow: 0 1px 2px oklch(0.2 0.03 265 / 0.06);
-  transition: all 160ms ease;
-}
-.trail-node:active {
-  transform: scale(0.98);
-}
-.trail-node.is-next {
-  border-color: var(--primary);
-}
-.start-bubble {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--primary);
-  border-radius: 999px;
-  padding: 4px 9px;
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* welcome + progress */
+/* welcome */
 .welcome-step {
   animation: step-in 420ms var(--ease-refined) both;
-}
-.progress-track {
-  height: 8px;
-  border-radius: 999px;
-  background: var(--secondary);
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: var(--success);
-  transition: width 500ms var(--ease-refined);
 }
 .choice-card {
   border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
@@ -450,9 +398,9 @@
   background: var(--card);
 }
 .stamp.is-complete {
-  border-color: var(--success);
-  background: var(--success-soft);
-  color: var(--success-shade);
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-shade);
 }
 
 /* map */

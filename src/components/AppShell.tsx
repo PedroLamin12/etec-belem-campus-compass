@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Map, Navigation, Trophy, LayoutGrid, Users, Zap, Moon, Sun } from "lucide-react";
+import { Home, Map, Navigation, Trophy, LayoutGrid, Users, Moon, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 import logo from "@/assets/branding/campus-mark.svg";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ const tabs = [
   { to: "/mapa", label: "Mapa", icon: Map },
   { to: "/rota", label: "Rota", icon: Navigation },
   { to: "/ambientes", label: "Lugares", icon: LayoutGrid },
-  { to: "/missoes", label: "Conquistas", icon: Trophy },
+  { to: "/missoes", label: "Passaporte", icon: Trophy },
 ] as const;
 
 const isActive = (pathname: string, to: string) =>
@@ -37,7 +37,7 @@ export function ThemeToggle() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
-  const { xp } = useProgress();
+  const { done, total } = useProgress();
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-xl">
@@ -72,10 +72,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link
               to="/missoes"
               className="tap flex h-10 items-center gap-1 rounded-xl px-2 text-sm font-semibold text-muted-foreground hover:bg-secondary"
-              aria-label={`${xp} XP — ver conquistas`}
+              aria-label={`${done.length} de ${total} ambientes registrados — abrir passaporte`}
             >
-              <Zap className="h-5 w-5 text-primary" />
-              {xp} XP
+              <Trophy className="h-5 w-5 text-primary" />
+              {done.length}/{total}
             </Link>
             <ThemeToggle />
             <CampusGuide />

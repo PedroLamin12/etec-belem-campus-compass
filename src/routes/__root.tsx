@@ -92,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Guia oficial de navegação do campus da ETEC Parque Belém: mapa, rotas e ambientes.",
       },
-      { name: "theme-color", content: "#f8f9fb" },
+      { name: "theme-color", content: "#f8fafc" },
       { property: "og:title", content: "Tour ETEC Belém" },
       { property: "og:description", content: "Guia interativo da ETEC Parque Belém." },
       { property: "og:type", content: "website" },

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, CheckCircle2, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { CHECKIN_EVENT, type CheckInReward, useProgress } from "@/data/progress";
@@ -41,11 +41,8 @@ export function CheckInCelebration() {
           </DialogTitle>
           <DialogDescription className="mt-1 text-sm">
             {placeById(reward?.placeId ?? "")?.name} · check-in confirmado
-            {reward?.badge ? " · Selo ETEC Conhecedor" : ""}
+            {reward?.badge ? " · Passaporte concluído" : ""}
           </DialogDescription>
-          <p className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-xl border border-border/50 bg-secondary px-4 py-2 font-display text-xl font-semibold">
-            <Zap className="h-5 w-5 text-primary" />+{reward?.xp ?? 0} XP
-          </p>
           <div className="mt-6 grid gap-2">
             {next ? (
               <Button asChild size="lg" onClick={close}>

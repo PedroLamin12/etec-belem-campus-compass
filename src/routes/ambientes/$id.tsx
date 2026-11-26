@@ -7,7 +7,6 @@ import { GuidedWalk } from "@/components/GuidedWalk";
 import {
   buildingLabel,
   levelLabel,
-  missions,
   nodes,
   placeById,
   placeNumber,
@@ -45,7 +44,6 @@ function Ficha() {
   if (!p) return null;
   const n = nodes[p.node];
   const here = visited.includes(p.id);
-  const mission = missions.find((m) => m.place === p.id);
   const chips = [
     buildingLabel[n.building],
     ...(n.building === "externa"
@@ -106,7 +104,10 @@ function Ficha() {
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {p.services.map((s) => (
-              <li key={s} className="rounded-xl border-2 px-3 py-1.5 text-xs font-bold">
+              <li
+                key={s}
+                className="rounded-xl border border-border/50 px-3 py-1.5 text-xs font-semibold"
+              >
                 {s}
               </li>
             ))}
@@ -132,7 +133,7 @@ function Ficha() {
             className="mt-6 w-full"
           >
             <CheckCircle2 className="!h-5 !w-5" />
-            {here ? "Check-in feito" : `Estou aqui${mission ? ` · +${mission.xp} XP` : ""}`}
+            {here ? "Check-in registrado" : "Registrar presença"}
           </Button>
         </section>
         <section className="mt-8 md:mt-5">

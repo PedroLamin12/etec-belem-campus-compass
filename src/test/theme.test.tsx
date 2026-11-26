@@ -8,7 +8,7 @@ describe("theme configuration", () => {
     document.documentElement.classList.remove("dark");
     document.documentElement.style.colorScheme = "";
     document.head.querySelector('meta[name="theme-color"]')?.remove();
-    document.head.insertAdjacentHTML("beforeend", '<meta name="theme-color" content="#f8f9fb">');
+    document.head.insertAdjacentHTML("beforeend", '<meta name="theme-color" content="#f8fafc">');
   });
 
   it("updates the browser color scheme and Android theme color when toggled", () => {
