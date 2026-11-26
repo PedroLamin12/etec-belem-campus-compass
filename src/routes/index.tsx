@@ -1,49 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, type CSSProperties } from "react";
-import {
-  Search,
-  X,
-  Check,
-  Trophy,
-  FileText,
-  GraduationCap,
-  Monitor,
-  Utensils,
-  Dribbble,
-  Mic,
-  ChevronRight,
-  DoorOpen,
-  Building2,
-  Users,
-  Car,
-  Toilet,
-  ChefHat,
-  Coffee,
-  Briefcase,
-  Compass,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
-import { AppShell } from "@/components/AppShell";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, Computer, Dribbble, FileText, Map, MapPin, Search, X } from "lucide-react";
+import logo from "@/assets/branding/campus-mark.svg";
+import { AppShell, ThemeToggle } from "@/components/AppShell";
+import { PlacePhoto } from "@/components/PlacePhoto";
 import { Button } from "@/components/ui/button";
 import { Welcome, shouldShowWelcome } from "@/components/Welcome";
-import { placeById, places, quickActions, units, nodeLocation } from "@/data/school";
-import { useProgress } from "@/data/progress";
-import { findCampusPlaces, nextCampusMission } from "@/data/exploration";
+import { findCampusPlaces } from "@/data/exploration";
+import { campusSectors, placeById, type Place } from "@/data/school";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Tour ETEC Belém — Conheça a escola passo a passo" },
+      { title: "Tour ETEC Parque Belém — Guia do Campus" },
       {
         name: "description",
         content:
-          "Guia oficial da ETEC Parque Belém com mapa, rotas passo a passo e informações dos ambientes do campus.",
+          "Guia oficial de navegação do campus da ETEC Parque Belém. Encontre ambientes, consulte o mapa e planeje rotas.",
       },
-      { property: "og:title", content: "Tour ETEC Belém" },
+      { property: "og:title", content: "Tour ETEC Parque Belém" },
       {
         property: "og:description",
-        content: "O jeito mais fácil de conhecer a ETEC Parque Belém.",
+        content: "Guia oficial de navegação do campus da ETEC Parque Belém.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -52,245 +30,223 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const quickIcons = [FileText, GraduationCap, Monitor, Utensils, Dribbble, Mic];
-const placeIcons: Record<string, typeof DoorOpen> = {
-  portaria: DoorOpen,
-  rampa: DoorOpen,
-  estacionamento: Car,
-  convivencia: Utensils,
-  auditorio: Mic,
-  banheiros: Toilet,
-  secretaria: FileText,
-  cantina: Coffee,
-  nutricao: ChefHat,
-  lab1: Monitor,
-  lab2: Monitor,
-  salas: GraduationCap,
-  coordenacao: Briefcase,
-  quadra1: Dribbble,
-  quadra2: Dribbble,
-};
-const offsets = [0, 52, 72, 52, 0, -52, -72, -52];
-
 function Index() {
-  const [q, setQ] = useState("");
+  const [query, setQuery] = useState("");
   const [welcome, setWelcome] = useState(false);
-  const { done, total, xp, visited, badge } = useProgress();
   useEffect(() => {
     if (shouldShowWelcome()) setWelcome(true);
   }, []);
-  const results = findCampusPlaces(q);
-  const next = nextCampusMission(visited);
-  const nextPlace = next ? placeById(next.place) : undefined;
-  let k = 0;
+
+  const matchingIds = useMemo(() => {
+    const trimmed = query.trim();
+    return trimmed ? new Set(findCampusPlaces(trimmed).map((place) => place.id)) : undefined;
+  }, [query]);
+
+  const sections = campusSectors
+    .map((sector) => ({
+      ...sector,
+      environments: sector.places
+        .map((id) => placeById(id))
+        .filter(
+          (place): place is Place => Boolean(place) && (!matchingIds || matchingIds.has(place.id)),
+        ),
+    }))
+    .filter((sector) => sector.environments.length > 0);
+
+  const accessCards = [
+    {
+      label: "Secretaria & Matrícula",
+      description: "Secretaria Acadêmica · Subsolo do Bloco Anexo",
+      icon: FileText,
+      to: "/rota" as const,
+      search: { de: "portaria", para: "secretaria" },
+    },
+    {
+      label: "Planta do Campus",
+      description: "Consulte a planta e os pontos de referência",
+      icon: Map,
+      to: "/mapa" as const,
+    },
+  ];
+
   return (
     <AppShell>
       {welcome && <Welcome onDone={() => setWelcome(false)} />}
-      <section className="rounded-2xl border border-border/50 bg-card p-5 shadow-sm">
-        <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
-            <Compass className="h-5 w-5" />
-          </span>
+      <header className="flex items-center justify-between gap-4 rounded-2xl border border-border/50 bg-card p-4 shadow-sm sm:p-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <img
+            src={logo}
+            alt="ETEC Parque Belém"
+            width={56}
+            height={56}
+            className="h-12 w-12 shrink-0 sm:h-14 sm:w-14"
+          />
           <div className="min-w-0">
-            <p className="eyebrow text-primary">Painel de boas-vindas</p>
-            <h1 className="mt-1 font-display text-xl font-semibold leading-snug">
-              ETEC Parque Belém
+            <h1 className="font-display text-xl font-semibold leading-tight sm:text-2xl">
+              Tour ETEC Parque Belém
             </h1>
-          </div>
-        </div>
-        <p className="mt-3 text-sm text-muted-foreground">
-          {done.length} de {total} ambientes explorados
-        </p>
-        <div className="progress-track mt-2 h-2">
-          <div className="progress-fill" style={{ width: `${(done.length / total) * 100}%` }} />
-        </div>
-        <div className="mt-4 flex items-start gap-3 border-t border-border/50 pt-4">
-          <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
-          <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {nextPlace ? "Próxima parada recomendada" : "Exploração concluída"}
-            </p>
-            <p className="mt-1 font-semibold">
-              {nextPlace?.name ?? "Você já explorou todos os ambientes."}
+            <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+              Guia oficial de navegação do campus
             </p>
           </div>
         </div>
-      </section>
-      {nextPlace && (
-        <Button asChild size="lg" className="mt-3 w-full">
-          <Link to="/ambientes/$id" params={{ id: nextPlace.id }}>
-            Continuar tour
-            <ArrowRight />
-          </Link>
-        </Button>
-      )}
+        <ThemeToggle />
+      </header>
 
-      <label className="mt-5 flex h-12 items-center gap-2 rounded-2xl border border-border/50 bg-card px-4 focus-within:border-primary">
+      <label className="mt-5 flex min-h-14 items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 shadow-sm transition-colors focus-within:border-primary">
         <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
         <input
-          aria-label="Buscar lugar"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Procurar um lugar…"
-          className="min-w-0 flex-1 bg-transparent text-sm font-semibold outline-none placeholder:text-muted-foreground"
+          aria-label="Buscar ambientes por nome ou setor"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Buscar salas, laboratórios, quadras..."
+          className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
         />
-        {q && (
+        {query && (
           <button
             type="button"
             aria-label="Limpar busca"
-            onClick={() => setQ("")}
-            className="text-muted-foreground"
+            onClick={() => setQuery("")}
+            className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-secondary"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         )}
       </label>
 
-      {q.trim() ? (
-        <ul aria-live="polite" className="mt-3 space-y-2">
-          {results.length ? (
-            results.map((p) => (
-              <li key={p.id}>
-                <Link
-                  to="/ambientes/$id"
-                  params={{ id: p.id }}
-                  className="tap flex items-center justify-between gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3"
-                >
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold">{p.name}</span>
-                    <span className="block truncate text-xs text-muted-foreground">
-                      {nodeLocation(p.node)}
-                    </span>
-                  </span>
-                  <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
-                </Link>
-              </li>
-            ))
-          ) : (
-            <li className="p-3 text-sm text-muted-foreground">Nada encontrado para “{q}”.</li>
-          )}
-        </ul>
-      ) : (
-        <>
-          <h2 className="mb-3 mt-7 font-display text-lg font-semibold">Acesso rápido</h2>
-          <div className="grid grid-cols-3 gap-2.5">
-            {quickActions.map((a, i) => {
-              const Icon = quickIcons[i] ?? FileText;
-              return (
-                <Link
-                  key={a.place}
-                  to="/rota"
-                  search={{ de: "portaria", para: a.place }}
-                  className="tap flex flex-col items-center gap-2 rounded-2xl border border-border/50 bg-card px-1 py-3.5 text-center shadow-sm"
-                >
-                  <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${i % 3 === 0 ? "bg-primary-soft text-primary" : i % 3 === 1 ? "bg-brand-sky-soft text-brand-sky-shade" : "bg-success-soft text-success-shade"}`}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="text-[11px] font-extrabold leading-tight">{a.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-
-          <h2 className="mb-1 mt-9 font-display text-lg font-semibold">Explorar ambientes</h2>
-          <p className="text-sm text-muted-foreground">
-            Na ordem do caminho real, a partir da Portaria.
-          </p>
-          {units.map((u, ui) => {
-            return (
-              <section key={u.id} className="mt-6">
-                <div className="rounded-2xl border border-border/50 bg-card px-5 py-4 shadow-sm">
-                  <p className="eyebrow text-muted-foreground">Etapa {ui + 1}</p>
-                  <h3 className="font-display text-xl font-semibold">{u.title}</h3>
-                  <p className="text-sm text-muted-foreground">{u.subtitle}</p>
-                </div>
-                <ol className="flex flex-col items-center gap-7 pb-2 pt-9">
-                  {u.places.map((id) => {
-                    const p = placeById(id);
-                    if (!p) return null;
-                    const isDone = visited.includes(id);
-                    const isNext = next?.place === id;
-                    const Icon = isDone ? Check : (placeIcons[id] ?? Building2);
-                    const style = (
-                      isDone
-                        ? {
-                            "--node": "var(--success-soft)",
-                            "--node-shade": "var(--success)",
-                            "--node-fg": "var(--success-shade)",
-                          }
-                        : isNext
-                          ? {
-                              "--node": "var(--primary-soft)",
-                              "--node-shade": "var(--primary)",
-                              "--node-fg": "var(--primary)",
-                            }
-                          : {}
-                    ) as CSSProperties;
-                    const x = offsets[k++ % offsets.length] ?? 0;
-                    return (
-                      <li
-                        key={id}
-                        className="flex flex-col items-center"
-                        style={{ transform: `translateX(${x}px)` }}
-                      >
-                        <Link
-                          to="/ambientes/$id"
-                          params={{ id }}
-                          aria-label={`${p.name}${isDone ? ", visitado" : ""}`}
-                          className={`trail-node ${isNext ? "is-next" : ""}`}
-                          style={style}
-                        >
-                          {isNext && <span className="start-bubble">PRÓXIMO</span>}
-                          <Icon className="h-7 w-7" strokeWidth={2.4} />
-                        </Link>
-                        <span className="mt-3 max-w-28 text-center text-xs font-extrabold leading-tight">
-                          {p.name}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </section>
-            );
-          })}
-          <div className="mt-8 flex flex-col items-center text-center">
-            <span
-              className={`flex h-16 w-16 items-center justify-center rounded-2xl border ${badge ? "border-primary/20 bg-primary-soft text-primary" : "border-border/50 bg-secondary text-muted-foreground"}`}
-            >
-              <Trophy className="h-7 w-7" />
-            </span>
-            <p className="mt-3 font-display text-lg font-semibold">Selo ETEC Conhecedor</p>
-            <p className="text-sm text-muted-foreground">
-              {badge
-                ? "Conquistado!"
-                : `Faltam ${total - done.length} lugares · ${xp} XP até agora`}
+      {!query.trim() && (
+        <section className="mt-7" aria-labelledby="quick-access-heading">
+          <div className="mb-3">
+            <h2 id="quick-access-heading" className="font-display text-lg font-semibold">
+              Acesso rápido
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Serviços e pontos de referência do campus
             </p>
           </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-3">
-            <Link
-              to="/creditos"
-              className="tap flex items-center gap-3 rounded-2xl border border-border/50 bg-card p-4 shadow-sm"
+          <div className="grid grid-cols-2 gap-3">
+            {accessCards.map((card) => (
+              <Link
+                key={card.label}
+                to={card.to}
+                search={"search" in card ? card.search : undefined}
+                className="tap flex min-h-28 items-start gap-3 rounded-2xl border border-border/50 bg-card p-4 shadow-sm"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <card.icon className="h-5 w-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold leading-snug">{card.label}</span>
+                  <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                    {card.description}
+                  </span>
+                </span>
+              </Link>
+            ))}
+            <a
+              href="#lab1"
+              className="tap flex min-h-28 items-start gap-3 rounded-2xl border border-border/50 bg-card p-4 shadow-sm"
             >
-              <Users className="h-5 w-5 text-primary" />
-              <span className="text-sm font-semibold">Quem fez</span>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setWelcome(true)}
-              className="tap flex items-center gap-3 rounded-2xl border border-border/50 bg-card p-4 text-left shadow-sm"
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                <Computer className="h-5 w-5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold leading-snug">Laboratórios de TI</span>
+                <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                  Laboratórios 1 e 2 · 1º andar
+                </span>
+              </span>
+            </a>
+            <a
+              href="#quadra1"
+              className="tap flex min-h-28 items-start gap-3 rounded-2xl border border-border/50 bg-card p-4 shadow-sm"
             >
-              <Compass className="h-5 w-5 text-primary" />
-              <span className="text-sm font-semibold">Rever apresentação</span>
-            </button>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                <Dribbble className="h-5 w-5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold leading-snug">
+                  Quadras Poliesportivas
+                </span>
+                <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                  Quadras 1 e 2 · Área Externa
+                </span>
+              </span>
+            </a>
           </div>
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            {places.length} lugares reais · feito por alunos da ETEC Parque Belém
-          </p>
-        </>
+        </section>
       )}
+
+      <section className="mt-8" aria-labelledby="catalog-heading">
+        <div className="mb-4">
+          <h2 id="catalog-heading" className="font-display text-xl font-semibold">
+            Ambientes do campus
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {query.trim()
+              ? `Resultados para “${query.trim()}”`
+              : "Consulte os locais organizados por setor."}
+          </p>
+        </div>
+        {sections.length ? (
+          <div className="space-y-8">
+            {sections.map((sector) => (
+              <section key={sector.id} id={sector.id} aria-labelledby={`${sector.id}-heading`}>
+                <div className="mb-3 flex items-center gap-2 border-b border-border/50 pb-2">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                  <h3 id={`${sector.id}-heading`} className="text-sm font-semibold">
+                    {sector.title}
+                  </h3>
+                </div>
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {sector.environments.map((place) => (
+                    <EnvironmentCard key={place.id} place={place} sector={sector.title} />
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-2xl border border-border/50 bg-card p-5 text-sm text-muted-foreground">
+            Nenhum ambiente encontrado. Tente buscar pelo nome do local, prédio ou andar.
+          </p>
+        )}
+      </section>
+      <p className="mt-8 text-center text-xs text-muted-foreground">
+        {sections.reduce((count, sector) => count + sector.environments.length, 0)} ambientes · ETEC
+        Parque Belém
+      </p>
     </AppShell>
+  );
+}
+
+function EnvironmentCard({ place, sector }: { place: Place; sector: string }) {
+  return (
+    <li
+      id={place.id}
+      className="overflow-hidden rounded-2xl border border-border/50 bg-card shadow-sm"
+    >
+      <Link
+        to="/ambientes/$id"
+        params={{ id: place.id }}
+        aria-label={`Detalhes: ${place.name}`}
+        className="group block overflow-hidden"
+      >
+        <PlacePhoto place={place} loading="lazy" compact className="aspect-[16/9] w-full" />
+      </Link>
+      <div className="p-4">
+        <p className="text-[11px] font-medium text-muted-foreground">{sector}</p>
+        <h4 className="mt-1 font-display text-base font-semibold leading-snug">{place.name}</h4>
+        <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-relaxed text-muted-foreground">
+          {place.description}
+        </p>
+        <Button asChild variant="outline" size="sm" className="mt-3 w-full justify-between">
+          <Link to="/rota" search={{ de: "portaria", para: place.id }}>
+            Como chegar
+            <ArrowUpRight />
+          </Link>
+        </Button>
+      </div>
+    </li>
   );
 }

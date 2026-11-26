@@ -41,6 +41,7 @@ export type NodeId =
   | "portaria"
   | "rampa"
   | "alameda"
+  | "estacionamento"
   | "caixa"
   | "lateralQuadras"
   | "quadra1"
@@ -94,13 +95,21 @@ export const nodes: Record<
     landmark: "Rampa com corrimão logo após o arco da portaria.",
   },
   alameda: {
-    x: 260,
+    x: 236,
     y: 116,
     level: "externa",
     building: "externa",
-    label: "Estacionamento e Alameda",
+    label: "Alameda Central",
+    landmark: "Alameda pavimentada e arborizada que liga a portaria ao pátio do Prédio Principal.",
+  },
+  estacionamento: {
+    x: 290,
+    y: 116,
+    level: "externa",
+    building: "externa",
+    label: "Estacionamento",
     landmark:
-      "Vagas de estacionamento próximas à portaria. Siga pela alameda até o pátio sob o Prédio Principal.",
+      "Vagas para veículos junto à entrada do campus. O percurso de pedestres ao pátio segue pela Alameda Central, sem cruzar as vagas.",
   },
   caminhoQuadras: {
     x: 238,
@@ -304,6 +313,7 @@ export const pathFromPortaria: Record<NodeId, NodeId[]> = {
   portaria: ["portaria"],
   rampa: ["portaria", "rampa"],
   alameda: ["portaria", "rampa", "alameda"],
+  estacionamento: ["portaria", "rampa", "alameda", "estacionamento"],
   caminhoQuadras: ["portaria", "rampa", "caminhoQuadras"],
   caixa: ["portaria", "rampa", "caminhoQuadras", "caixa"],
   lateralQuadras: ["portaria", "rampa", "caminhoQuadras", "caixa", "lateralQuadras"],
@@ -421,29 +431,28 @@ export const places: Place[] = [
     keywords: ["entrada", "portão", "guarita", "arco", "visitante"],
   },
   {
-    id: "rampa",
-    node: "rampa",
-    name: "Rampa de Acesso",
+    id: "alameda",
+    node: "alameda",
+    name: "Alameda Central",
     category: "Acesso",
-    photo: portariaEntrada.url,
+    photo: alameda.url,
     description:
-      "Rampa com corrimão logo após a portaria, que leva ao nível da alameda com acessibilidade para cadeirantes e pessoas com mobilidade reduzida.",
-    services: ["Acesso acessível", "Ligação portaria ↔ alameda"],
-    block: "Área Externa · logo após o arco",
-    keywords: ["acessibilidade", "cadeirante", "rampa"],
+      "Alameda pavimentada e arborizada que liga a portaria ao pátio do Prédio Principal. O percurso de pedestres segue pela alameda, sem atravessar as vagas de veículos.",
+    services: ["Acesso de pedestres", "Ligação entre Portaria e Pátio"],
+    block: "Área Externa · acesso de pedestres",
+    keywords: ["caminho", "pedestre", "portaria", "pátio", "alameda"],
   },
   {
     id: "estacionamento",
-    node: "alameda",
-    name: "Estacionamento e Alameda",
+    node: "estacionamento",
+    name: "Estacionamento",
     category: "Acesso",
     photo: estacionamento.url,
-    gallery: [alameda.url],
     description:
-      "Estacionamento próximo à entrada e à portaria. A alameda segue ao lado do Prédio Principal e leva ao pátio; para as quadras, siga pelo caminho externo sem atravessar o estacionamento.",
+      "Vagas para veículos próximas à entrada do campus. Para seguir a pé ao pátio do Prédio Principal, utilize a Alameda Central.",
     services: ["Estacionamento", "Embarque e desembarque"],
-    block: "Área Externa · próximo à portaria",
-    keywords: ["carro", "vaga", "alameda", "estacionar"],
+    block: "Área Externa · entrada do campus",
+    keywords: ["carro", "vaga", "estacionar", "veículo"],
   },
   {
     id: "salas",
@@ -610,48 +619,33 @@ export const placeById = (id: string) => places.find((p) => p.id === id);
 export const placeByNode = (n: NodeId) => places.find((p) => p.node === n);
 export const placeNumber = (p: Place) => places.indexOf(p) + 1;
 
-/** Tour trail organized by stretches of the real walk from the Portaria. */
-export const units = [
+export const campusSectors = [
   {
-    id: "chegada",
-    title: "Acesso e entrada",
-    subtitle: "Portaria, rampa e estacionamento",
-    places: ["portaria", "rampa", "estacionamento"],
+    id: "principal-terreo",
+    title: "Prédio Principal · Térreo",
+    places: ["portaria", "convivencia", "auditorio", "banheiros"],
   },
   {
-    id: "terreo",
-    title: "Áreas comuns do Prédio Principal",
-    subtitle: "Pilotis, auditório e banheiros",
-    places: ["convivencia", "auditorio", "banheiros"],
+    id: "laboratorios-ti",
+    title: "Prédio Principal · 1º Andar",
+    places: ["lab1", "lab2"],
   },
   {
-    id: "anexo",
+    id: "principal-segundo",
+    title: "Prédio Principal · 2º Andar",
+    places: ["salas", "coordenacao"],
+  },
+  {
+    id: "bloco-anexo",
     title: "Bloco Anexo",
-    subtitle: "Secretaria, cantina e Laboratório de Nutrição",
     places: ["secretaria", "cantina", "nutricao"],
   },
   {
-    id: "andares",
-    title: "Salas e coordenação",
-    subtitle: "Laboratórios no 1º andar e salas no 2º andar",
-    places: ["lab1", "lab2", "salas", "coordenacao"],
-  },
-  {
-    id: "esportes",
-    title: "Áreas esportivas",
-    subtitle: "Quadras poliesportivas",
-    places: ["quadra1", "quadra2"],
+    id: "area-externa",
+    title: "Área Externa",
+    places: ["alameda", "estacionamento", "quadra1", "quadra2"],
   },
 ] as const;
-
-export const quickActions = [
-  { label: "Matrícula", sub: "Secretaria · Subsolo do Bloco Anexo", place: "secretaria" },
-  { label: "Salas de aula", sub: "Salas · 2º andar", place: "salas" },
-  { label: "Laboratórios", sub: "Informática · 1º andar", place: "lab1" },
-  { label: "Alimentação", sub: "Mesas azuis · pilotis", place: "convivencia" },
-  { label: "Educação física", sub: "Quadras", place: "quadra1" },
-  { label: "Eventos", sub: "Auditório", place: "auditorio" },
-];
 
 export const missions = [
   {
@@ -662,17 +656,17 @@ export const missions = [
     xp: 50,
   },
   {
-    id: "m-rampa",
-    place: "rampa",
-    title: "Rampa de Acesso",
-    goal: "Localize a rampa com corrimão após a Portaria.",
+    id: "m-alameda",
+    place: "alameda",
+    title: "Alameda Central",
+    goal: "Siga pela alameda de pedestres até o pátio.",
     xp: 50,
   },
   {
     id: "m-estacionamento",
     place: "estacionamento",
-    title: "Estacionamento e Alameda",
-    goal: "Localize o estacionamento próximo à entrada.",
+    title: "Estacionamento",
+    goal: "Localize as vagas para veículos junto à entrada.",
     xp: 50,
   },
   {
@@ -798,7 +792,8 @@ export function satellitePoint(id: NodeId): { x: number; y: number } {
   const fixed: Partial<Record<NodeId, { x: number; y: number }>> = {
     portaria: { x: 382, y: 30 },
     rampa: { x: 392, y: 76 },
-    alameda: { x: 490, y: 132 },
+    alameda: { x: 420, y: 132 },
+    estacionamento: { x: 490, y: 132 },
     caixa: { x: 525, y: 578 },
     quadra1: { x: 643, y: 585 },
     quadra2: { x: 643, y: 677 },

@@ -80,6 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "color-scheme", content: "light dark" },
       { name: "application-name", content: "Tour ETEC Belém" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
@@ -88,7 +89,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Tour ETEC Belém" },
       {
         name: "description",
-        content: "Guia interativo da ETEC Parque Belém: mapa, rotas e missões de calouro.",
+        content:
+          "Guia oficial de navegação do campus da ETEC Parque Belém: mapa, rotas e ambientes.",
       },
       { name: "theme-color", content: "#f8f9fb" },
       { property: "og:title", content: "Tour ETEC Belém" },
