@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -32,32 +32,23 @@ async function renderHome() {
 }
 
 describe("Campus home", () => {
-  it("opens the introduction on each Home visit, regardless of a legacy session flag", async () => {
+  it("shows the campus hero, quick actions, search filters, and grouped catalog without an overlay", async () => {
     sessionStorage.setItem("tour-etec-welcome-done", "1");
     await renderHome();
 
-    expect(await screen.findByRole("dialog", { name: "Tour ETEC Parque Belém" })).toBeVisible();
-  });
-
-  it("shows the campus hero, search filters, quick actions, and grouped catalog", async () => {
-    await renderHome();
-
-    const dialog = await screen.findByRole("dialog");
-    fireEvent.click(within(dialog).getByRole("button", { name: "Explorar o Campus" }));
-
-    expect(screen.getByRole("heading", { name: "Tour ETEC Parque Belém" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Abrir Introdução" })).toBeInTheDocument();
     expect(
-      screen.getByRole("img", { name: "Entrada principal da ETEC Parque Belém" }),
+      screen.getByRole("heading", { name: "Explore a ETEC Parque Belém" }),
     ).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Entrada ETEC Parque Belém" })).toBeInTheDocument();
     for (const label of ["Todos", "Secretaria", "Labs TI", "Quadras", "Cantina", "Auditório"]) {
       expect(screen.getByRole("button", { name: label })).toBeInTheDocument();
     }
-    expect(screen.getByRole("link", { name: /Secretaria & Matrícula/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Secretaria.*Fazer matrícula/ })).toHaveAttribute(
       "href",
       "/rota?de=portaria&para=secretaria",
     );
-    expect(screen.getByRole("link", { name: /Planta & Mapa Interativo/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Mapa Geral.*Ver planta/ })).toHaveAttribute(
       "href",
       "/mapa",
     );
@@ -68,29 +59,16 @@ describe("Campus home", () => {
 
   it("filters catalog environments by quick chip and text search", async () => {
     await renderHome();
-    fireEvent.click(
-      within(await screen.findByRole("dialog")).getByRole("button", {
-        name: "Explorar o Campus",
-      }),
-    );
 
     fireEvent.click(screen.getByRole("button", { name: "Labs TI" }));
-    expect(
-      screen.getByRole("heading", { name: "Laboratório de Informática 1" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Laboratório de Informática 2" }),
-    ).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Cantina" })).not.toBeInTheDocument();
+    expect(screen.getByText("Laboratório de Informática 1")).toBeInTheDocument();
+    expect(screen.getByText("Laboratório de Informática 2")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Cantina/ })).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByRole("textbox", { name: "Buscar ambientes por nome ou setor" }), {
       target: { value: "Informática 2" },
     });
-    expect(
-      screen.getByRole("heading", { name: "Laboratório de Informática 2" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Laboratório de Informática 1" }),
-    ).not.toBeInTheDocument();
+    expect(screen.getByText("Laboratório de Informática 2")).toBeInTheDocument();
+    expect(screen.queryByText("Laboratório de Informática 1")).not.toBeInTheDocument();
   });
 });
