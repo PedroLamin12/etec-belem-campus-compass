@@ -79,59 +79,59 @@ export function HomePage() {
           alt="Entrada ETEC Parque Belém"
           className="absolute inset-0 h-full w-full object-cover object-center opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
-        <div className="relative flex flex-col justify-end p-6 pt-24 text-white sm:p-8">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur-md">
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+        <div className="relative flex flex-col justify-end p-4 pt-16 text-white sm:p-7">
+          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur-md">
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             15 ambientes mapeados
           </div>
-          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h1 className="mt-2 font-display text-2xl font-bold tracking-tight text-white sm:text-4xl">
             Explore a ETEC Parque Belém
           </h1>
-          <p className="mt-1 max-w-md text-sm text-zinc-300">
+          <p className="mt-1 text-xs leading-relaxed text-zinc-300 sm:text-sm">
             Navegue pelos blocos, descubra salas e trace rotas pelo campus.
           </p>
 
-          <div className="grid grid-cols-2 gap-2 mt-4">
+          <div className="mt-4 grid grid-cols-2 gap-2">
             <Link
               to="/rota"
               search={{ de: "portaria", para: "secretaria" }}
-              className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
+              className="flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 p-2.5 backdrop-blur-md transition-all active:scale-95"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-md">
-                <FileText className="h-5 w-5" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-md">
+                <FileText className="h-4 w-4" />
               </span>
-              <span className="min-w-0">
-                <span className="block truncate text-xs font-bold leading-tight">Secretaria</span>
-                <span className="block truncate text-[11px] text-zinc-300">Fazer matrícula</span>
-              </span>
+              <div className="min-w-0 flex-1">
+                <span className="block text-xs font-bold leading-tight text-white">Secretaria</span>
+                <span className="block text-[11px] leading-tight text-zinc-300">Fazer matrícula</span>
+              </div>
             </Link>
 
             <Link
               to="/mapa"
-              className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
+              className="flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 p-2.5 backdrop-blur-md transition-all active:scale-95"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-zinc-900 shadow-md">
-                <Map className="h-5 w-5" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-zinc-900 shadow-md">
+                <Map className="h-4 w-4" />
               </span>
-              <span className="min-w-0">
-                <span className="block truncate text-xs font-bold leading-tight text-white">Mapa Geral</span>
-                <span className="block truncate text-[11px] text-zinc-300">Ver planta</span>
-              </span>
+              <div className="min-w-0 flex-1">
+                <span className="block text-xs font-bold leading-tight text-white">Mapa Geral</span>
+                <span className="block text-[11px] leading-tight text-zinc-300">Ver planta</span>
+              </div>
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="mt-6" aria-label="Buscar ambientes">
-        <label className="flex min-h-14 items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 shadow-sm transition-all focus-within:border-primary">
-          <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
+      <section className="mt-5" aria-label="Buscar ambientes">
+        <label className="flex min-h-12 items-center gap-3 rounded-2xl border border-border/50 bg-card px-3.5 shadow-sm focus-within:border-primary">
+          <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             aria-label="Buscar ambientes por nome ou setor"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar salas, laboratórios, quadras..."
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            placeholder="Buscar salas, labs, quadras..."
+            className="w-full bg-transparent text-xs outline-none placeholder:text-muted-foreground sm:text-sm"
           />
           {query && (
             <button
@@ -145,14 +145,14 @@ export function HomePage() {
           )}
         </label>
 
-        <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
+        <div className="no-scrollbar -mx-3.5 mt-3 flex gap-2 overflow-x-auto px-3.5 pb-1">
           {filters.map((item) => (
             <button
               key={item.label}
               type="button"
               aria-pressed={filter === item.label}
               onClick={() => setFilter(item.label)}
-              className={`tap shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
+              className={`tap shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
                 filter === item.label
                   ? "bg-foreground text-background shadow-sm"
                   : "border border-border/50 bg-card text-muted-foreground hover:text-foreground"
@@ -164,64 +164,60 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="mt-8 space-y-8" aria-label="Catálogo de ambientes por prédio">
+      <section className="mt-6 space-y-6 pb-6" aria-label="Catálogo de ambientes">
         {sections.length ? (
           sections.map((group) => (
             <section key={group.id} aria-labelledby={`${group.id}-heading`}>
-              <div className="mb-3 flex items-center justify-between">
+              <div className="mb-2.5 flex items-center justify-between">
                 <h2
                   id={`${group.id}-heading`}
-                  className="font-display text-lg font-bold tracking-tight text-foreground"
+                  className="font-display text-base font-bold tracking-tight text-foreground sm:text-lg"
                 >
                   {group.title}
                 </h2>
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="text-[11px] font-medium text-muted-foreground">
                   {group.environments.length} {group.environments.length === 1 ? "local" : "locais"}
                 </span>
               </div>
 
-              <ul className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-2.5 sm:grid-cols-2">
                 {group.environments.map((place) => {
                   const node = nodes[place.node];
                   const level = levelLabel[node.level];
                   return (
-                    <li key={place.id}>
-                      <Link
-                        to="/ambientes/$id"
-                        params={{ id: place.id }}
-                        className="tap group flex gap-3.5 rounded-2xl border border-border/40 bg-card p-3 shadow-sm transition-all hover:border-border active:scale-[0.99]"
-                      >
-                        <PlacePhoto
-                          place={place}
-                          compact
-                          className="h-20 w-20 shrink-0 rounded-xl object-cover shadow-inner"
-                        />
-                        <span className="flex min-w-0 flex-1 flex-col justify-center">
-                          <span className="flex items-center gap-1.5">
-                            <span className="rounded-md bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
-                              {level}
-                            </span>
-                          </span>
-                          <span className="mt-1 truncate font-display text-sm font-bold leading-snug text-foreground">
-                            {place.name}
-                          </span>
-                          <span className="mt-0.5 truncate text-xs text-muted-foreground">
-                            {place.description}
-                          </span>
-                          <span className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-primary">
-                            Ver detalhes e rota <ArrowUpRight className="h-3 w-3" />
-                          </span>
+                    <Link
+                      to="/ambientes/$id"
+                      params={{ id: place.id }}
+                      className="tap flex items-center gap-3 rounded-2xl border border-border/40 bg-card p-2.5 shadow-sm transition-all active:scale-[0.99]"
+                    >
+                      <PlacePhoto
+                        place={place}
+                        compact
+                        className="h-20 w-20 shrink-0 rounded-xl object-cover shadow-inner"
+                      />
+                      <div className="min-w-0 flex-1 py-0.5">
+                        <span className="inline-block rounded-md bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                          {level}
                         </span>
-                      </Link>
-                    </li>
+                        <h3 className="mt-1 font-display text-xs font-bold leading-tight text-foreground sm:text-sm">
+                          {place.name}
+                        </h3>
+                        <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
+                          {place.description}
+                        </p>
+                        <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-primary">
+                          Ver detalhes e rota <ArrowUpRight className="h-2.5 w-2.5" />
+                        </span>
+                      </div>
+                    </Link>
                   );
                 })}
-              </ul>
+              </div>
             </section>
           ))
         ) : (
-          <p className="rounded-2xl border border-border/50 bg-card p-5 text-sm text-muted-foreground">
-            Nenhum ambiente encontrado. Ajuste a busca ou selecione outro filtro.
+          <p className="rounded-2xl border border-border/50 bg-card p-4 text-xs text-muted-foreground">
+            Nenhum ambiente encontrado. Tente outro termo ou filtro.
           </p>
         )}
       </section>

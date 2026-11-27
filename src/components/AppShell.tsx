@@ -42,8 +42,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { done, total } = useProgress();
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-background text-foreground antialiased selection:bg-red-500/20">
-      <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/90 backdrop-blur-xl">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-background text-foreground antialiased selection:bg-red-500/20">
+      <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl">
         <div className="mx-auto flex h-14 w-full max-w-md items-center justify-between px-3.5">
           <Link
             to="/"
@@ -58,7 +58,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               className="h-8 w-8 shrink-0 rounded-lg shadow-sm"
             />
             <div className="flex min-w-0 flex-col">
-              <span className="truncate font-display text-sm font-bold leading-none tracking-tight text-foreground">
+              <span className="font-display text-sm font-bold leading-none tracking-tight text-foreground">
                 ETEC <span className="text-primary">Parque Belém</span>
               </span>
               <span className="mt-0.5 text-[9px] uppercase tracking-wider text-muted-foreground">
