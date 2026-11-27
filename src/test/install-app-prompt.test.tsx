@@ -14,10 +14,10 @@ describe("install app prompt", () => {
     act(() => window.dispatchEvent(event));
 
     expect(event.defaultPrevented).toBe(true);
-    expect(screen.getByText("Leve o Tour ETEC com você")).toBeInTheDocument();
+    expect(screen.getByText("Leve o Tour com você")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Instalar" }));
     expect(prompt).toHaveBeenCalledOnce();
-    expect(screen.queryByText("Leve o Tour ETEC com você")).not.toBeInTheDocument();
+    expect(screen.queryByText("Leve o Tour com você")).not.toBeInTheDocument();
   });
 
   it("lets visitors dismiss the install invitation", () => {
@@ -29,7 +29,7 @@ describe("install app prompt", () => {
     act(() => window.dispatchEvent(event));
 
     fireEvent.click(screen.getByRole("button", { name: "Dispensar convite de instalação" }));
-    expect(screen.queryByText("Leve o Tour ETEC com você")).not.toBeInTheDocument();
+    expect(screen.queryByText("Leve o Tour com você")).not.toBeInTheDocument();
   });
 
   it("reports when Chrome cannot open the install dialog", async () => {
@@ -42,7 +42,7 @@ describe("install app prompt", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Instalar" }));
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Tente novamente pelo menu do Chrome.",
+      "Tente pelo menu do navegador.",
     );
   });
 });

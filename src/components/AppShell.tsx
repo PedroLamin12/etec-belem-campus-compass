@@ -25,7 +25,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggle}
-      className="h-10 w-10 rounded-full border border-border/40 bg-card/60 backdrop-blur-md"
+      className="h-9 w-9 shrink-0 rounded-full border border-border/40 bg-card/60 backdrop-blur-md"
       aria-label={dark ? "Ativar modo claro" : "Ativar modo escuro"}
     >
       {dark ? (
@@ -42,36 +42,36 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { done, total } = useProgress();
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-red-500/20">
-      <header className="sticky top-0 z-40 border-b border-border/40 bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-background text-foreground antialiased selection:bg-red-500/20">
+      <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 w-full max-w-md items-center justify-between px-3.5">
           <Link
             to="/"
-            className="flex items-center gap-3 transition-transform active:scale-95"
+            className="flex min-w-0 items-center gap-2.5 transition-transform active:scale-95"
             aria-label="ETEC Parque Belém — início"
           >
             <img
               src={logo}
               alt="ETEC"
-              width={38}
-              height={38}
-              className="h-9 w-9 rounded-xl shadow-sm"
+              width={32}
+              height={32}
+              className="h-8 w-8 shrink-0 rounded-lg shadow-sm"
             />
-            <div className="flex flex-col">
-              <span className="font-display text-base font-bold leading-none tracking-tight text-foreground">
-                ETEC <span className="font-medium text-primary">Parque Belém</span>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate font-display text-sm font-bold leading-none tracking-tight text-foreground">
+                ETEC <span className="text-primary">Parque Belém</span>
               </span>
-              <span className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-                Campus Oficial
+              <span className="mt-0.5 text-[9px] uppercase tracking-wider text-muted-foreground">
+                Guia do Campus
               </span>
             </div>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <Link
               to="/missoes"
               aria-label={`${done.length} de ${total} ambientes registrados`}
-              className="flex items-center gap-1.5 rounded-full border border-border/50 bg-secondary/60 px-3 py-1.5 text-xs font-semibold text-foreground transition-transform active:scale-95"
+              className="flex items-center gap-1 rounded-full border border-border/50 bg-secondary/70 px-2.5 py-1 text-xs font-semibold text-foreground transition-transform active:scale-95"
             >
               <Trophy className="h-3.5 w-3.5 text-primary" />
               <span>
@@ -83,17 +83,19 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <InstallAppPrompt />
+      <div className="mx-auto w-full max-w-md px-3.5">
+        <InstallAppPrompt />
+      </div>
 
-      <main className="mx-auto max-w-4xl px-4 pb-28 pt-4">{children}</main>
+      <main className="mx-auto w-full max-w-md px-3.5 pb-24 pt-3">{children}</main>
 
       <CheckInCelebration />
 
       <nav
         aria-label="Navegação inferior"
-        className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4"
+        className="fixed inset-x-0 bottom-0 z-50 w-full border-t border-border/50 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl"
       >
-        <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-border/60 bg-card/90 p-1.5 shadow-2xl backdrop-blur-2xl dark:bg-zinc-900/90">
+        <div className="mx-auto grid h-16 max-w-md grid-cols-4 items-center px-1">
           {tabs.map((tab) => {
             const active = isActive(pathname, tab.to);
             return (
@@ -101,14 +103,20 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={tab.to}
                 to={tab.to}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all active:scale-95 ${
+                className={`flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors active:scale-95 ${
                   active
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                    ? "font-bold text-primary"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <tab.icon className="h-4 w-4" strokeWidth={active ? 2.5 : 2} />
-                <span>{tab.label}</span>
+                <div
+                  className={`flex h-8 w-12 items-center justify-center rounded-full transition-all ${
+                    active ? "bg-primary/10 text-primary" : ""
+                  }`}
+                >
+                  <tab.icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
+                </div>
+                <span className="leading-none">{tab.label}</span>
               </Link>
             );
           })}
@@ -128,11 +136,11 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <div className="mb-6">
-      <h1 className="font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+    <div className="mb-4">
+      <h1 className="font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl">
         {title}
       </h1>
-      {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
+      {subtitle && <p className="mt-0.5 text-xs text-muted-foreground">{subtitle}</p>}
       {children}
     </div>
   );

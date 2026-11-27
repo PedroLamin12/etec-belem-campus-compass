@@ -92,31 +92,31 @@ export function HomePage() {
             Navegue pelos blocos, descubra salas e trace rotas pelo campus.
           </p>
 
-          <div className="mt-5 grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2 mt-4">
             <Link
               to="/rota"
               search={{ de: "portaria", para: "secretaria" }}
-              className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
+              className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-md">
                 <FileText className="h-5 w-5" />
               </span>
               <span className="min-w-0">
-                <span className="block text-xs font-bold leading-tight">Secretaria</span>
-                <span className="text-[11px] text-zinc-300">Fazer matrícula</span>
+                <span className="block truncate text-xs font-bold leading-tight">Secretaria</span>
+                <span className="block truncate text-[11px] text-zinc-300">Fazer matrícula</span>
               </span>
             </Link>
 
             <Link
               to="/mapa"
-              className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
+              className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3.5 backdrop-blur-md transition-all hover:bg-white/20 active:scale-95"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-zinc-900 shadow-md">
                 <Map className="h-5 w-5" />
               </span>
               <span className="min-w-0">
-                <span className="block text-xs font-bold leading-tight text-white">Mapa Geral</span>
-                <span className="text-[11px] text-zinc-300">Ver planta</span>
+                <span className="block truncate text-xs font-bold leading-tight text-white">Mapa Geral</span>
+                <span className="block truncate text-[11px] text-zinc-300">Ver planta</span>
               </span>
             </Link>
           </div>
